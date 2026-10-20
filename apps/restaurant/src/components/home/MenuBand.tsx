@@ -16,11 +16,11 @@ export function MenuBand({ locale }: { locale: Locale }) {
       <div className="band" data-band>
         {featured.map((i, n) => {
           const photo = i.photo ?? i.id;
-          const cut = photoSrc(`${photo}-cut-1200`);
+          const cut = photoSrc(`${photo}-cut-520`);
           return (
             <figure key={i.id} className="panel" data-tone={cut ? ['surface', 'teal', 'paper'][n % 3] : 'photo'} style={{ ['--g' as string]: grow[n], ['--cw' as string]: cutWidth[n] }} data-panel>
               {cut ? (
-                <Pic name={`${photo}-cut-1200`} className="cut" w={4} h={3} alt={u.alt[i.id] ?? pick(i.name, locale)} sizes="(max-width: 760px) 80vw, 45vw" />
+                <Pic name={`${photo}-cut-520`} className="cut" w={4} h={3} alt={u.alt[i.id] ?? pick(i.name, locale)} sizes="(max-width: 760px) 80vw, 45vw" />
               ) : (
                 <div className="panel-photo">
                   <Pic name={photo} w={3} h={5} alt={u.alt[i.id] ?? pick(i.name, locale)} sizes="(max-width: 760px) 64vw, 40vw" />
@@ -35,28 +35,31 @@ export function MenuBand({ locale }: { locale: Locale }) {
         })}
       </div>
       <div className="list">
-        <h2 id="promise-title">{u.title}</h2>
-        <figure className="list-photo">
-          <Pic name="mindo-hills-tall" w={4} h={5} alt={u.photo} sizes="(max-width: 760px) 60vw, 22vw" />
-        </figure>
-        <p className="list-label">{u.tableLabel}</p>
-        <ul className="rows">
-          {rows.map(({ item, category }) => (
-            <li key={item.id} data-row>
-              <span className="row-cat">{pick(category.name, locale)}</span>
-              <span className="row-name">
-                {pick(item.name, locale)}
-                <small>{pick(item.description, locale)}</small>
-              </span>
-              <span className="row-price num">{formatUsd(item.price, locale)}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="list-all">
-          <a className="text-link" href={pathFor('menu', locale)}>
-            {u.all}
-          </a>
-        </p>
+        <div className="list-side">
+          <h2 id="promise-title">{u.title}</h2>
+          <figure className="list-photo">
+            <Pic name="mindo-hills-tall" w={4} h={5} alt={u.photo} sizes="(max-width: 760px) 60vw, 34vw" />
+          </figure>
+        </div>
+        <div className="list-main">
+          <ul className="rows">
+            {rows.map(({ item, category }) => (
+              <li key={item.id} data-row>
+                <span className="row-cat">{pick(category.name, locale)}</span>
+                <span className="row-name">
+                  {pick(item.name, locale)}
+                  <small>{pick(item.description, locale)}</small>
+                </span>
+                <span className="row-price num">{formatUsd(item.price, locale)}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="list-all">
+            <a className="text-link" href={pathFor('menu', locale)}>
+              {u.all}
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   );

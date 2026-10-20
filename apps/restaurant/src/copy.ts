@@ -26,7 +26,8 @@ export type UiCopy = {
   nav: { home: string; menu: string; today: string; visit: string; quality: string; label: string };
   footer: string;
   credits: string;
-  hero: { sentence: string; cta: string; menu: string };
+  illustrative: string;
+  hero: { sentence: string; cta: string; menu: string; open: string; before: string; tomorrow: string; on: string };
   origin: { title: string; lead: string; stagesLabel: string; photos: { cherries: string; drying: string; roasting: string; forest: string } };
   band: { title: string; all: string; tableLabel: string; photo: string; alt: Record<string, string> };
   today: {
@@ -48,7 +49,8 @@ export const ui: Record<Locale, UiCopy> = {
     nav: { home: 'Inicio', menu: 'Menú', today: 'Hoy', visit: 'Visítanos', quality: 'Informe de calidad', label: 'Principal' },
     footer: 'Neblina es un negocio ficticio y este es un sitio de demostración. Cualquier parecido con un negocio real es coincidencia.',
     credits: 'Créditos de las fotografías',
-    hero: { sentence: 'Café de altura del bosque nublado, en La Floresta.', cta: 'Pedir por WhatsApp', menu: 'Ver el menú' },
+    illustrative: 'Fotos ilustrativas.',
+    hero: { sentence: 'Café de altura del bosque nublado, en La Floresta.', cta: 'Pedir por WhatsApp', menu: 'Ver el menú', open: 'Abierto ahora · hasta las {t}', before: 'Cerrado · abrimos hoy a las {t}', tomorrow: 'Cerrado · abrimos mañana a las {t}', on: 'Cerrado · abrimos el {d} a las {t}' },
     origin: {
       title: 'Del bosque nublado a tu taza',
       lead: 'De 1.600 metros en Nanegal a 2.850 en La Floresta, en cuatro pasos.',
@@ -80,7 +82,8 @@ export const ui: Record<Locale, UiCopy> = {
     nav: { home: 'Home', menu: 'Menu', today: 'Today', visit: 'Visit', quality: 'Quality report', label: 'Main' },
     footer: 'Neblina is a fictional business and this is a demo site. Any resemblance to a real business is coincidence.',
     credits: 'Photo credits',
-    hero: { sentence: 'Highland coffee from the cloud forest, in La Floresta.', cta: 'Order on WhatsApp', menu: 'See the menu' },
+    illustrative: 'Illustrative photos.',
+    hero: { sentence: 'Highland coffee from the cloud forest, in La Floresta.', cta: 'Order on WhatsApp', menu: 'See the menu', open: 'Open now · until {t}', before: 'Closed · we open today at {t}', tomorrow: 'Closed · we open tomorrow at {t}', on: 'Closed · we open on {d} at {t}' },
     origin: {
       title: 'From the cloud forest to your cup',
       lead: 'From 1,600 meters in Nanegal to 2,850 in La Floresta, in four steps.',

@@ -10,25 +10,25 @@ export function VisitMap({ locale }: { locale: Locale }) {
   return (
     <div className="map">
       <a href={osm} target="_blank" rel="noopener noreferrer" aria-label={u.mapLabel} className="map-link">
-        <svg viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice" role="presentation" focusable="false">
-          <rect width="600" height="520" className="map-ground" />
+        <svg viewBox="0 0 420 760" preserveAspectRatio="xMidYMid slice" role="presentation" focusable="false">
+          <rect width="420" height="760" className="map-ground" />
           {/* blocks of the grid, turned about 20 degrees like the real streets */}
-          <g transform="rotate(-20 300 260)" className="map-streets">
-            {[60, 150, 240, 330, 420].map((y) => (
-              <rect key={y} x="-80" y={y} width="760" height="14" />
+          <g transform="rotate(-20 210 380)" className="map-streets">
+            {[-60, 40, 140, 240, 340, 440, 540, 640, 740, 840].map((y) => (
+              <rect key={y} x="-300" y={y} width="1020" height="14" />
             ))}
-            {[40, 130, 220, 310, 400, 490].map((x) => (
-              <rect key={x} x={x} y="-60" width="14" height="640" />
+            {[-100, -10, 80, 170, 260, 350, 440, 530].map((x) => (
+              <rect key={x} x={x} y="-200" width="14" height="1160" />
             ))}
-            <rect x="-80" y="236" width="760" height="26" className="map-main" />
-            <rect x="180" y="-60" width="26" height="640" className="map-main" />
+            <rect x="-300" y="373" width="1020" height="26" className="map-main" />
+            <rect x="163" y="-200" width="26" height="1160" className="map-main" />
           </g>
-          <path className="map-park" d="M70 360 l84 -22 l36 62 l-70 46 z" />
-          <text x="40" y="70" className="map-text">Av. 12 de Octubre</text>
-          <text x="338" y="486" className="map-text">Isabel la Católica</text>
-          <text x="392" y="140" className="map-text">Galavis</text>
-          <text x="70" y="292" className="map-text">Toledo</text>
-          <g transform="translate(300 252)">
+          <path className="map-park" d="M40 520 l92 -26 l40 70 l-78 52 z" />
+          <text x="26" y="170" className="map-text">Av. 12 de Octubre</text>
+          <text x="214" y="640" className="map-text">Isabel la Católica</text>
+          <text x="250" y="262" className="map-text">Galavis</text>
+          <text x="44" y="420" className="map-text">Toledo</text>
+          <g transform="translate(210 380)">
             <circle r="34" className="map-pulse" />
             <circle r="15" className="map-pin" />
           </g>

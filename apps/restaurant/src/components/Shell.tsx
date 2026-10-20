@@ -3,6 +3,7 @@ import { LanguageSwitch, WhatsAppButton } from '@smb/ui';
 import { ui } from '../copy';
 import { credits, site } from '../lib/content';
 import { Fog } from './Fog';
+import { Motion } from './Motion';
 
 export function Shell({ locale, routeId, children }: { locale: Locale; routeId: RouteId; children: React.ReactNode }) {
   const u = ui[locale];
@@ -41,7 +42,9 @@ export function Shell({ locale, routeId, children }: { locale: Locale; routeId: 
         <div className="close-legal">
           <p>{u.footer}</p>
           {credits.length > 0 && (
-            <details>
+            <div>
+              <p className="credits-note">{u.illustrative}</p>
+              <details>
               <summary>{u.credits}</summary>
               <ul>
                 {credits.map((c) => (
@@ -50,14 +53,16 @@ export function Shell({ locale, routeId, children }: { locale: Locale; routeId: 
                   </li>
                 ))}
               </ul>
-            </details>
+              </details>
+            </div>
           )}
         </div>
         <p className="close-name" aria-hidden="true">
-          {site.name}
+          <span>{site.name}</span>
         </p>
         <Fog />
       </footer>
+      <Motion />
     </>
   );
 }

@@ -18,7 +18,7 @@ function load(): Cart {
   }
 }
 
-export function MenuBrowser({ menu, phone, locale, photos }: { menu: Menu; phone: string; locale: Locale; photos?: React.ReactNode }) {
+export function MenuBrowser({ menu, phone, locale, art }: { menu: Menu; phone: string; locale: Locale; art?: Record<string, React.ReactNode> }) {
   const u = ui[locale].menuPage;
   const [cart, setCart] = useState<Cart>({});
   const [ready, setReady] = useState(false);
@@ -94,6 +94,11 @@ export function MenuBrowser({ menu, phone, locale, photos }: { menu: Menu; phone
         {menu.categories.map((c) => (
           <section key={c.id} aria-labelledby={`cat-${c.id}`} className="menu-cat">
             <h2 id={`cat-${c.id}`}>{pick(c.name, locale)}</h2>
+            {art?.[c.id] && (
+              <div className="cat-art" aria-hidden="true">
+                {art[c.id]}
+              </div>
+            )}
             <ul className="dishes">
               {menu.items
                 .filter((i) => i.category === c.id)
@@ -101,14 +106,12 @@ export function MenuBrowser({ menu, phone, locale, photos }: { menu: Menu; phone
                   const qty = cart[i.id] ?? 0;
                   return (
                     <li key={i.id} className="dish" data-dish>
-                      <div className="dish-text">
-                        <h3>{pick(i.name, locale)}</h3>
-                        <p>
-                          {pick(i.description, locale)}
-                          {i.tags.length > 0 && <span className="dish-tags"> {i.tags.map((t) => u.tags[t]).join(', ')}.</span>}
-                        </p>
-                      </div>
+                      <h3 className="dish-name">{pick(i.name, locale)}</h3>
                       <p className="dish-price num">{formatUsd(i.price, locale)}</p>
+                      <p className="dish-desc">
+                        {pick(i.description, locale)}
+                        {i.tags.length > 0 && <span className="dish-tags"> {i.tags.map((t) => u.tags[t]).join(', ')}.</span>}
+                      </p>
                       {i.available ? (
                         <div className="stepper" data-on={qty > 0 ? '' : undefined}>
                           {qty > 0 && (
@@ -116,7 +119,7 @@ export function MenuBrowser({ menu, phone, locale, photos }: { menu: Menu; phone
                               <button type="button" className="step" data-testid={`remove-${i.id}`} onClick={() => change(i.id, -1)} aria-label={`${u.order.remove}: ${pick(i.name, locale)}`}>
                                 <span aria-hidden="true">&minus;</span>
                               </button>
-                              <span className="qty num" aria-label={u.order.qty} data-testid={`qty-${i.id}`}>
+                              <span key={qty} className="qty num" aria-label={u.order.qty} data-testid={`qty-${i.id}`}>
                                 {qty}
                               </span>
                             </>
@@ -140,7 +143,6 @@ export function MenuBrowser({ menu, phone, locale, photos }: { menu: Menu; phone
           </a>
         </p>
       </div>
-      <div className="menu-photos">{photos}</div>
       </div>
 
       <div className="orderbar" role="region" aria-label={u.order.title} data-asking={asking && count > 0 ? '' : undefined}>

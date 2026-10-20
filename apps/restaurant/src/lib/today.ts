@@ -96,3 +96,16 @@ export function quitoMonthDay(now: Date): string {
 
 /** True when MM-DD falls inside [from, to]; the window may wrap over New Year. */
 export const inWindow = (md: string, from: string, to: string) => (from <= to ? md >= from && md <= to : md >= from || md <= to);
+
+export type OpenStatus =
+  | { kind: 'open'; until: string }
+  | { kind: 'before'; opens: string }
+  | { kind: 'closed'; next: { daysAhead: number; day: Weekday; opens: string } | null };
+
+/** One line for the first screen: open until when, opens later today, or closed with the next opening. */
+export function openStatus(now: Date, site: TodaySite): OpenStatus {
+  const t = today(now, site);
+  if (t.open && t.hours) return { kind: 'open', until: t.hours.closes };
+  if (t.hours && t.focus.kind === 'next') return { kind: 'before', opens: t.hours.opens };
+  return { kind: 'closed', next: t.focus.kind === 'closed' ? t.focus.next : null };
+}

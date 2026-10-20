@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import site from '../../content/site.json';
-import { inWindow, quitoClock, quitoMonthDay, today } from './today';
+import { inWindow, openStatus, quitoClock, quitoMonthDay, today } from './today';
 
 // Quito is UTC-5 all year. 2026-10-19 is a Monday (07:30-19:00), 2026-10-25 a Sunday (08:00-15:00).
 const at = (iso: string, hhmm: string) => new Date(`${iso}T${hhmm}:00-05:00`);
@@ -59,4 +59,11 @@ describe('today in Quito time', () => {
     expect(inWindow('11-03', '10-20', '11-02')).toBe(false);
     expect(inWindow('01-02', '12-20', '01-05')).toBe(true);
   });
+});
+
+describe('open status for the first screen', () => {
+  it('open until the closing time', () => expect(openStatus(at('2026-10-19', '14:20'), site)).toEqual({ kind: 'open', until: '19:00' }));
+  it('before opening it says when it opens today', () => expect(openStatus(at('2026-10-19', '06:50'), site)).toEqual({ kind: 'before', opens: '07:30' }));
+  it('after closing it looks to the next day', () =>
+    expect(openStatus(at('2026-10-19', '19:30'), site)).toEqual({ kind: 'closed', next: { daysAhead: 1, day: 'Tuesday', opens: '07:30' } }));
 });

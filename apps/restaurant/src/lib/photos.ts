@@ -23,17 +23,16 @@ function webpSize(file: string): { width: number; height: number } | null {
 export type Photo = { src: string; srcSet?: string; width?: number; height?: number };
 
 /**
- * public/photos/<name>.webp|png (a single file, e.g. a cut-out), or <name>-1600.webp with <name>-800.webp as the smaller size.
- * Returns null when the file does not exist; the page then shows a flat block of the same size.
+ * public/photos/<name>.webp|png (a single file, e.g. a cut-out or a derivative made for one slot), or <name>-1600.webp with the
+ * smaller <name>-480 and <name>-800 as a srcset. Returns null when the file does not exist; the page then shows a flat block.
  */
 export function photoSrc(name: string): Photo | null {
   for (const e of ['webp', 'png', 'avif', 'jpg']) {
     if (!has(`${name}.${e}`)) continue;
     return { src: `/photos/${name}.${e}`, ...(e === 'webp' ? webpSize(`${name}.${e}`) : null) };
   }
-  if (has(`${name}-1600.webp`)) {
-    const size = webpSize(`${name}-1600.webp`);
-    return { src: `/photos/${name}-1600.webp`, srcSet: has(`${name}-800.webp`) ? `/photos/${name}-800.webp 800w, /photos/${name}-1600.webp 1600w` : undefined, ...size };
-  }
-  return null;
+  if (!has(`${name}-1600.webp`)) return null;
+  const small = [480, 800].filter((w) => has(`${name}-${w}.webp`));
+  const srcSet = small.length ? [...small.map((w) => `/photos/${name}-${w}.webp ${w}w`), `/photos/${name}-1600.webp 1600w`].join(', ') : undefined;
+  return { src: `/photos/${name}-1600.webp`, srcSet, ...webpSize(`${name}-1600.webp`) };
 }

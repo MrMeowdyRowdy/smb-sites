@@ -1,18 +1,18 @@
 {
-  "generated": "2026-10-20T03:19:32.448Z",
-  "commit": "850a3c6",
-  "node": "v20.19.2",
+  "generated": "2026-10-20T05:32:55.151Z",
+  "commit": "83a82f5",
+  "node": "v22.14.0",
   "next": "16.3.8",
   "unit": {
-    "passed": 22,
+    "passed": 39,
     "failed": 0,
-    "total": 22
+    "total": 39
   },
   "e2e": {
-    "passed": 21,
+    "passed": 22,
     "failed": 0,
     "skipped": 0,
-    "total": 21
+    "total": 22
   },
   "axe": [
     {
@@ -51,19 +51,19 @@
   "lighthouse": [
     {
       "path": "/",
-      "performance": 1,
+      "performance": 0.97,
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 1516.8417
+      "lcp": 2346.547
     },
     {
       "path": "/en/",
-      "performance": 1,
+      "performance": 0.99,
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 1509.885
+      "lcp": 1734.1199
     },
     {
       "path": "/menu/",
@@ -71,7 +71,7 @@
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 1511.0212
+      "lcp": 1699.3264999999997
     }
   ],
   "deploy": {
