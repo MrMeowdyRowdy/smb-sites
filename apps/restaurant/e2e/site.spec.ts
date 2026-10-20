@@ -48,13 +48,17 @@ test('cart builds the expected wa.me order link and survives a reload', async ({
   const total = (2 * price('cafe-pasado') + price('pan-de-yuca')).toFixed(2).replace('.', ',');
   await expect(page.getByTestId('total')).toHaveText(`$${total}`);
 
-  const link = page.getByTestId('order-link');
+  // One question before sending: take away or eat here. It goes into the message.
+  await page.getByTestId('order-open').click();
+  const link = page.getByTestId('order-link-takeaway');
   const href = (await link.getAttribute('href'))!;
   expect(href).toMatch(/^https:\/\/wa\.me\/\d+\?text=/);
   const text = decodeURIComponent(href.split('?text=')[1]);
   expect(text).toContain('- 2 x Café pasado');
   expect(text).toContain('- 1 x Pan de yuca (4 unidades)');
   expect(text).toContain(`Total: $${total}`);
+  expect(text.split('\n').pop()).toBe('Para llevar');
+  expect(decodeURIComponent((await page.getByTestId('order-link-here').getAttribute('href'))!)).toContain('Para comer aquí');
 
   // Clicking opens a new tab; WhatsApp itself is never contacted.
   await context.route('https://wa.me/**', (route) => route.fulfill({ body: 'stub', contentType: 'text/html' }));
@@ -65,17 +69,18 @@ test('cart builds the expected wa.me order link and survives a reload', async ({
   await expect(page.getByTestId('qty-cafe-pasado')).toHaveText('2');
 });
 
-test('contact form validates, then opens wa.me with the message', async ({ page, context }) => {
+test('the Escríbenos arrow opens WhatsApp in a new tab', async ({ page, context }) => {
   await page.goto('/en/');
-  await page.getByRole('button', { name: 'Send on WhatsApp' }).click();
-  await expect(page.getByText('Enter your name.')).toBeVisible();
-  await expect(page.getByText('Enter your message.')).toBeVisible();
-
+  const link = page.getByTestId('write-link');
+  await expect(link).toHaveAttribute('href', /^https:\/\/wa\.me\/\d+\?text=/);
   await context.route('https://wa.me/**', (route) => route.fulfill({ body: 'stub', contentType: 'text/html' }));
-  await page.getByRole('textbox', { name: 'Name' }).fill('Ñusta');
-  await page.getByRole('textbox', { name: 'Message' }).fill('Table for 4\ntomorrow');
-  const [popup] = await Promise.all([context.waitForEvent('page'), page.getByRole('button', { name: 'Send on WhatsApp' }).click()]);
-  const text = decodeURIComponent(popup.url().split('?text=')[1]);
-  expect(text).toContain('Name: Ñusta');
-  expect(text).toContain('Message: Table for 4\ntomorrow');
+  const [popup] = await Promise.all([context.waitForEvent('page'), link.click()]);
+  expect(popup.url()).toMatch(/^https:\/\/wa\.me\//);
+});
+
+test('Today at Neblina renders the static list and the live focus', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('[data-day] li')).toHaveCount(5);
+  await expect(page.getByRole('heading', { name: 'Hoy en Neblina' })).toBeVisible();
+  await expect(page.locator('[data-focus]')).not.toBeEmpty();
 });

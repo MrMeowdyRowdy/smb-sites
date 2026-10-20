@@ -31,6 +31,11 @@ describe('orderMessage', () => {
     );
   });
 
+  it('adds the take-away or eat-here choice as the last line', () => {
+    expect(orderMessage(lines, 'es', 'takeaway').split('\n').pop()).toBe('Para llevar');
+    expect(orderMessage(lines, 'en', 'here').split('\n').pop()).toBe('To eat here');
+  });
+
   it('does not drift on float sums', () => {
     expect(orderMessage([{ qty: 3, name: 'x', price: 0.1 }], 'en')).toContain('Total: $0.30');
   });

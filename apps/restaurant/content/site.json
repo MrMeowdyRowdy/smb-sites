@@ -67,5 +67,128 @@
     "Bakery",
     "Ecuadorian"
   ],
-  "social": {}
+  "social": {},
+  "atmosphere": "fog",
+  "rituals": [
+    {
+      "id": "opens",
+      "at": "opens",
+      "label": {
+        "es": "Abrimos",
+        "en": "We open"
+      },
+      "note": {
+        "es": "Café de filtro recién pasado y el primer pan.",
+        "en": "Fresh filter coffee and the first bread."
+      }
+    },
+    {
+      "id": "pan",
+      "at": "10:00",
+      "label": {
+        "es": "Pan de yuca del horno",
+        "en": "Pan de yuca from the oven"
+      },
+      "note": {
+        "es": "Sale caliente, con el queso aún derretido.",
+        "en": "Out hot, with the cheese still melted."
+      }
+    },
+    {
+      "id": "almuerzo",
+      "at": "12:00",
+      "label": {
+        "es": "Almuerzo del día",
+        "en": "Lunch of the day"
+      },
+      "note": {
+        "es": "Un plato casero que cambia cada día.",
+        "en": "A home-style plate that changes every day."
+      }
+    },
+    {
+      "id": "neblina",
+      "at": "15:00",
+      "label": {
+        "es": "La hora de la neblina",
+        "en": "The hour of the fog"
+      },
+      "note": {
+        "es": "Cuando baja la neblina, café y algo dulce.",
+        "en": "When the fog comes down, coffee and something sweet."
+      }
+    },
+    {
+      "id": "closes",
+      "at": "closes",
+      "label": {
+        "es": "Cerramos",
+        "en": "We close"
+      },
+      "note": {
+        "es": "Hasta mañana.",
+        "en": "See you tomorrow."
+      }
+    }
+  ],
+  "origin": {
+    "from": {
+      "name": "Nanegal",
+      "altitude": 1600
+    },
+    "to": {
+      "name": "La Floresta",
+      "altitude": 2850
+    },
+    "area": {
+      "es": "bosque nublado del noroeste de Pichincha",
+      "en": "cloud forest of northwest Pichincha"
+    },
+    "stages": [
+      {
+        "id": "harvest",
+        "title": {
+          "es": "Se cosecha en Nanegal.",
+          "en": "It is picked in Nanegal."
+        },
+        "text": {
+          "es": "A 1.600 metros, entre la neblina, las cerezas se recogen a mano cuando están rojas.",
+          "en": "At 1,600 meters, in the mist, the cherries are picked by hand once they are red."
+        }
+      },
+      {
+        "id": "dry",
+        "title": {
+          "es": "Se seca al sol.",
+          "en": "It dries in the sun."
+        },
+        "text": {
+          "es": "Se extienden en camas de secado y el sol hace el trabajo lento.",
+          "en": "They are spread on drying beds and the sun does the slow work."
+        }
+      },
+      {
+        "id": "roast",
+        "title": {
+          "es": "Se tuesta los martes en La Floresta.",
+          "en": "It is roasted on Tuesdays in La Floresta."
+        },
+        "text": {
+          "es": "Lotes cortos, en un tostador pequeño, a 2.850 metros sobre el nivel del mar.",
+          "en": "Short batches in a small roaster, 2,850 meters above sea level."
+        }
+      },
+      {
+        "id": "cup",
+        "title": {
+          "es": "Llega a tu taza.",
+          "en": "It reaches your cup."
+        },
+        "text": {
+          "es": "Espresso, filtro o V60: la misma neblina, ahora caliente.",
+          "en": "Espresso, filter or V60: the same fog, now hot."
+        }
+      }
+    ]
+  }
 }

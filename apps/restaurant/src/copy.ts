@@ -22,67 +22,89 @@ export const meta: Record<RouteId, L<{ title: string; description: string }>> = 
   },
 };
 
-export const ui: L<{
-  nav: { home: string; menu: string; quality: string; label: string };
+export type UiCopy = {
+  nav: { home: string; menu: string; today: string; visit: string; quality: string; label: string };
   footer: string;
   credits: string;
-  hero: { cta: string; lead: string };
-  origin: { title: string; body: string[] };
-  preview: { title: string; all: string };
-  visit: { title: string; hours: string; map: string; google: string; osm: string; mapNote: string; address: string };
-  contact: { title: string; lead: string };
-  menuPage: { h1: string; intro: string; add: string; unavailable: string; order: { title: string; empty: string; total: string; cta: string; remove: string; qty: string }; tags: Record<string, string>; qrLink: string };
+  hero: { sentence: string; cta: string; menu: string };
+  origin: { title: string; lead: string; stagesLabel: string; photos: { cherries: string; drying: string; roasting: string; forest: string } };
+  band: { title: string; all: string; tableLabel: string; photo: string; alt: Record<string, string> };
+  today: {
+    title: string; hoursOf: string; now: string; inMin: string; inHourMin: string; closed: string; opensTomorrow: string; opensOn: string; seasonal: string;
+    days: Record<string, string>; staticNote: string; focusNow: string; focusNext: string;
+  };
+  visit: { title: string; today: string; closedToday: string; hours: string; phone: string; write: string; mapLabel: string; mapOpen: string; google: string; mapNote: string };
+  close: { invite: string; cta: string; links: string; legal: string };
+  menuPage: {
+    h1: string; intro: string; pour: string; tabs: string; add: string; unavailable: string; qrLink: string; tags: Record<string, string>;
+    order: { title: string; empty: string; total: string; cta: string; remove: string; qty: string; items: string; ask: string; takeaway: string; here: string; back: string };
+  };
   qrPage: { h1: string; lead: string; alt: string; print: string };
-}> = {
+};
+
+/** The copy deck. Prices, hours, rituals and dishes come from content/*.json, never from here. */
+export const ui: Record<Locale, UiCopy> = {
   es: {
-    nav: { home: 'Inicio', menu: 'Menú', quality: 'Calidad', label: 'Principal' },
+    nav: { home: 'Inicio', menu: 'Menú', today: 'Hoy', visit: 'Visítanos', quality: 'Informe de calidad', label: 'Principal' },
     footer: 'Neblina es un negocio ficticio y este es un sitio de demostración. Cualquier parecido con un negocio real es coincidencia.',
     credits: 'Créditos de las fotografías',
-    hero: { cta: 'Ver el menú', lead: 'Café del bosque nublado del noroeste de Pichincha, pan recién horneado y almuerzos caseros.' },
+    hero: { sentence: 'Café de altura del bosque nublado, en La Floresta.', cta: 'Pedir por WhatsApp', menu: 'Ver el menú' },
     origin: {
-      title: 'De la neblina a tu taza',
-      body: [
-        'Nuestro café crece entre los 1.200 y 1.800 metros, en el bosque nublado del noroeste de Pichincha, a pocas horas de Quito.',
-        'Aquí va la historia real del negocio: quién cultiva el café, cómo se tuesta y por qué abrimos esta cocina pequeña.',
-      ],
+      title: 'Del bosque nublado a tu taza',
+      lead: 'De 1.600 metros en Nanegal a 2.850 en La Floresta, en cuatro pasos.',
+      stagesLabel: 'Los cuatro pasos',
+      photos: { cherries: 'Cerezas de café maduras en la rama', drying: 'Camas de secado de café al sol', roasting: 'Granos de café en el tostador', forest: 'Mar de nubes al atardecer' },
     },
-    preview: { title: 'Del menú', all: 'Ver todo el menú' },
-    visit: { title: 'Visítanos', hours: 'Horario', map: 'Mapa', google: 'Abrir en Google Maps', osm: 'Abrir en OpenStreetMap', mapNote: 'El mapa se abre en otro sitio.', address: 'Dirección' },
-    contact: { title: 'Escríbenos', lead: 'Reservas, pedidos grandes o dudas: respondemos por WhatsApp.' },
+    band: { title: 'Lo que sale del horno y de la cafetera', all: 'Ver toda la carta', tableLabel: 'Carta', photo: 'Laderas verdes del bosque nublado', alt: { 'pan-de-yuca': 'Panecillos de queso recién horneados', humita: 'Humitas envueltas en su hoja', 'empanada-viento': 'Empanadas de viento con azúcar', v60: 'Café filtrado en una jarra de vidrio' } },
+    today: {
+      title: 'Hoy en Neblina', hoursOf: 'Horario de hoy', now: 'ahora', inMin: 'en {n} min', inHourMin: 'en {h} h {m} min', closed: 'Cerrado', opensTomorrow: 'Abrimos mañana a las {t}.', opensOn: 'Abrimos el {d} a las {t}.',
+      seasonal: 'De temporada', staticNote: 'Lunes a viernes. En tu navegador esta lista se ajusta a la hora de Quito.', focusNow: '{label}, ahora', focusNext: '{label}, {in}',
+      days: { Monday: 'lunes', Tuesday: 'martes', Wednesday: 'miércoles', Thursday: 'jueves', Friday: 'viernes', Saturday: 'sábado', Sunday: 'domingo' },
+    },
+    visit: {
+      title: 'Visítanos', today: 'Hoy', closedToday: 'Cerrado hoy', hours: 'Horario', phone: 'WhatsApp', write: 'Escríbenos',
+      mapLabel: 'Plano esquemático de La Floresta, Quito. Abre OpenStreetMap en el local.', mapOpen: 'Abrir en OpenStreetMap', google: 'Abrir en Google Maps', mapNote: 'Plano aproximado, dibujado a mano. Los mapas se abren en otro sitio.',
+    },
+    close: { invite: '¿Un café antes de que llegue la neblina?', cta: 'Pedir por WhatsApp', links: 'Enlaces', legal: 'Sitio de demostración' },
     menuPage: {
       h1: 'Menú',
       intro: 'Agrega lo que quieras y envía tu pedido por WhatsApp. Precios en dólares, con impuestos incluidos.',
-      add: 'Agregar',
-      unavailable: 'Agotado',
-      order: { title: 'Tu pedido', empty: 'Aún no has agregado nada.', total: 'Total', cta: 'Pedir por WhatsApp', remove: 'Quitar uno', qty: 'Cantidad' },
+      pour: 'Café filtrado en una cafetera de vidrio',
+      tabs: 'Categorías', add: 'Agregar', unavailable: 'Agotado', qrLink: 'Versión imprimible con código QR',
       tags: { vegetarian: 'Vegetariano', vegan: 'Vegano', 'gluten-free': 'Sin gluten' },
-      qrLink: 'Versión imprimible con código QR',
+      order: { title: 'Tu pedido', empty: 'Aún no has agregado nada.', total: 'Total', cta: 'Pedir por WhatsApp', remove: 'Quitar uno', qty: 'Cantidad', items: '{n} productos', ask: '¿Para llevar o aquí?', takeaway: 'Para llevar', here: 'Aquí', back: 'Volver al pedido' },
     },
     qrPage: { h1: 'Menú con código QR', lead: 'Escanea el código para abrir el menú en tu teléfono.', alt: 'Código QR que lleva al menú', print: 'Para imprimir: usa la función de imprimir del navegador (Ctrl+P).' },
   },
   en: {
-    nav: { home: 'Home', menu: 'Menu', quality: 'Quality', label: 'Main' },
+    nav: { home: 'Home', menu: 'Menu', today: 'Today', visit: 'Visit', quality: 'Quality report', label: 'Main' },
     footer: 'Neblina is a fictional business and this is a demo site. Any resemblance to a real business is coincidence.',
     credits: 'Photo credits',
-    hero: { cta: 'See the menu', lead: 'Coffee from the cloud forest of northwest Pichincha, fresh-baked bread and home-style lunches.' },
+    hero: { sentence: 'Highland coffee from the cloud forest, in La Floresta.', cta: 'Order on WhatsApp', menu: 'See the menu' },
     origin: {
-      title: 'From the mist to your cup',
-      body: [
-        'Our coffee grows between 1,200 and 1,800 meters in the cloud forest of northwest Pichincha, a few hours from Quito.',
-        'The real story of the business goes here: who grows the coffee, how it is roasted and why we opened this small kitchen.',
-      ],
+      title: 'From the cloud forest to your cup',
+      lead: 'From 1,600 meters in Nanegal to 2,850 in La Floresta, in four steps.',
+      stagesLabel: 'The four steps',
+      photos: { cherries: 'Ripe coffee cherries on the branch', drying: 'Coffee drying beds in the sun', roasting: 'Coffee beans in the roaster', forest: 'Sea of clouds at dusk' },
     },
-    preview: { title: 'From the menu', all: 'See the full menu' },
-    visit: { title: 'Visit us', hours: 'Opening hours', map: 'Map', google: 'Open in Google Maps', osm: 'Open in OpenStreetMap', mapNote: 'The map opens on another site.', address: 'Address' },
-    contact: { title: 'Message us', lead: 'Reservations, large orders or questions: we answer on WhatsApp.' },
+    band: { title: 'From the oven and the coffee maker', all: 'See the full menu', tableLabel: 'Menu', photo: 'Green cloud-forest hillsides', alt: { 'pan-de-yuca': 'Freshly baked cheese rolls', humita: 'Humitas wrapped in their husk', 'empanada-viento': 'Sugared empanadas de viento', v60: 'Filter coffee in a glass jug' } },
+    today: {
+      title: 'Today at Neblina', hoursOf: 'Hours today', now: 'now', inMin: 'in {n} min', inHourMin: 'in {h} h {m} min', closed: 'Closed', opensTomorrow: 'We open tomorrow at {t}.', opensOn: 'We open on {d} at {t}.',
+      seasonal: 'In season', staticNote: 'Monday to Friday. In your browser this list follows Quito time.', focusNow: '{label}, now', focusNext: '{label}, {in}',
+      days: { Monday: 'Monday', Tuesday: 'Tuesday', Wednesday: 'Wednesday', Thursday: 'Thursday', Friday: 'Friday', Saturday: 'Saturday', Sunday: 'Sunday' },
+    },
+    visit: {
+      title: 'Visit', today: 'Today', closedToday: 'Closed today', hours: 'Hours', phone: 'WhatsApp', write: 'Message us',
+      mapLabel: 'Schematic plan of La Floresta, Quito. Opens OpenStreetMap at the café.', mapOpen: 'Open in OpenStreetMap', google: 'Open in Google Maps', mapNote: 'Approximate, hand-drawn plan. Maps open on another site.',
+    },
+    close: { invite: 'A coffee before the fog comes in?', cta: 'Order on WhatsApp', links: 'Links', legal: 'Demo site' },
     menuPage: {
       h1: 'Menu',
       intro: 'Add what you like and send your order on WhatsApp. Prices in US dollars, taxes included.',
-      add: 'Add',
-      unavailable: 'Sold out',
-      order: { title: 'Your order', empty: 'Nothing added yet.', total: 'Total', cta: 'Order on WhatsApp', remove: 'Remove one', qty: 'Quantity' },
+      pour: 'Filter coffee in a glass pour-over',
+      tabs: 'Categories', add: 'Add', unavailable: 'Sold out', qrLink: 'Printable version with QR code',
       tags: { vegetarian: 'Vegetarian', vegan: 'Vegan', 'gluten-free': 'Gluten-free' },
-      qrLink: 'Printable version with QR code',
+      order: { title: 'Your order', empty: 'Nothing added yet.', total: 'Total', cta: 'Order on WhatsApp', remove: 'Remove one', qty: 'Quantity', items: '{n} items', ask: 'Take away or eat here?', takeaway: 'Take away', here: 'Eat here', back: 'Back to order' },
     },
     qrPage: { h1: 'QR menu', lead: 'Scan the code to open the menu on your phone.', alt: 'QR code leading to the menu', print: 'To print: use the browser print function (Ctrl+P).' },
   },

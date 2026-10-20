@@ -144,7 +144,8 @@
         "vegan",
         "gluten-free"
       ],
-      "available": true
+      "available": true,
+      "photo": "pour-over"
     },
     {
       "id": "tigrillo",
@@ -267,7 +268,8 @@
         "vegetarian",
         "gluten-free"
       ],
-      "available": true
+      "available": true,
+      "photo": "humitas"
     },
     {
       "id": "empanada-viento",
@@ -284,7 +286,8 @@
       "tags": [
         "vegetarian"
       ],
-      "available": true
+      "available": true,
+      "photo": "empanada-de-viento"
     },
     {
       "id": "quimbolito",
@@ -459,5 +462,23 @@
       ],
       "available": true
     }
-  ]
+  ],
+  "featured": [
+    "pan-de-yuca",
+    "humita",
+    "empanada-viento",
+    "v60"
+  ],
+  "seasonal": {
+    "from": "10-20",
+    "to": "11-02",
+    "name": {
+      "es": "Colada morada y guaguas de pan",
+      "en": "Colada morada and guaguas de pan"
+    },
+    "note": {
+      "es": "De temporada, hasta el 2 de noviembre.",
+      "en": "In season until 2 November."
+    }
+  }
 }

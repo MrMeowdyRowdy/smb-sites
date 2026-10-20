@@ -1,5 +1,7 @@
 /** Checks the client-editable JSON files. Returns a list of problems; empty means valid. */
 const LOCALES = ['es', 'en'] as const;
+const MMDD = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
 const TAGS = ['vegetarian', 'vegan', 'gluten-free'];
 
 type Obj = Record<string, unknown>;
@@ -29,6 +31,9 @@ export function validateMenu(data: unknown): string[] {
     if (!Array.isArray(i.tags) || i.tags.some((t) => !TAGS.includes(t as string))) errors.push(`item ${i.id}: tags must be from ${TAGS.join(', ')}`);
     if (typeof i.available !== 'boolean') errors.push(`item ${i.id}: available must be true or false`);
   }
+  if (!Array.isArray(data.featured) || data.featured.length !== 4 || data.featured.some((f) => !ids.has(f as string))) errors.push('menu: featured needs exactly 4 existing item ids');
+  const z = data.seasonal;
+  if (z !== undefined && !(isObj(z) && MMDD.test(String(z.from)) && MMDD.test(String(z.to)) && bothLocales(z.name) && bothLocales(z.note))) errors.push('menu: seasonal needs from and to (MM-DD), name and note in es and en');
   return errors;
 }
 
@@ -52,6 +57,20 @@ export function validateSite(data: unknown): string[] {
       for (const k of ['opens', 'closes'] as const) if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(h[k]))) errors.push(`site: hours ${k} must be HH:MM`);
     }
   if (!isObj(data.social)) errors.push('site: social must be an object');
+  if (data.atmosphere !== 'fog' && data.atmosphere !== 'none') errors.push('site: atmosphere must be "fog" or "none"');
+  if (!Array.isArray(data.rituals) || data.rituals.length === 0) errors.push('site: rituals missing');
+  else
+    for (const r of data.rituals as Obj[]) {
+      if (!text(r.id)) errors.push('site: ritual without id');
+      if (r.at !== 'opens' && r.at !== 'closes' && !HHMM.test(String(r.at))) errors.push(`site: ritual ${r.id}: at must be "opens", "closes" or HH:MM`);
+      if (!bothLocales(r.label) || !bothLocales(r.note)) errors.push(`site: ritual ${r.id}: label and note need es and en`);
+    }
+  const o = data.origin;
+  if (o !== undefined) {
+    const place = (v: unknown) => isObj(v) && text(v.name) && typeof v.altitude === 'number' && v.altitude > 0;
+    if (!isObj(o) || !place(o.from) || !place(o.to) || !bothLocales(o.area) || !Array.isArray(o.stages) || o.stages.length !== 4 || (o.stages as Obj[]).some((g) => !text(g.id) || !bothLocales(g.title) || !bothLocales(g.text)))
+      errors.push('site: origin needs from and to (name, altitude), area and exactly 4 stages with title and text in es and en');
+  }
   return errors;
 }
 

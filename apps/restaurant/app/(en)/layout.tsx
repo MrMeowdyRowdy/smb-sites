@@ -1,9 +1,10 @@
 import { Analytics } from '@smb/ui';
 import '../../src/globals.css';
+import { hanken } from '../../src/fonts';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={hanken.variable}>
       <body>
         {children}
         <Analytics />

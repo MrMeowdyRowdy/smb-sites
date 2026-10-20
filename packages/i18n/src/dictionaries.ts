@@ -16,6 +16,8 @@ const es = {
   messages: {
     orderIntro: 'Hola, quisiera hacer este pedido:',
     total: 'Total',
+    takeaway: 'Para llevar',
+    here: 'Para comer aquí',
     contactIntro: 'Hola, les escribo desde el sitio web.',
     name: 'Nombre',
     message: 'Mensaje',
@@ -37,6 +39,8 @@ const en: typeof es = {
   messages: {
     orderIntro: 'Hello, I would like to place this order:',
     total: 'Total',
+    takeaway: 'To take away',
+    here: 'To eat here',
     contactIntro: 'Hello, I am writing from the website.',
     name: 'Name',
     message: 'Message',
