@@ -1,1 +1,80 @@
-{ "generated": null }
+{
+  "generated": "2026-10-20T03:19:32.448Z",
+  "commit": "850a3c6",
+  "node": "v20.19.2",
+  "next": "16.3.8",
+  "unit": {
+    "passed": 22,
+    "failed": 0,
+    "total": 22
+  },
+  "e2e": {
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0,
+    "total": 21
+  },
+  "axe": [
+    {
+      "route": "/",
+      "violations": 0
+    },
+    {
+      "route": "/calidad/",
+      "violations": 0
+    },
+    {
+      "route": "/en/",
+      "violations": 0
+    },
+    {
+      "route": "/en/menu/",
+      "violations": 0
+    },
+    {
+      "route": "/en/menu/qr/",
+      "violations": 0
+    },
+    {
+      "route": "/en/quality/",
+      "violations": 0
+    },
+    {
+      "route": "/menu/",
+      "violations": 0
+    },
+    {
+      "route": "/menu/qr/",
+      "violations": 0
+    }
+  ],
+  "lighthouse": [
+    {
+      "path": "/",
+      "performance": 1,
+      "accessibility": 1,
+      "bestPractices": 0.96,
+      "seo": 1,
+      "lcp": 1516.8417
+    },
+    {
+      "path": "/en/",
+      "performance": 1,
+      "accessibility": 1,
+      "bestPractices": 0.96,
+      "seo": 1,
+      "lcp": 1509.885
+    },
+    {
+      "path": "/menu/",
+      "performance": 1,
+      "accessibility": 1,
+      "bestPractices": 0.96,
+      "seo": 1,
+      "lcp": 1511.0212
+    }
+  ],
+  "deploy": {
+    "url": null
+  }
+}

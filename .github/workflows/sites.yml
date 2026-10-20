@@ -1,0 +1,175 @@
+name: sites
+
+# One pipeline for every app in apps/. Checks run on every change to an app (or to
+# anything shared). Deploy is off unless the repo variable DEPLOY_ENABLED is 'true',
+# and then runs only from a manual run with "deploy" ticked or a push to staging.
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: App to check and deploy (empty means all)
+        type: string
+        default: ''
+      deploy:
+        description: Deploy to the demo server
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.list.outputs.apps }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3.0.2
+        id: filter
+        if: github.event_name != 'workflow_dispatch'
+        with:
+          filters: |
+            shared:
+              - 'packages/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'eslint.config.mjs'
+              - '.nvmrc'
+              - '.github/workflows/sites.yml'
+            restaurant:
+              - 'apps/restaurant/**'
+            # clinic:
+            #   - 'apps/clinic/**'
+      - id: list
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_APP: ${{ inputs.app }}
+          SHARED: ${{ steps.filter.outputs.shared }}
+          RESTAURANT: ${{ steps.filter.outputs.restaurant }}
+        run: |
+          ALL='["restaurant"]'
+          if [ "$EVENT" = workflow_dispatch ]; then
+            if [ -n "$INPUT_APP" ]; then apps="[\"$INPUT_APP\"]"; else apps="$ALL"; fi
+          elif [ "$SHARED" = true ]; then
+            apps="$ALL"
+          else
+            apps='[]'
+            [ "$RESTAURANT" = true ] && apps='["restaurant"]'
+          fi
+          echo "apps=$apps" >> "$GITHUB_OUTPUT"
+
+  check:
+    needs: changes
+    if: needs.changes.outputs.apps != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJSON(needs.changes.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint -w apps/${{ matrix.app }}
+      - run: npm run typecheck -w apps/${{ matrix.app }}
+      - run: npm run test:unit -w apps/${{ matrix.app }}
+      - run: npm run build -w apps/${{ matrix.app }}
+      - run: npx playwright install --with-deps chromium
+      - name: Playwright and axe (static build served from out/)
+        run: npm run test:e2e -w apps/${{ matrix.app }}
+      - name: Lighthouse CI
+        run: npm run lhci -w apps/${{ matrix.app }}
+      - name: Quality report, then rebuild so the pages show this commit's checks
+        run: |
+          npm run report -w apps/${{ matrix.app }}
+          npm run build -w apps/${{ matrix.app }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports-${{ matrix.app }}
+          path: |
+            apps/${{ matrix.app }}/lhci/
+            apps/${{ matrix.app }}/playwright-report/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quality-${{ matrix.app }}
+          path: apps/${{ matrix.app }}/content/quality.json
+
+  deploy:
+    needs: [changes, check]
+    if: >-
+      vars.DEPLOY_ENABLED == 'true' &&
+      ((github.event_name == 'workflow_dispatch' && inputs.deploy) ||
+       (github.event_name == 'push' && github.ref == 'refs/heads/staging'))
+    runs-on: ubuntu-latest
+    environment: demo
+    concurrency: deploy-${{ matrix.app }}
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJSON(needs.changes.outputs.apps) }}
+        include:
+          - app: restaurant
+            site_user: ${{ vars.RESTAURANT_SITE_USER }}
+            host_prefix: restaurant
+            whatsapp: ${{ vars.RESTAURANT_WHATSAPP }}
+          # Future app (Node standalone): build with output 'standalone', rsync the build,
+          # then `pm2 reload clinic` over SSH instead of serving out/ statically.
+          # - app: clinic
+          #   site_user: ${{ vars.CLINIC_SITE_USER }}
+          #   host_prefix: clinic
+    env:
+      DOMAIN: ${{ github.ref == 'refs/heads/staging' && 'staging.' || '' }}${{ matrix.host_prefix }}.${{ vars.DEMO_DOMAIN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: quality-${{ matrix.app }}
+          path: apps/${{ matrix.app }}/content
+      - name: Mark the report as deployed, then build for the real domain
+        env:
+          NEXT_PUBLIC_SITE_URL: https://${{ env.DOMAIN }}
+          NEXT_PUBLIC_WHATSAPP: ${{ matrix.whatsapp }}
+        run: |
+          node -e 'const f=process.argv[1],q=JSON.parse(require("fs").readFileSync(f));q.deploy={url:process.argv[2]};require("fs").writeFileSync(f,JSON.stringify(q,null,2)+"\n")' \
+            apps/${{ matrix.app }}/content/quality.json "https://$DOMAIN/"
+          npm run build -w apps/${{ matrix.app }}
+      - name: SSH key and pinned host key
+        env:
+          KEY: ${{ secrets.DEPLOY_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Sync the static export
+        env:
+          TARGET: ${{ matrix.site_user }}@${{ secrets.DEPLOY_HOST }}:/home/${{ matrix.site_user }}/htdocs/${{ env.DOMAIN }}/
+        run: rsync -az --delete apps/${{ matrix.app }}/out/ "$TARGET"
+      - name: Smoke check
+        run: |
+          for p in / /en/ /menu/; do curl -fsS -o /dev/null "https://$DOMAIN$p"; done
+      - name: Lighthouse against the live site
+        run: >-
+          CHROME_PATH=/usr/bin/google-chrome npx -y @lhci/cli@0.14.0 autorun
+          --config=apps/${{ matrix.app }}/lighthouserc.json
+          --collect.staticDistDir=
+          --collect.url="https://$DOMAIN/" --collect.url="https://$DOMAIN/menu/" --collect.url="https://$DOMAIN/en/"
+          --upload.outputDir=lhci-live
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-live-${{ matrix.app }}
+          path: lhci-live/

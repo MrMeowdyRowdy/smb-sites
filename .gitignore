@@ -12,3 +12,5 @@ next-env.d.ts
 BUILD-NOTES.txt
 .lighthouseci/
 C:*
+apps/restaurant/AGENTS.md
+apps/restaurant/CLAUDE.md
