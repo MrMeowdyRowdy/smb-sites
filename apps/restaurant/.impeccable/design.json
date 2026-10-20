@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-20T00:00:00Z",
+  "title": "Design System: Neblina",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Cloud-forest Teal",
+        "canonical": "#06525c",
+        "tonalRamp": [
+          "#043e46",
+          "#06525c",
+          "#0b606b",
+          "#17737e",
+          "#2f737d",
+          "#b4d3d3",
+          "#c3dad8",
+          "#dbe6e3",
+          "#ebf0ee",
+          "#f7f9f8"
+        ]
+      },
+      "deep": {
+        "role": "primary",
+        "displayName": "Deep Teal",
+        "canonical": "#043e46"
+      },
+      "cherry": {
+        "role": "secondary",
+        "displayName": "Cherry (WhatsApp only)",
+        "canonical": "#b3202d",
+        "tonalRamp": [
+          "#8f1a26",
+          "#b3202d"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Fog Paper",
+        "canonical": "#f7f9f8"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Mist Surface",
+        "canonical": "#ebf0ee"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Teal",
+        "canonical": "#2f737d"
+      },
+      "placeholder": {
+        "role": "neutral",
+        "displayName": "Photo Placeholder",
+        "canonical": "#c9dcda"
+      }
+    },
+    "typographyMeta": {
+      "monument": {
+        "displayName": "Monument",
+        "purpose": "The cafe name in the hero and close, Menú, the altitude numeral, the Hoy clock time. Always cropped by an edge."
+      },
+      "display": {
+        "displayName": "Hero sentence",
+        "purpose": "The one sentence on the first screen."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "h2, stair titles, Visit rows, close invitation, /menu/ lead."
+      },
+      "title": {
+        "displayName": "Lead",
+        "purpose": "Dish names and prices on /menu/, Hoy moments, order choices."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, 34-52ch."
+      },
+      "label": {
+        "displayName": "Small",
+        "purpose": "Table category labels, route labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "cutout-stand",
+        "value": "contrast(1.08) saturate(1.12) drop-shadow(0 28px 32px rgba(6, 82, 92, 0.22))",
+        "purpose": "CSS filter on cut-outs only; 0 20px 22px below 1000px."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "All CSS transitions and keyframes."
+      },
+      {
+        "name": "reveal",
+        "value": "gsap.from opacity 0, y 20, 0.6s power3.out, stagger 0.08, start top 82%, once",
+        "purpose": "Section entrances, only for targets below 85% of the viewport."
+      },
+      {
+        "name": "hero-scrub",
+        "value": "name scale 1 to 0.94, fog-a 0.1, fog-b 0.05, sky yPercent 8, scrub 0.5",
+        "purpose": "The fog lifts as the first screen leaves."
+      },
+      {
+        "name": "arrival",
+        "value": "1.3s: fog from opacity 1, name/cup/sky from 0.12; once per session; skipped on first input",
+        "purpose": "First screen thins out of fog."
+      },
+      {
+        "name": "veil",
+        "value": "view-transition old 0.28s out, new 0.5s in after 0.12s, on paper",
+        "purpose": "Between pages."
+      },
+      {
+        "name": "fog-drift",
+        "value": "90s / 140s linear alternate, translate3d(-4%, 1%, 0)",
+        "purpose": "Ambient fog."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "max-width: 760px"
+      },
+      {
+        "name": "stack",
+        "value": "max-width: 1000px"
+      },
+      {
+        "name": "origin-pin",
+        "value": "min-width: 800px (GSAP)"
+      },
+      {
+        "name": "wide",
+        "value": "min-width: 1900px (root 125%)"
+      },
+      {
+        "name": "wider",
+        "value": "min-width: 2400px (root 150%)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "WhatsApp Button",
+      "kind": "button",
+      "refersTo": "button-whatsapp",
+      "description": "The one red action.",
+      "html": "<a class=\"ds-btn-wa\" href=\"#\">Pedir por WhatsApp</a>",
+      "css": ".ds-btn-wa { display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; background: #b3202d; color: #fff; font: 500 1.0625rem 'Hanken Grotesk', system-ui, sans-serif; text-decoration: none; border-radius: 0; transition: background-color .2s cubic-bezier(0.16,1,0.3,1), transform .2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-wa:hover { background: #8f1a26; } .ds-btn-wa:active { transform: translateY(2px); } .ds-btn-wa:focus-visible { outline: 3px solid #06525c; outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "button",
+      "refersTo": "text-link",
+      "description": "Secondary action beside the button.",
+      "html": "<a class=\"ds-link\" href=\"#\">Ver el menú</a>",
+      "css": ".ds-link { display: inline-flex; align-items: center; min-height: 44px; color: #06525c; font: 500 1.0625rem 'Hanken Grotesk', system-ui, sans-serif; text-underline-offset: .18em; text-decoration-thickness: .08em; transition: text-decoration-thickness .2s; } .ds-link:hover { text-decoration-thickness: .18em; } .ds-link:focus-visible { outline: 3px solid #06525c; outline-offset: 3px; }"
+    },
+    {
+      "name": "Category Tabs",
+      "kind": "nav",
+      "refersTo": "category-tab",
+      "description": "Sticky tabs on /menu/.",
+      "html": "<nav class=\"ds-tabs\"><a href=\"#\" aria-current=\"true\">Café de altura</a><a href=\"#\">Desayunos</a><a href=\"#\">Panadería</a></nav>",
+      "css": ".ds-tabs { display: flex; gap: 20px; background: #f7f9f8; } .ds-tabs a { min-height: 52px; display: inline-flex; align-items: center; padding: 0 12px; border-bottom: 3px solid transparent; color: #06525c; font: 500 1.0625rem 'Hanken Grotesk', system-ui, sans-serif; text-decoration: none; } .ds-tabs a:hover { border-bottom-color: #c3dad8; } .ds-tabs a[aria-current='true'] { border-bottom-color: #06525c; } .ds-tabs a:focus-visible { outline: 3px solid #06525c; outline-offset: -3px; }"
+    },
+    {
+      "name": "Dish Row",
+      "kind": "custom",
+      "refersTo": "stepper-button",
+      "description": "Name, price, 44px add button; description below.",
+      "html": "<div class=\"ds-dish\"><span class=\"ds-n\">Pan de yuca</span><span class=\"ds-p\">$0,60</span><button class=\"ds-step\" aria-label=\"Agregar\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\"><path d=\"M12 5v14M5 12h14\" stroke=\"currentColor\" stroke-width=\"2.2\" fill=\"none\"/></svg></button><p class=\"ds-d\">Recién horneado, con queso.</p></div>",
+      "css": ".ds-dish { display: grid; grid-template-columns: 1fr auto auto; column-gap: 24px; row-gap: 4px; align-items: center; color: #06525c; font-family: 'Hanken Grotesk', system-ui, sans-serif; } .ds-n { font-size: 1.375rem; letter-spacing: -.025em; } .ds-p { font-size: 1.375rem; font-weight: 500; font-variant-numeric: tabular-nums; } .ds-d { grid-column: 1 / -1; margin: 0; max-width: 52ch; } .ds-step { width: 44px; height: 44px; border: 0; border-radius: 0; display: grid; place-items: center; background: #06525c; color: #f7f9f8; cursor: pointer; transition: background-color .2s, transform .15s; } .ds-step:hover { background: #0b606b; } .ds-step:active { transform: scale(.92); } .ds-step:focus-visible { outline: 3px solid #06525c; outline-offset: 3px; }"
+    },
+    {
+      "name": "Order Bar",
+      "kind": "custom",
+      "refersTo": "order-bar",
+      "description": "Sticky bottom bar on /menu/.",
+      "html": "<div class=\"ds-ob\"><p>2 productos · Total <strong>$4,10</strong></p><a class=\"ds-ob-btn\" href=\"#\">Pedir por WhatsApp</a></div>",
+      "css": ".ds-ob { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 24px; background: #06525c; color: #f7f9f8; font: 500 1.0625rem 'Hanken Grotesk', system-ui, sans-serif; } .ds-ob p { margin: 0; } .ds-ob strong { font-size: 1.375rem; font-variant-numeric: tabular-nums; } .ds-ob-btn { min-height: 52px; display: inline-flex; align-items: center; padding: 0 28px; background: #b3202d; color: #fff; text-decoration: none; } .ds-ob-btn:hover { background: #8f1a26; } .ds-ob-btn:focus-visible { outline: 3px solid #f7f9f8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Band Panel",
+      "kind": "card",
+      "refersTo": "band-panel",
+      "description": "Flat tonal panel, cut-out standing above an edge caption.",
+      "html": "<figure class=\"ds-panel\"><div class=\"ds-cut\"></div><figcaption><span>Humitas</span><span>$2,50</span></figcaption></figure>",
+      "css": ".ds-panel { position: relative; margin: 0; height: 320px; width: 240px; background: #06525c; color: #f7f9f8; font: 500 1.0625rem 'Hanken Grotesk', system-ui, sans-serif; } .ds-cut { position: absolute; left: 20%; right: 20%; bottom: 64px; height: 50%; background: #c9dcda; filter: drop-shadow(0 28px 32px rgba(6,82,92,.22)); } .ds-panel figcaption { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; padding: 14px 18px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Del bosque nublado a tu taza",
+    "overview": "The café's name is set as a monument, and a fog layer drifts over it. The fog lifts as the page scrolls and comes back at the close. The page uses one type family at two weights (500 for display, 400 for text) and flat colour grounds. There are no gradients and no card shadows. The colour ground changes at each chapter with a hard edge: paper, teal, paper, surface, teal, then deep teal. Each beat has one dominant object (the name, the altitude numeral, the dish band, the clock time, the address rows, or the cropped name), and photos and cut-outs are layered against it.",
+    "keyCharacteristics": [
+      "One family (Hanken Grotesk 400/500, self-hosted, `display: optional`).",
+      "Teal ink on paper, or paper ink on teal. The only cherry red in the system is on the WhatsApp action.",
+      "Square corners on every control. The only round shapes are the arrow button, the route dots and the map pin.",
+      "Display type is cropped by section edges: the hero name, the \"Menú\" heading, the close name.",
+      "Fog, display type and photos may overlap each other. Nothing ever covers text, prices or buttons."
+    ],
+    "rules": [
+      {
+        "name": "The One Red Rule",
+        "body": "Cherry means \"write to us on WhatsApp\", and it is used for nothing else.",
+        "section": "colors"
+      },
+      {
+        "name": "The Hard Edge Rule",
+        "body": "Chapter grounds meet at a straight edge. A fade between grounds is never used.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Weights Rule",
+        "body": "Use only weights 400 and 500. No italics and no third family. Hierarchy comes from size and tracking.",
+        "section": "typography"
+      },
+      {
+        "name": "The Wide Canvas Rule",
+        "body": "The root font size goes to 125% at 1900px and 150% at 2400px, so every rem value grows on large screens.",
+        "section": "typography"
+      },
+      {
+        "name": "The Clear Text Rule",
+        "body": "Display type, photos, cut-outs and fog may overlap each other. Nothing ever covers body text, prices or buttons. Copy always sits on the top layer. Fog has `pointer-events: none` and never sits over the copy layer. The seasonal photo pads the text column instead of overlapping it, and band cut-outs stop 64px (92px on phone) above their caption.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Cropped Name Rule",
+        "body": "A monument word is cut by a section edge (the bottom, or the right edge on phone). It is never shown floating and complete in the middle of a section.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use cherry only for WhatsApp actions and the map pin.",
+      "Do keep the dominant object of each beat as the largest thing, cropped by an edge.",
+      "Do caption by naming the dish (\"Pan de yuca recién horneado\"). Band captions show the dish name and price, and alts describe the thing shown.",
+      "Do show the fictional-business line on every page (in the footer). Show \"Fotos ilustrativas.\" above the credits list whenever `credits.json` is not empty.",
+      "Do give every motion a reduced-motion final state that is already visible."
+    ],
+    "donts": [
+      "Don't let a photo, cut-out, fog or display word cover body text, prices or buttons.",
+      "Don't say \"our\" or \"nuestro\" in captions or alts for stock photos, and never present them as this café's room, staff or plates.",
+      "Don't round corners, add box-shadows to controls, or add a third weight or a second family.",
+      "Don't type prices, hours or dishes into components. They come from `content/*.json`.",
+      "Don't use text glyphs as icons on new surfaces. Use inline SVG, as the Visit arrow does."
+    ]
+  }
+}
