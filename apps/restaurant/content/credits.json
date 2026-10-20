@@ -1,1 +1,86 @@
-[]
+[
+  {
+    "file": "hero-cup",
+    "author": "Daniel Dan",
+    "source": "https://unsplash.com/photos/a-cup-of-coffee-with-steam-rising-out-of-it-wF6uDg7oJwE",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "cloud-forest",
+    "author": "Jaime Serrano",
+    "source": "https://unsplash.com/photos/fog-covered-forest-at-sunrise-wM1EMSkgu7U",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "coffee-cherries",
+    "author": "Andres Hernandez",
+    "source": "https://unsplash.com/photos/fF9LOC5sMOQ",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "drying-beds",
+    "author": "David Maillard",
+    "source": "https://unsplash.com/photos/4TDXpo3odG8",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "roasting",
+    "author": "Khanh Do",
+    "source": "https://unsplash.com/photos/freshly-roasted-coffee-beans-in-a-roaster-QrrFbQp085M",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "pan-de-yuca",
+    "author": "El Mono Español",
+    "source": "https://commons.wikimedia.org/wiki/File:Pandebono_1_(comprada_en_la_Panader%C3%ADa_Colombia_Viva,_en_Barcelona,_Espa%C3%B1a).jpg",
+    "licence": "CC BY-SA 4.0 (cropped and colour-graded; adaptation shared under the same licence)"
+  },
+  {
+    "file": "humitas",
+    "author": "Leonardovillada",
+    "source": "https://commons.wikimedia.org/wiki/File:HUMITAS_SALTE%C3%91AS.jpg",
+    "licence": "CC BY-SA 4.0 (cropped and colour-graded; adaptation shared under the same licence)"
+  },
+  {
+    "file": "empanada-de-viento",
+    "author": "Kevinmero",
+    "source": "https://commons.wikimedia.org/wiki/File:Empanadas_de_viento_(gastronom%C3%ADa_Ecuatoriana).jpg",
+    "licence": "CC BY-SA 4.0 (cropped and colour-graded; adaptation shared under the same licence)"
+  },
+  {
+    "file": "pour-over",
+    "author": "Nathan Dumlao",
+    "source": "https://unsplash.com/photos/person-pouring-hot-water-from-kettle-to-glass-bottle-ohbEnBFtOuY",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "colada-morada",
+    "author": "Agencia de Noticias ANDES",
+    "source": "https://commons.wikimedia.org/wiki/File:COLADA_MORADA_Y_GUAGUAS_DE_PAN_(38016386062).jpg",
+    "licence": "CC BY-SA 2.0 (cropped and colour-graded; adaptation shared under the same licence)"
+  },
+  {
+    "file": "quimbolito",
+    "author": "Montielec98",
+    "source": "https://commons.wikimedia.org/wiki/File:Quimbolito.jpg",
+    "licence": "CC BY-SA 4.0 (cropped and colour-graded; adaptation shared under the same licence)"
+  },
+  {
+    "file": "quito-old-town",
+    "author": "Alejandro Alfaro M",
+    "source": "https://unsplash.com/photos/aerial-view-of-city-during-daytime-IUwpdJVM4Fc",
+    "licence": "Unsplash License"
+  },
+  {
+    "file": "mindo-hills",
+    "author": "Ayacop",
+    "source": "https://commons.wikimedia.org/wiki/File:Mindo-Cloud-Forest-03.jpg",
+    "licence": "Public domain"
+  },
+  {
+    "file": "fog-loop",
+    "author": "Dean Diemert",
+    "source": "https://www.pexels.com/video/fog-over-trees-on-hill-13111163/",
+    "licence": "Pexels License (trimmed to 8 s, 1280 px, colour-adjusted)"
+  }
+]
