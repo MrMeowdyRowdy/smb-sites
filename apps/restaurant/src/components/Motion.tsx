@@ -97,7 +97,7 @@ export function Motion() {
           reveal(visit, q('.rows-display [data-row]', visit), { y: 24, stagger: 0.08 });
           reveal(visit, q('.map', visit), { y: 20, delay: 0.2 });
         }
-        q('.menu-cat').forEach((cat) => reveal(cat, [...q('h2', cat), ...q('.cat-art', cat), ...q('[data-dish]', cat)], { y: 22, stagger: 0.06, duration: 0.65 }));
+        q('.menu-cat').forEach((cat) => reveal(cat, [...q('h2', cat), ...q('[data-dish]', cat)], { y: 22, stagger: 0.06, duration: 0.65 }));
       });
 
       const refresh = () => ScrollTrigger.refresh();

@@ -29,7 +29,7 @@ export function Hero({ locale }: { locale: Locale }) {
       </h1>
       <Fog />
       <div className="hero-cup">
-        <Pic name="hero-cup-cut-520" w={766} h={651} alt="" priority defer />
+        <Pic name="hero-cup-cut-520" w={766} h={651} alt="" sizes="(max-width: 760px) 30vw, 13vw" priority defer />
         <svg className="steam" viewBox="0 0 100 170" preserveAspectRatio="none" aria-hidden="true" focusable="false">
           <path pathLength={1} d="M30 170 C 8 138, 52 114, 30 84 S 42 22, 28 0" />
           <path pathLength={1} d="M52 170 C 74 132, 30 104, 54 72 S 44 26, 60 2" />

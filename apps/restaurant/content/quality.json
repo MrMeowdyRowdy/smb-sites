@@ -1,12 +1,12 @@
 {
-  "generated": "2026-10-20T05:32:55.151Z",
-  "commit": "83a82f5",
-  "node": "v22.14.0",
+  "generated": "2026-10-20T06:05:28.496Z",
+  "commit": "2cf7fb4",
+  "node": "v20.19.2",
   "next": "16.3.8",
   "unit": {
-    "passed": 39,
+    "passed": 40,
     "failed": 0,
-    "total": 39
+    "total": 40
   },
   "e2e": {
     "passed": 22,
@@ -55,23 +55,23 @@
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 2346.547
+      "lcp": 2347.7522
     },
     {
       "path": "/en/",
-      "performance": 0.99,
+      "performance": 0.98,
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 1734.1199
+      "lcp": 2293.6841999999997
     },
     {
       "path": "/menu/",
-      "performance": 1,
+      "performance": 0.98,
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 1699.3264999999997
+      "lcp": 2439.1309
     }
   ],
   "deploy": {

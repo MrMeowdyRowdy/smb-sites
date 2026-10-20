@@ -57,7 +57,7 @@ export const ui: Record<Locale, UiCopy> = {
       stagesLabel: 'Los cuatro pasos',
       photos: { cherries: 'Cerezas de café maduras en la rama', drying: 'Camas de secado de café al sol', roasting: 'Granos de café en el tostador', forest: 'Mar de nubes al atardecer' },
     },
-    band: { title: 'Lo que sale del horno y de la cafetera', all: 'Ver toda la carta', tableLabel: 'Carta', photo: 'Laderas verdes del bosque nublado', alt: { 'pan-de-yuca': 'Panecillos de queso recién horneados', humita: 'Humitas envueltas en su hoja', 'empanada-viento': 'Empanadas de viento con azúcar', v60: 'Café filtrado en una jarra de vidrio' } },
+    band: { title: 'Lo que sale del horno y de la cafetera', all: 'Ver toda la carta', tableLabel: 'Carta', photo: 'Pan de yuca recién horneado', alt: { 'pan-de-yuca': 'Panecillos de queso recién horneados', humita: 'Humitas envueltas en su hoja', 'empanada-viento': 'Empanadas de viento con azúcar', v60: 'Café filtrado en una jarra de vidrio' } },
     today: {
       title: 'Hoy en Neblina', hoursOf: 'Horario de hoy', now: 'ahora', inMin: 'en {n} min', inHourMin: 'en {h} h {m} min', closed: 'Cerrado', opensTomorrow: 'Abrimos mañana a las {t}.', opensOn: 'Abrimos el {d} a las {t}.',
       seasonal: 'De temporada', staticNote: 'Lunes a viernes. En tu navegador esta lista se ajusta a la hora de Quito.', focusNow: '{label}, ahora', focusNext: '{label}, {in}',
@@ -90,7 +90,7 @@ export const ui: Record<Locale, UiCopy> = {
       stagesLabel: 'The four steps',
       photos: { cherries: 'Ripe coffee cherries on the branch', drying: 'Coffee drying beds in the sun', roasting: 'Coffee beans in the roaster', forest: 'Sea of clouds at dusk' },
     },
-    band: { title: 'From the oven and the coffee maker', all: 'See the full menu', tableLabel: 'Menu', photo: 'Green cloud-forest hillsides', alt: { 'pan-de-yuca': 'Freshly baked cheese rolls', humita: 'Humitas wrapped in their husk', 'empanada-viento': 'Sugared empanadas de viento', v60: 'Filter coffee in a glass jug' } },
+    band: { title: 'From the oven and the coffee maker', all: 'See the full menu', tableLabel: 'Menu', photo: 'Freshly baked pan de yuca', alt: { 'pan-de-yuca': 'Freshly baked cheese rolls', humita: 'Humitas wrapped in their husk', 'empanada-viento': 'Sugared empanadas de viento', v60: 'Filter coffee in a glass jug' } },
     today: {
       title: 'Today at Neblina', hoursOf: 'Hours today', now: 'now', inMin: 'in {n} min', inHourMin: 'in {h} h {m} min', closed: 'Closed', opensTomorrow: 'We open tomorrow at {t}.', opensOn: 'We open on {d} at {t}.',
       seasonal: 'In season', staticNote: 'Monday to Friday. In your browser this list follows Quito time.', focusNow: '{label}, now', focusNext: '{label}, {in}',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import site from '../../content/site.json';
-import { inWindow, openStatus, quitoClock, quitoMonthDay, today } from './today';
+import { focusTime, inWindow, openStatus, quitoClock, quitoMonthDay, today } from './today';
 
 // Quito is UTC-5 all year. 2026-10-19 is a Monday (07:30-19:00), 2026-10-25 a Sunday (08:00-15:00).
 const at = (iso: string, hhmm: string) => new Date(`${iso}T${hhmm}:00-05:00`);
@@ -66,4 +66,12 @@ describe('open status for the first screen', () => {
   it('before opening it says when it opens today', () => expect(openStatus(at('2026-10-19', '06:50'), site)).toEqual({ kind: 'before', opens: '07:30' }));
   it('after closing it looks to the next day', () =>
     expect(openStatus(at('2026-10-19', '19:30'), site)).toEqual({ kind: 'closed', next: { daysAhead: 1, day: 'Tuesday', opens: '07:30' } }));
+});
+
+describe('focusTime', () => {
+  it('is the next moment, the current one, or the next opening when closed', () => {
+    expect(focusTime(today(at('2026-10-19', '14:20'), site).focus)).toBe('15:00');
+    expect(focusTime(today(at('2026-10-19', '06:50'), site).focus)).toBe('07:30');
+    expect(focusTime(today(at('2026-10-19', '21:00'), site).focus)).toBe('07:30');
+  });
 });

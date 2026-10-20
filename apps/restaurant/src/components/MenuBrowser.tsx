@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { type Locale, formatUsd, pathFor } from '@smb/i18n';
 import { type OrderMode, orderMessage, waLink } from '@smb/ui/whatsapp';
 import { ui } from '../copy';
@@ -24,6 +24,7 @@ export function MenuBrowser({ menu, phone, locale, art }: { menu: Menu; phone: s
   const [ready, setReady] = useState(false);
   const [asking, setAsking] = useState(false);
   const [active, setActive] = useState(menu.categories[0].id);
+  const tabsRef = useRef<HTMLElement>(null);
 
   // The cart is read after hydration so the static HTML and the first client render match.
   useEffect(() => {
@@ -40,23 +41,32 @@ export function MenuBrowser({ menu, phone, locale, art }: { menu: Menu; phone: s
     }
   }, [cart, ready]);
 
-  // The tab of the category in view is the current one.
+  // The current category is the last one whose heading has passed the line at 40 % of the viewport height.
   useEffect(() => {
-    const seen = new Map<string, boolean>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) seen.set(e.target.id, e.isIntersecting);
-        const first = menu.categories.find((c) => seen.get(`cat-${c.id}`));
-        setActive(first ? first.id : menu.categories[0].id);
-      },
-      { rootMargin: '-96px 0px -55% 0px' },
-    );
-    menu.categories.forEach((c) => {
-      const el = document.getElementById(`cat-${c.id}`);
-      if (el) io.observe(el);
-    });
-    return () => io.disconnect();
+    const heads = menu.categories.map((c) => document.getElementById(`cat-${c.id}`));
+    const update = () => {
+      const line = window.innerHeight * 0.4;
+      let cur = menu.categories[0].id;
+      heads.forEach((el, i) => {
+        if (el && el.getBoundingClientRect().top <= line) cur = menu.categories[i].id;
+      });
+      setActive(cur);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
   }, [menu.categories]);
+
+  // On a phone the tab row scrolls sideways; keep the current tab in view.
+  useEffect(() => {
+    const row = tabsRef.current;
+    const el = row?.querySelector<HTMLElement>('[aria-current="true"]');
+    if (row && el && row.scrollWidth > row.clientWidth) row.scrollTo({ left: el.offsetLeft - 24 });
+  }, [active]);
 
   const change = (id: string, delta: number) =>
     setCart((c) => {
@@ -81,7 +91,7 @@ export function MenuBrowser({ menu, phone, locale, art }: { menu: Menu; phone: s
 
   return (
     <div className="menu">
-      <nav className="tabs" aria-label={u.tabs}>
+      <nav className="tabs" aria-label={u.tabs} ref={tabsRef}>
         {menu.categories.map((c) => (
           <a key={c.id} href={`#cat-${c.id}`} aria-current={active === c.id ? 'true' : undefined}>
             {pick(c.name, locale)}
@@ -90,15 +100,20 @@ export function MenuBrowser({ menu, phone, locale, art }: { menu: Menu; phone: s
       </nav>
 
       <div className="menu-cols">
+      <aside className="menu-art" aria-hidden="true">
+        <div className="menu-art-stick">
+          {menu.categories.map((c) => (
+            <div key={c.id} className="art-slide" data-on={active === c.id ? '' : undefined}>
+              <span className="art-name">{pick(c.name, locale)}</span>
+              {art?.[c.id]}
+            </div>
+          ))}
+        </div>
+      </aside>
       <div className="menu-body">
         {menu.categories.map((c) => (
           <section key={c.id} aria-labelledby={`cat-${c.id}`} className="menu-cat">
             <h2 id={`cat-${c.id}`}>{pick(c.name, locale)}</h2>
-            {art?.[c.id] && (
-              <div className="cat-art" aria-hidden="true">
-                {art[c.id]}
-              </div>
-            )}
             <ul className="dishes">
               {menu.items
                 .filter((i) => i.category === c.id)

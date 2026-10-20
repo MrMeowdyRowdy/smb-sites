@@ -9,7 +9,7 @@ export function MenuBand({ locale }: { locale: Locale }) {
   const u = ui[locale].band;
   const featured = menu.featured.map((id) => menu.items.find((i) => i.id === id)!);
   const grow = [5, 2, 3, 2];
-  const cutWidth = ['112%', '150%', '120%', '100%'];
+  const cutWidth = ['100%', '124%', '100%', '100%'];
   const rows = homeRows(menu);
   return (
     <section className="promise" aria-labelledby="promise-title">
@@ -18,9 +18,9 @@ export function MenuBand({ locale }: { locale: Locale }) {
           const photo = i.photo ?? i.id;
           const cut = photoSrc(`${photo}-cut-520`);
           return (
-            <figure key={i.id} className="panel" data-tone={cut ? ['surface', 'teal', 'paper'][n % 3] : 'photo'} style={{ ['--g' as string]: grow[n], ['--cw' as string]: cutWidth[n] }} data-panel>
+            <figure key={i.id} className="panel" data-tone={cut ? ['surface', 'teal', 'deep'][n % 3] : 'photo'} style={{ ['--g' as string]: grow[n], ['--cw' as string]: cutWidth[n] }} data-panel>
               {cut ? (
-                <Pic name={`${photo}-cut-520`} className="cut" w={4} h={3} alt={u.alt[i.id] ?? pick(i.name, locale)} sizes="(max-width: 760px) 80vw, 45vw" />
+                <Pic name={`${photo}-cut-520`} className="cut" w={4} h={3} alt={u.alt[i.id] ?? pick(i.name, locale)} sizes="(max-width: 760px) 70vw, 45vw" />
               ) : (
                 <div className="panel-photo">
                   <Pic name={photo} w={3} h={5} alt={u.alt[i.id] ?? pick(i.name, locale)} sizes="(max-width: 760px) 64vw, 40vw" />
@@ -35,12 +35,11 @@ export function MenuBand({ locale }: { locale: Locale }) {
         })}
       </div>
       <div className="list">
-        <div className="list-side">
-          <h2 id="promise-title">{u.title}</h2>
-          <figure className="list-photo">
-            <Pic name="mindo-hills-tall" w={4} h={5} alt={u.photo} sizes="(max-width: 760px) 60vw, 34vw" />
-          </figure>
-        </div>
+        <h2 id="promise-title">{u.title}</h2>
+        <figure className="list-photo">
+          <Pic name="pan-de-yuca-tall" w={4} h={5} alt={u.photo} sizes="(max-width: 1000px) 100vw, 40vw" />
+          <figcaption>{u.photo}</figcaption>
+        </figure>
         <div className="list-main">
           <ul className="rows">
             {rows.map(({ item, category }) => (

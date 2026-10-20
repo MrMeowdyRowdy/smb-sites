@@ -29,7 +29,12 @@ export type Photo = { src: string; srcSet?: string; width?: number; height?: num
 export function photoSrc(name: string): Photo | null {
   for (const e of ['webp', 'png', 'avif', 'jpg']) {
     if (!has(`${name}.${e}`)) continue;
-    return { src: `/photos/${name}.${e}`, ...(e === 'webp' ? webpSize(`${name}.${e}`) : null) };
+    const size = e === 'webp' ? webpSize(`${name}.${e}`) : null;
+    // A cut-out ships a 520 px and a 1200 px file; the browser picks by the slot size and the screen density.
+    const big = name.replace(/-cut-520$/, '-cut-1200');
+    const bigSize = big !== name && has(`${big}.webp`) ? webpSize(`${big}.webp`) : null;
+    const srcSet = size && bigSize ? `/photos/${name}.webp ${size.width}w, /photos/${big}.webp ${bigSize.width}w` : undefined;
+    return { src: `/photos/${name}.${e}`, srcSet, ...size };
   }
   if (!has(`${name}-1600.webp`)) return null;
   const small = [480, 800].filter((w) => has(`${name}-${w}.webp`));

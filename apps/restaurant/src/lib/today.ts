@@ -109,3 +109,8 @@ export function openStatus(now: Date, site: TodaySite): OpenStatus {
   if (t.hours && t.focus.kind === 'next') return { kind: 'before', opens: t.hours.opens };
   return { kind: 'closed', next: t.focus.kind === 'closed' ? t.focus.next : null };
 }
+
+/** The clock time that anchors the focus: the moment now or next, or the next opening when closed (null when it never opens). */
+export function focusTime(f: Focus): string | null {
+  return f.kind === 'closed' ? (f.next?.opens ?? null) : f.moment.time;
+}

@@ -3,16 +3,16 @@
 import type { Locale } from '@smb/i18n';
 import { ui } from '../../copy';
 import { useNow } from '../../lib/useNow';
-import { type Moment, type Today as TodayState, inWindow, momentsFor, quitoClock, quitoMonthDay, today } from '../../lib/today';
+import { type Moment, type Today as TodayState, focusTime, inWindow, momentsFor, quitoClock, quitoMonthDay, today } from '../../lib/today';
 import type { HoursEntry, Ritual } from '../../lib/today';
 
 type Seasonal = { from: string; to: string; name: { es: string; en: string }; note: { es: string; en: string } };
-type Props = { locale: Locale; hours: (HoursEntry & { label: { es: string; en: string } })[]; rituals: Ritual[]; seasonal?: Seasonal };
+type Props = { locale: Locale; hours: (HoursEntry & { label: { es: string; en: string } })[]; rituals: Ritual[]; seasonal?: Seasonal; seasonalArt?: React.ReactNode };
 
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k]));
 
 /** Beat 4. The server renders the full static list (first hours group); the browser swaps in today's moments every minute. */
-export function Today({ locale, hours, rituals, seasonal }: Props) {
+export function Today({ locale, hours, rituals, seasonal, seasonalArt }: Props) {
   const u = ui[locale].today;
   const site = { hours, rituals };
   const now = useNow();
@@ -22,24 +22,37 @@ export function Today({ locale, hours, rituals, seasonal }: Props) {
   const moments: Moment[] = live ? live.moments : momentsFor(site, first).map((m) => ({ ...m, state: 'later' as const }));
   const inText = (n: number) => (n >= 60 ? fill(u.inHourMin, { h: Math.floor(n / 60), m: String(n % 60).padStart(2, '0') }) : fill(u.inMin, { n }));
 
-  let focus: string;
-  if (!live) focus = `${first.label[locale]}, ${first.opens} - ${first.closes}`;
-  else if (live.focus.kind === 'now') focus = fill(u.focusNow, { label: live.focus.moment.label[locale] });
-  else if (live.focus.kind === 'next') focus = fill(u.focusNext, { label: live.focus.moment.label[locale], in: inText(live.focus.minutes) });
-  else {
-    const n = live.focus.next;
-    focus = !n ? u.closed : n.daysAhead === 1 ? fill(u.opensTomorrow, { t: n.opens }) : fill(u.opensOn, { d: u.days[n.day], t: n.opens });
+  // The dominant object: the clock time of the current or next moment, with its label and "in 6 h 52 min" / "now" beside it.
+  let time: string | null;
+  let label: string;
+  let when: string;
+  if (!live) {
+    time = first.opens;
+    label = first.label[locale];
+    when = `${first.opens} - ${first.closes}`;
+  } else {
+    const f = live.focus;
+    time = focusTime(f);
+    if (f.kind === 'now') [label, when] = [f.moment.label[locale], u.now];
+    else if (f.kind === 'next') [label, when] = [f.moment.label[locale], inText(f.minutes)];
+    else {
+      const n = f.next;
+      label = u.closed;
+      when = !n ? '' : n.daysAhead === 1 ? fill(u.opensTomorrow, { t: n.opens }) : fill(u.opensOn, { d: u.days[n.day], t: n.opens });
+    }
   }
-  const closedNow = live?.focus.kind === 'closed';
   const showSeasonal = !!now && !!seasonal && inWindow(quitoMonthDay(now), seasonal.from, seasonal.to);
 
   return (
-    <section id="hoy" className="today" aria-labelledby="today-title" data-today>
+    <section id="hoy" className="today" data-art={showSeasonal && seasonalArt ? '' : undefined} aria-labelledby="today-title" data-today>
       <h2 id="today-title">{u.title}</h2>
-      <h3 className="today-focus" aria-live="polite" data-focus>
-        {closedNow && <span className="today-closed">{u.closed}. </span>}
-        {focus}
-      </h3>
+      <div className="today-focus" aria-live="polite" data-focus>
+        {time && <p className="today-time num">{time}</p>}
+        <p className="today-what">
+          <span className="today-label">{label}</span>
+          {when && <span className="today-when">{when}</span>}
+        </p>
+      </div>
       {live && live.hours && <p className="today-hours">{u.hoursOf}: {live.hours.opens} - {live.hours.closes}</p>}
       <ol className="day" data-day>
         {moments.map((m) => {
@@ -59,11 +72,18 @@ export function Today({ locale, hours, rituals, seasonal }: Props) {
       </ol>
       {!live && <p className="today-static">{u.staticNote}</p>}
       {showSeasonal && seasonal && (
-        <p className="seasonal" data-seasonal>
-          <strong>{u.seasonal}:</strong> {seasonal.name[locale]}. {seasonal.note[locale]}
-        </p>
+        <>
+          <p className="seasonal" data-seasonal>
+            <strong>{u.seasonal}:</strong> {seasonal.name[locale]}. {seasonal.note[locale]}
+          </p>
+          {seasonalArt && (
+            <figure className="today-art">
+              {seasonalArt}
+              <figcaption>{seasonal.name[locale]}</figcaption>
+            </figure>
+          )}
+        </>
       )}
     </section>
   );
 }
-
