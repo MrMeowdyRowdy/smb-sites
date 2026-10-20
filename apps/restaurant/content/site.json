@@ -1,0 +1,71 @@
+{
+  "name": "Neblina",
+  "fictional": true,
+  "tagline": {
+    "es": "Café de altura y cocina pequeña en Quito",
+    "en": "Highland coffee and a small kitchen in Quito"
+  },
+  "description": {
+    "es": "Neblina es una cafetería ficticia de Quito: café de altura del bosque nublado del noroeste de Pichincha, panadería ecuatoriana y almuerzos caseros. Sitio de demostración.",
+    "en": "Neblina is a fictional café in Quito: highland coffee from the cloud forest of northwest Pichincha, Ecuadorian bakery and home-style lunches. Demo site."
+  },
+  "address": {
+    "street": "Calle Toledo N24-185 y Galavis",
+    "neighborhood": "La Floresta",
+    "city": "Quito",
+    "region": "Pichincha",
+    "postalCode": "170143",
+    "country": "EC"
+  },
+  "geo": {
+    "latitude": -0.2058,
+    "longitude": -78.4868
+  },
+  "whatsapp": "593900000000",
+  "hours": [
+    {
+      "label": {
+        "es": "Lunes a viernes",
+        "en": "Monday to Friday"
+      },
+      "days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "07:30",
+      "closes": "19:00"
+    },
+    {
+      "label": {
+        "es": "Sábado",
+        "en": "Saturday"
+      },
+      "days": [
+        "Saturday"
+      ],
+      "opens": "08:00",
+      "closes": "20:00"
+    },
+    {
+      "label": {
+        "es": "Domingo",
+        "en": "Sunday"
+      },
+      "days": [
+        "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "15:00"
+    }
+  ],
+  "priceRange": "$$",
+  "servesCuisine": [
+    "Coffee",
+    "Bakery",
+    "Ecuadorian"
+  ],
+  "social": {}
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@smb/ui",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./whatsapp": "./src/whatsapp.ts"
+  },
+  "dependencies": { "@smb/i18n": "0.0.0" }
+}

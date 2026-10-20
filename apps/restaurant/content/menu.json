@@ -1,0 +1,463 @@
+{
+  "currency": "USD",
+  "categories": [
+    {
+      "id": "cafe",
+      "name": {
+        "es": "Café de altura",
+        "en": "Highland coffee"
+      }
+    },
+    {
+      "id": "desayunos",
+      "name": {
+        "es": "Desayunos",
+        "en": "Breakfast"
+      }
+    },
+    {
+      "id": "panaderia",
+      "name": {
+        "es": "Panadería",
+        "en": "Bakery"
+      }
+    },
+    {
+      "id": "almuerzo",
+      "name": {
+        "es": "Almuerzo",
+        "en": "Lunch"
+      }
+    },
+    {
+      "id": "frias",
+      "name": {
+        "es": "Frías y jugos",
+        "en": "Cold drinks and juices"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "espresso",
+      "category": "cafe",
+      "name": {
+        "es": "Espresso",
+        "en": "Espresso"
+      },
+      "description": {
+        "es": "Doble, de tueste medio, con notas de panela y cacao.",
+        "en": "Double shot, medium roast, with notes of panela and cacao."
+      },
+      "price": 2.5,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "americano",
+      "category": "cafe",
+      "name": {
+        "es": "Americano",
+        "en": "Americano"
+      },
+      "description": {
+        "es": "Espresso largo con agua caliente.",
+        "en": "Espresso lengthened with hot water."
+      },
+      "price": 2.75,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "cafe-pasado",
+      "category": "cafe",
+      "name": {
+        "es": "Café pasado",
+        "en": "Pour-over drip coffee"
+      },
+      "description": {
+        "es": "Filtrado de la casa, en jarro, como en casa de la abuela.",
+        "en": "Our house drip coffee, served in a pot."
+      },
+      "price": 2.5,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "capuchino",
+      "category": "cafe",
+      "name": {
+        "es": "Capuchino",
+        "en": "Cappuccino"
+      },
+      "description": {
+        "es": "Espresso con leche vaporizada y espuma densa.",
+        "en": "Espresso with steamed milk and dense foam."
+      },
+      "price": 3.5,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "latte",
+      "category": "cafe",
+      "name": {
+        "es": "Latte",
+        "en": "Latte"
+      },
+      "description": {
+        "es": "Espresso con mucha leche y espuma suave.",
+        "en": "Espresso with plenty of milk and soft foam."
+      },
+      "price": 3.75,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "v60",
+      "category": "cafe",
+      "name": {
+        "es": "V60 de origen",
+        "en": "Single-origin V60"
+      },
+      "description": {
+        "es": "Filtrado a mano, un solo origen del bosque nublado.",
+        "en": "Hand-brewed single origin from the cloud forest."
+      },
+      "price": 4.5,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "tigrillo",
+      "category": "desayunos",
+      "name": {
+        "es": "Tigrillo",
+        "en": "Tigrillo"
+      },
+      "description": {
+        "es": "Verde majado con huevo revuelto y queso fresco.",
+        "en": "Mashed green plantain with scrambled egg and fresh cheese."
+      },
+      "price": 6.5,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "huevos",
+      "category": "desayunos",
+      "name": {
+        "es": "Huevos al gusto con pan",
+        "en": "Eggs your way with bread"
+      },
+      "description": {
+        "es": "Dos huevos fritos, revueltos o pochados, con pan artesanal y café.",
+        "en": "Two eggs fried, scrambled or poached, with artisan bread and coffee."
+      },
+      "price": 5.5,
+      "tags": [
+        "vegetarian"
+      ],
+      "available": true
+    },
+    {
+      "id": "bolon",
+      "category": "desayunos",
+      "name": {
+        "es": "Bolón de verde con queso",
+        "en": "Plantain bolón with cheese"
+      },
+      "description": {
+        "es": "Bolón dorado relleno de queso, con encurtido de cebolla.",
+        "en": "Golden plantain dumpling filled with cheese, with pickled onion."
+      },
+      "price": 6,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "tostada-aguacate",
+      "category": "desayunos",
+      "name": {
+        "es": "Tostada de aguacate",
+        "en": "Avocado toast"
+      },
+      "description": {
+        "es": "Pan de masa madre, aguacate, limón y semillas de zapallo.",
+        "en": "Sourdough, avocado, lime and pumpkin seeds."
+      },
+      "price": 7.5,
+      "tags": [
+        "vegan"
+      ],
+      "available": true
+    },
+    {
+      "id": "desayuno-neblina",
+      "category": "desayunos",
+      "name": {
+        "es": "Desayuno Neblina",
+        "en": "Neblina breakfast"
+      },
+      "description": {
+        "es": "Huevos, tostada, fruta, pan de yuca, jugo y café a elección.",
+        "en": "Eggs, toast, fruit, pan de yuca, juice and coffee of your choice."
+      },
+      "price": 9,
+      "tags": [
+        "vegetarian"
+      ],
+      "available": true
+    },
+    {
+      "id": "pan-de-yuca",
+      "category": "panaderia",
+      "name": {
+        "es": "Pan de yuca (4 unidades)",
+        "en": "Pan de yuca (4 pieces)"
+      },
+      "description": {
+        "es": "Panecillos de yuca y queso, calientes, del horno.",
+        "en": "Warm cassava and cheese rolls, fresh from the oven."
+      },
+      "price": 3,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "humita",
+      "category": "panaderia",
+      "name": {
+        "es": "Humita",
+        "en": "Humita"
+      },
+      "description": {
+        "es": "Tamal de choclo tierno, dulce y suave, envuelto en su hoja.",
+        "en": "Fresh sweet-corn tamale, soft, wrapped in its husk."
+      },
+      "price": 2.5,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "empanada-viento",
+      "category": "panaderia",
+      "name": {
+        "es": "Empanada de viento",
+        "en": "Empanada de viento"
+      },
+      "description": {
+        "es": "Masa crujiente con queso, espolvoreada con azúcar.",
+        "en": "Crisp pastry with cheese, dusted with sugar."
+      },
+      "price": 2.5,
+      "tags": [
+        "vegetarian"
+      ],
+      "available": true
+    },
+    {
+      "id": "quimbolito",
+      "category": "panaderia",
+      "name": {
+        "es": "Quimbolito",
+        "en": "Quimbolito"
+      },
+      "description": {
+        "es": "Bizcocho al vapor con pasas, envuelto en hoja de achira.",
+        "en": "Steamed sponge cake with raisins, wrapped in achira leaf."
+      },
+      "price": 2.25,
+      "tags": [
+        "vegetarian"
+      ],
+      "available": true
+    },
+    {
+      "id": "torta-zanahoria",
+      "category": "panaderia",
+      "name": {
+        "es": "Torta de zanahoria",
+        "en": "Carrot cake"
+      },
+      "description": {
+        "es": "Porción con crema de queso y nueces.",
+        "en": "Slice with cream cheese frosting and walnuts."
+      },
+      "price": 3.5,
+      "tags": [
+        "vegetarian"
+      ],
+      "available": false
+    },
+    {
+      "id": "almuerzo-dia",
+      "category": "almuerzo",
+      "name": {
+        "es": "Almuerzo del día",
+        "en": "Set lunch of the day"
+      },
+      "description": {
+        "es": "Sopa, plato fuerte, jugo y postre. Cambia cada día.",
+        "en": "Soup, main, juice and dessert. Changes every day."
+      },
+      "price": 6.5,
+      "tags": [],
+      "available": true
+    },
+    {
+      "id": "locro",
+      "category": "almuerzo",
+      "name": {
+        "es": "Locro de papa",
+        "en": "Potato and cheese soup"
+      },
+      "description": {
+        "es": "Sopa cremosa de papa con queso, aguacate y ají.",
+        "en": "Creamy potato soup with cheese, avocado and chili sauce."
+      },
+      "price": 6,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "seco-pollo",
+      "category": "almuerzo",
+      "name": {
+        "es": "Seco de pollo",
+        "en": "Chicken seco"
+      },
+      "description": {
+        "es": "Pollo guisado en cerveza y naranjilla, con arroz y maduro.",
+        "en": "Chicken stewed in beer and naranjilla, with rice and sweet plantain."
+      },
+      "price": 8,
+      "tags": [
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "trucha",
+      "category": "almuerzo",
+      "name": {
+        "es": "Trucha al ajillo",
+        "en": "Garlic trout"
+      },
+      "description": {
+        "es": "Trucha andina con papas, ensalada y salsa de ajo.",
+        "en": "Andean trout with potatoes, salad and garlic sauce."
+      },
+      "price": 9,
+      "tags": [
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "jugo-mora",
+      "category": "frias",
+      "name": {
+        "es": "Jugo de mora",
+        "en": "Andean blackberry juice"
+      },
+      "description": {
+        "es": "Mora de Castilla recién licuada, con o sin azúcar.",
+        "en": "Freshly blended Andean blackberry, with or without sugar."
+      },
+      "price": 2.75,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "limonada",
+      "category": "frias",
+      "name": {
+        "es": "Limonada de hierbabuena",
+        "en": "Mint lemonade"
+      },
+      "description": {
+        "es": "Limón sutil, hierbabuena y hielo.",
+        "en": "Lime, fresh mint and ice."
+      },
+      "price": 2.5,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "cold-brew",
+      "category": "frias",
+      "name": {
+        "es": "Cold brew",
+        "en": "Cold brew"
+      },
+      "description": {
+        "es": "Café infusionado en frío durante 16 horas.",
+        "en": "Coffee steeped cold for 16 hours."
+      },
+      "price": 4,
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "available": true
+    },
+    {
+      "id": "batido-tomate",
+      "category": "frias",
+      "name": {
+        "es": "Batido de tomate de árbol",
+        "en": "Tree tomato smoothie"
+      },
+      "description": {
+        "es": "Tomate de árbol con leche o agua.",
+        "en": "Tree tomato blended with milk or water."
+      },
+      "price": 3.25,
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "available": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+lhci/
+reports/
+test-results/
+playwright-report/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+BUILD-NOTES.txt
+.lighthouseci/
+C:*
