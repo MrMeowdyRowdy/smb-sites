@@ -29,10 +29,10 @@ export function MenuView({ locale }: { locale: Locale }) {
         phone={site.whatsapp}
         locale={locale}
         art={{
-          cafe: <Pic name="hero-cup-cut-520" w={766} h={651} alt="" sizes="(min-width: 1000px) 34vw, 1px" />,
-          desayunos: <Pic name="humitas-cut-520" w={896} h={689} alt="" sizes="(min-width: 1000px) 34vw, 1px" />,
-          panaderia: <Pic name="pan-de-yuca-cut-520" w={1200} h={651} alt="" sizes="(min-width: 1000px) 34vw, 1px" />,
-          almuerzo: <Pic name="empanada-de-viento-cut-520" w={1200} h={1277} alt="" sizes="(min-width: 1000px) 34vw, 1px" />,
+          cafe: <Pic name="hero-cup-cut-520" w={766} h={651} alt="" sizes="(min-width: 1000px) 34vw, 62vw" priority />,
+          desayunos: <Pic name="humitas-cut-520" w={896} h={689} alt="" sizes="(min-width: 1000px) 34vw, 62vw" />,
+          panaderia: <Pic name="pan-de-yuca-cut-520" w={1200} h={651} alt="" sizes="(min-width: 1000px) 34vw, 62vw" />,
+          almuerzo: <Pic name="empanada-de-viento-cut-520" w={1200} h={1277} alt="" sizes="(min-width: 1000px) 34vw, 62vw" />,
         }}
       />
     </Shell>

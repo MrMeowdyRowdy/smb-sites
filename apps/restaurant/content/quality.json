@@ -1,6 +1,6 @@
 {
-  "generated": "2026-10-20T06:05:28.496Z",
-  "commit": "2cf7fb4",
+  "generated": "2026-10-20T06:15:29.517Z",
+  "commit": "fefc71d",
   "node": "v20.19.2",
   "next": "16.3.8",
   "unit": {
@@ -51,11 +51,11 @@
   "lighthouse": [
     {
       "path": "/",
-      "performance": 0.97,
+      "performance": 0.99,
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 2347.7522
+      "lcp": 1959.1280000000002
     },
     {
       "path": "/en/",
@@ -63,15 +63,15 @@
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 2293.6841999999997
+      "lcp": 2304.9988000000003
     },
     {
       "path": "/menu/",
       "performance": 0.98,
-      "accessibility": 1,
+      "accessibility": 0.96,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 2439.1309
+      "lcp": 2463.7774999999997
     }
   ],
   "deploy": {

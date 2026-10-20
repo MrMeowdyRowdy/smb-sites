@@ -252,7 +252,7 @@ h2 { font-size: var(--step-head); }
 .menu-note { grid-column: 6 / -1; grid-row: 2; justify-self: start; width: min(100%, 16em); padding: 16px 0 clamp(20px, 3vw, 44px); font-weight: 500; }
 .menu-name { grid-column: 1 / -1; grid-row: 3; position: relative; width: fit-content; max-width: 100%; margin-top: clamp(8px, 2vw, 24px); }
 .menu-head h1 { font-size: min(26vw, 40rem); line-height: 0.8; letter-spacing: -0.05em; padding-top: 0.14em; margin-bottom: -0.125em; }
-.menu-cup { position: absolute; z-index: 2; left: 100%; margin-left: -1.5vw; bottom: 0; width: min(22vw, 766px); }
+.menu-cup { position: absolute; z-index: 2; left: 100%; margin-left: 1vw; bottom: 0; width: min(22vw, 766px); }
 .menu-cup img { width: 100%; height: auto; }
 .tabs { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: clamp(4px, 1.4vw, 20px); margin: 0 calc(var(--m) * -1); padding: 0 var(--m); background: var(--bg); }
 .tabs::-webkit-scrollbar { display: none; }
@@ -272,6 +272,7 @@ h2 { font-size: var(--step-head); }
 .art-slide[data-on] { opacity: 1; }
 .art-slide img, .art-slide .ph { position: relative; z-index: 1; width: min(100%, clamp(480px, 34vw, 720px)); height: auto; max-height: 100%; object-fit: contain; filter: contrast(1.08) saturate(1.12) drop-shadow(0 28px 32px rgba(6, 82, 92, 0.22)); }
 .art-name { position: absolute; z-index: 0; left: 0; top: 0; max-width: 100%; font-size: min(9vw, 16cqw); font-weight: 500; line-height: 0.9; letter-spacing: -0.045em; color: var(--tone-past); }
+.cat-art-m { display: none; }
 .dishes { display: grid; gap: clamp(22px, 2.6vw, 34px); position: relative; z-index: 1; }
 .dish { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: clamp(16px, 2.4vw, 32px); row-gap: 4px; align-items: center; }
 .dish-name { grid-column: 1; grid-row: 1; font-size: var(--step-lead); line-height: 1.1; letter-spacing: -0.025em; }
@@ -324,6 +325,10 @@ h2 { font-size: var(--step-head); }
   .list-all { margin-top: 36px; }
 
   .menu-art { display: none; }
+  /* No art column here: one cut-out per category, after its heading, with the ghost name behind it. */
+  .cat-art-m { display: block; position: relative; height: 70vw; margin-bottom: 20px; pointer-events: none; }
+  .cat-art-m .art-name { position: absolute; z-index: 0; left: 0; top: 0; max-width: 100%; font-size: 18vw; font-weight: 500; line-height: 0.9; letter-spacing: -0.045em; color: var(--tone-past); }
+  .cat-art-m img, .cat-art-m .ph { position: absolute; z-index: 1; right: 0; bottom: 0; width: 62vw; height: auto; max-height: 100%; object-fit: contain; filter: contrast(1.08) saturate(1.12) drop-shadow(0 20px 22px rgba(6, 82, 92, 0.22)); }
   .menu-body { grid-column: 1 / -1; }
   .menu-lead { grid-column: 1 / -1; justify-self: start; font-size: var(--step-lead); }
   .menu-note { grid-column: 1 / -1; justify-self: start; }
@@ -391,9 +396,9 @@ h2 { font-size: var(--step-head); }
   .dish { grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 12px; }
   .dish-name { font-size: var(--step-body); }
   .dish-price { font-size: var(--step-body); }
-  .menu-head h1 { font-size: 26vw; }
+  .menu-head h1 { font-size: 25vw; }
   .menu-name { width: auto; }
-  .menu-cup { left: auto; margin-left: 0; right: 4vw; width: 26vw; }
+  .menu-cup { left: auto; margin-left: 0; right: 3vw; width: 28vw; }
   .menu-note { grid-column: 1 / -1; justify-self: start; }
   .tabs a { padding: 0 10px; }
   .today[data-art] { padding-right: var(--m); }

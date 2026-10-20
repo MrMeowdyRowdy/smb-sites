@@ -114,6 +114,12 @@ export function MenuBrowser({ menu, phone, locale, art }: { menu: Menu; phone: s
         {menu.categories.map((c) => (
           <section key={c.id} aria-labelledby={`cat-${c.id}`} className="menu-cat">
             <h2 id={`cat-${c.id}`}>{pick(c.name, locale)}</h2>
+            {art?.[c.id] && (
+              <div className="cat-art-m" aria-hidden="true">
+                <span className="art-name">{pick(c.name, locale)}</span>
+                {art[c.id]}
+              </div>
+            )}
             <ul className="dishes">
               {menu.items
                 .filter((i) => i.category === c.id)
