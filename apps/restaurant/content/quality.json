@@ -1,6 +1,6 @@
 {
-  "generated": "2026-10-20T06:15:29.517Z",
-  "commit": "fefc71d",
+  "generated": "2026-10-20T06:23:09.215Z",
+  "commit": "2a6984b",
   "node": "v20.19.2",
   "next": "16.3.8",
   "unit": {
@@ -55,7 +55,7 @@
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 1959.1280000000002
+      "lcp": 1958.1775
     },
     {
       "path": "/en/",
@@ -63,7 +63,7 @@
       "accessibility": 1,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 2304.9988000000003
+      "lcp": 2276.9898
     },
     {
       "path": "/menu/",
@@ -71,7 +71,7 @@
       "accessibility": 0.96,
       "bestPractices": 0.96,
       "seo": 1,
-      "lcp": 2463.7774999999997
+      "lcp": 2278.9072000000006
     }
   ],
   "deploy": {
