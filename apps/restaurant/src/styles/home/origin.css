@@ -1,0 +1,122 @@
+/* Origin chapter (brand book applied.css .origin / edge.css / tablet.css). The chapter is a container (.chap): desktop >= 1024, tablet 600-1023, phone < 600. */
+.origin-ch { --flat: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1' preserveAspectRatio='none'%3E%3Crect width='1' height='1'/%3E%3C/svg%3E"); background: var(--deep); color: var(--field-ink); }
+
+/* ---- the opening: the tree-line edge ---- */
+.fo { position: relative; aspect-ratio: 2400 / 1030; background: var(--field); color: var(--field-ink); margin-bottom: -1px; overflow: hidden; }
+.fo-top { position: absolute; inset: 0 0 auto 0; height: 82%; background: var(--deep); }
+.fo-top .ct { z-index: 0; }
+.fo-photo { position: absolute; inset: 0; }
+.fo-fog { position: absolute; left: 0; right: 0; bottom: 0; height: 13cqw; background: var(--field); -webkit-mask: var(--fog-m) 0 0 / 100% 100% no-repeat; mask: var(--fog-m) 0 0 / 100% 100% no-repeat; pointer-events: none; z-index: 2; }
+.fo-v { position: absolute; inset: 0; }
+.fo-v.t, .fo-v.p { display: none; }
+.fo-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.fo-l { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.fo-hvy { stroke: var(--field-ink); stroke-width: 3.6px; stroke-opacity: 0.95; }
+.fo-idx { stroke: var(--field-ink); stroke-width: 2px; stroke-opacity: 0.55; }
+.fo-min { stroke: var(--field-muted); stroke-width: 1.2px; stroke-opacity: 0.5; }
+.fo-lab { position: absolute; left: var(--m); top: 4cqw; margin: 0; font-family: var(--map); font-weight: 500; font-size: max(17px, 1.35cqw); letter-spacing: 0.01em; z-index: 3; }
+
+/* ---- the stage ---- */
+.origin { --lap: 5cqw; position: relative; z-index: 3; margin-top: calc(-1 * var(--lap)); overflow: hidden; aspect-ratio: 16 / 10; background: var(--field); color: var(--field-ink); }
+.origin .or-bg { inset: 0 44cqw 0 0; width: auto; -webkit-mask: var(--fog-m) 0 0 / 100% 9cqw no-repeat, var(--flat) 0 8cqw / 100% calc(100% - 8cqw) no-repeat; mask: var(--fog-m) 0 0 / 100% 9cqw no-repeat, var(--flat) 0 8cqw / 100% calc(100% - 8cqw) no-repeat; }
+.or-h { position: absolute; left: var(--m); top: 3.2cqw; margin: 0; font-weight: 500; font-size: 4.2cqw; line-height: 1; letter-spacing: -0.04em; max-width: 36cqw; text-wrap: balance; }
+.or-dot, .owc, .fo-lab, .rt-t { word-spacing: 0.12em; }
+.or-dot { position: absolute; left: var(--m); top: 13.4cqw; margin: 0; font-family: var(--map); font-weight: 400; font-size: max(13px, 1.45cqw); line-height: 1.4; max-width: 16cqw; color: var(--field-muted); }
+.or-map { position: absolute; right: 0; top: 0; bottom: 0; width: 44cqw; background: var(--field-2); overflow: hidden; -webkit-mask: var(--fog-m) 0 0 / 100% 9cqw no-repeat, var(--flat) 0 8cqw / 100% calc(100% - 8cqw) no-repeat; mask: var(--fog-m) 0 0 / 100% 9cqw no-repeat, var(--flat) 0 8cqw / 100% calc(100% - 8cqw) no-repeat; }
+.rt { width: 100%; height: 100%; display: block; }
+.rt-ct use { stroke: var(--field-ink); fill: none; }
+.rt-ct .u-minor { stroke-width: 1; stroke-opacity: 0.2; }
+.rt-ct .u-index { stroke-width: 2.2; stroke-opacity: 0.38; }
+.rt-ct .u-heavy { stroke-width: 5; stroke-opacity: 0.8; }
+.rt-p { fill: var(--field-2); }
+.rt-ring { fill: var(--field-2); stroke: var(--field-ink); stroke-width: 4; }
+.rt-st { fill: var(--field-ink); stroke: var(--field-2); stroke-width: 3; }
+.rt-t { font-family: var(--map); font-weight: 500; font-size: 29px; fill: var(--field-ink); letter-spacing: -0.01em; paint-order: stroke; stroke: var(--field-2); stroke-width: 9px; stroke-linejoin: round; }
+.rt-t.end { text-anchor: end; }
+.rt-m, .rt-l { stroke: var(--field-ink); }
+.rt-m { stroke-dasharray: 1; stroke-dashoffset: var(--rp, 0); }
+.pin { fill: var(--cherry); }
+.pin-bed { fill: var(--field-ink); }
+
+.or-wins { display: contents; } /* no box of its own: the windows position on the stage, and no empty box lies over the heading */
+.ow { position: absolute; margin: 0; width: 11.5cqw; pointer-events: auto; }
+.owi { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--placeholder); }
+.owi img, .owi .ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); aspect-ratio: auto !important; }
+.owc { margin: 0.7cqw 0 0; font-family: var(--map); font-weight: 500; font-size: max(13px, 1.35cqw); line-height: 1.2; letter-spacing: 0.01em; }
+.o1 { left: 4cqw; bottom: 25cqw; }
+.o2 { left: 17.5cqw; bottom: 29.5cqw; }
+.o3 { left: 31cqw; bottom: 34cqw; }
+.o4 { left: 44.5cqw; bottom: 38.5cqw; }
+
+.or-num { position: absolute; left: var(--m); bottom: 4.4cqw; display: flex; align-items: baseline; flex-wrap: nowrap; width: max-content; }
+.or-num .n { font-weight: 300; font-size: 19.5cqw; line-height: 0.82; letter-spacing: -0.06em; white-space: nowrap; }
+.or-num .u { font-weight: 500; font-size: max(13px, 3cqw); margin-left: 0.8cqw; letter-spacing: -0.02em; }
+.or-num .base { position: absolute; left: 0; bottom: -2.4cqw; width: 100%; height: 2.2cqw; overflow: visible; }
+.or-num .base path { fill: none; stroke: var(--field-ink); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+
+/* the English comma hangs below the baseline: the contour baseline and the numeral move up to clear it */
+.origin:lang(en) .or-num { bottom: 7cqw; }
+.origin:lang(en) .or-num .n { letter-spacing: -0.04em; }
+.origin:lang(en) .or-num .base { bottom: -5.4cqw; }
+
+/* ---- tablet: heading across, the route map at the right with the numeral over its foot, windows two by two at the left ---- */
+@container (max-width: 1023px) and (min-width: 600px) {
+  .fo { aspect-ratio: 768 / 640; }
+  .fo-v.w, .fo-v.p { display: none; }
+  .fo-v.t { display: block; }
+  .fo-fog { height: 20cqw; }
+  .origin { --lap: 9cqw; aspect-ratio: 768 / 1136; }
+  .origin .or-bg { display: none; }
+  .or-h { font-size: 8.2cqw; top: 5cqw; max-width: none; width: 90cqw; }
+  .or-dot { top: 25cqw; font-size: max(15px, 2cqw); max-width: 44cqw; }
+  .or-map { left: 46cqw; top: 46cqw; bottom: auto; width: auto; height: 76cqw; -webkit-mask: none; mask: none; }
+  .ow { width: 18cqw; }
+  .owc { font-size: 15px; margin-top: 1cqw; }
+  .o1 { left: var(--m); top: 38cqw; bottom: auto; }
+  .o2 { left: 23cqw; top: 44cqw; bottom: auto; }
+  .o3 { left: var(--m); top: 66cqw; bottom: auto; }
+  .o4 { left: 23cqw; top: 72cqw; bottom: auto; }
+  .or-num { bottom: 4cqw; z-index: 3; }
+  .or-num .n { font-size: 31cqw; }
+  .or-num .u { font-size: max(15px, 4cqw); }
+  .or-num .base { bottom: -2.4cqw; }
+  .origin:lang(en) .or-num { bottom: 5.6cqw; } /* keeps >= 140 px between the V60 caption and the numeral (no label above a numeral) */
+  .origin:lang(en) .or-num .base { bottom: -5.4cqw; }
+  .rt-t { font-size: 36px; }
+}
+
+/* ---- phone: heading, dot line, the numeral, the map as a sheet, then the four windows staggered two by two ---- */
+@container (max-width: 599px) {
+  .fo { aspect-ratio: 390 / 600; }
+  .fo-v.w, .fo-v.t { display: none; }
+  .fo-v.p { display: block; }
+  .fo-fog { height: 34cqw; }
+  .fo-lab { font-size: 17px; top: 7cqw; max-width: 60cqw; }
+  .fo-hvy { stroke-width: 3.2px; }
+  .origin { --lap: 11cqw; aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6cqw 4cqw; padding: 8cqw var(--m) 10cqw; align-items: start; }
+  .origin .or-bg { display: none; }
+  .or-h { position: static; font-size: 11cqw; max-width: none; grid-column: 1 / -1; }
+  .or-dot { position: static; font-size: 15px; max-width: none; grid-column: 1 / -1; }
+  .or-map { -webkit-mask: none; mask: none; position: relative; right: auto; top: auto; bottom: auto; grid-column: 1 / -1; width: calc(100% + 2 * var(--m)); margin: 0 calc(-1 * var(--m)); height: 130cqw; order: 2; }
+  .or-wins { position: static; display: contents; }
+  .ow { position: static; width: auto; order: 3; }
+  .o2, .o4 { margin-top: 12cqw; }
+  .owc { font-size: 15px; margin-top: 2cqw; }
+  .or-num { position: relative; order: 1; grid-column: 1 / -1; margin: 2cqw 0 6cqw; }
+  .or-num .n { font-size: 34cqw; }
+  .or-num .u { font-size: 7cqw; }
+  .or-num .base { bottom: -5cqw; height: 5cqw; width: calc(100% - 9cqw); }
+  .origin:lang(en) .or-num { margin-bottom: 11cqw; }
+  .origin:lang(en) .or-num .base { bottom: -9cqw; }
+  .rt-t { font-size: 33px; }
+}
+
+/* ---- motion states: hidden only with JS and motion allowed; the end state is the default ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .fo-l { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .js .fo:not(.in) .fo-ph { transform: translateY(70px); }
+  .js .fo.in .fo-l { animation: fo-draw 0.5s var(--draw) both; animation-delay: var(--d, 0ms); }
+  .js .fo.in .fo-ph { animation: fo-rise 0.9s var(--ease) 0.15s both; }
+}
+@keyframes fo-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes fo-rise { from { transform: translateY(70px); } to { transform: translateY(0); } }

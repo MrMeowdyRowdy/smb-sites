@@ -1,0 +1,78 @@
+/* Beat 1, the cover (book parts/cover.css + tablet.css). Three compositions by container width: desktop >= 1024, tablet 600-1023, phone < 600. */
+.cv { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); color: var(--ink); }
+.cv .cv-ct { --wm: 0.8; --wi: 1.5; --wh: 3; --om: 0.2; --oi: 0.32; --oh: 0.62; color: var(--ink);
+  --q: radial-gradient(ellipse 29cqw 16cqw at 18cqw 14cqw, color-mix(in srgb, var(--paper) 22%, transparent) 0, color-mix(in srgb, var(--paper) 22%, transparent) 62%, var(--paper) 100%); /* taste-skill-ignore: alpha mask quieting the field under the copy to 22 percent, not a visible gradient */
+  -webkit-mask-image: var(--q); mask-image: var(--q); }
+.cv-fog { position: absolute; left: 0; right: 0; bottom: 0; height: 52%; background: var(--paper); opacity: 0.85; pointer-events: none;
+  -webkit-mask: url(/brand/fog-mask-cover.webp) 0 0 / 100% 100% no-repeat; mask: url(/brand/fog-mask-cover.webp) 0 0 / 100% 100% no-repeat; }
+.cv-name { position: absolute; left: 50%; bottom: 0; margin: 0; transform: translate(-50%, 15%); font-size: 28cqw; line-height: 0.8; font-weight: 500; letter-spacing: -0.045em; text-transform: uppercase; white-space: nowrap; color: var(--ink); }
+.cv-pins { z-index: 3; }
+.pin-ring { fill: var(--paper); stroke: var(--ink); stroke-width: 3.4; }
+.cv-pins .pin-label { font-family: var(--map); font-weight: 500; font-size: 21px; fill: var(--ink); letter-spacing: 0.01em; word-spacing: 0.08em; paint-order: stroke; stroke: var(--paper); stroke-width: 7px; stroke-linejoin: round; }
+.cv-cup { position: absolute; left: 66.5cqw; bottom: -2.6cqw; width: 11.05cqw; z-index: 3; }
+.cv-cup img, .cv-cup .ph { width: 100%; height: auto; }
+.cv .steam { position: absolute; left: 14%; bottom: 62%; width: 46%; height: 90%; overflow: visible; }
+.steam path { fill: none; stroke: var(--tone-next); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0.9; vector-effect: non-scaling-stroke; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .steam path { animation: steam 4.2s var(--draw) infinite; }
+  .js .steam path:nth-child(2) { animation-delay: 0.8s; }
+  .js .steam path:nth-child(3) { animation-delay: 1.6s; }
+}
+@keyframes steam { 0% { stroke-dashoffset: 1; opacity: 0; } 30% { opacity: 0.9; } 70% { stroke-dashoffset: 0; opacity: 0.7; } 100% { stroke-dashoffset: -1; opacity: 0; } }
+.cv-copy { position: absolute; left: var(--m); top: 9cqw; width: 44cqw; z-index: 4; }
+.cv-sentence { margin: 0; font-weight: 500; font-size: clamp(26px, 3.3cqw, 56px); line-height: 1.08; letter-spacing: -0.035em; text-wrap: balance; }
+.cv-status { margin: 1.4cqw 0 0; font-size: clamp(13px, 1.1cqw, 17px); font-weight: 300; }
+.cv-actions { margin: 1.6cqw 0 0; display: flex; align-items: center; gap: 1.8cqw; }
+.cv-actions .btn, .cv-actions .text-link { font-size: 16px; }
+.cv-actions .btn { min-height: 52px; }
+/* the pin layer is full-bleed to share the contour viewBox; clip it above the name so it never sits on the letters */
+.cv-pins { clip-path: inset(0 0 33% 0); }
+
+@container (min-width: 600px) and (max-width: 1023px) {
+  .cv { aspect-ratio: 768 / 1000; }
+  .cv-name { font-size: 27cqw; transform: translate(-50%, 14%); }
+  .cv-cup { left: 61cqw; bottom: -1.6cqw; width: 15.5cqw; }
+  .cv-copy { display: contents; }
+  .cv-sentence { position: absolute; left: var(--m); top: 23cqw; width: 84cqw; font-size: 5.4cqw; max-width: none; z-index: 4; }
+  .cv-status { position: absolute; left: var(--m); top: 49cqw; width: 40cqw; font-size: max(15px, 1.9cqw); margin: 0; z-index: 4; }
+  .cv-actions { position: absolute; left: var(--m); top: 56cqw; margin: 0; flex-wrap: wrap; gap: 2cqw 3cqw; z-index: 4; }
+  .cv .cv-ct { --q: radial-gradient(ellipse 46cqw 32cqw at 30cqw 40cqw, color-mix(in srgb, var(--paper) 22%, transparent) 0, color-mix(in srgb, var(--paper) 22%, transparent) 62%, var(--paper) 100%); /* taste-skill-ignore: alpha mask quieting the field under the copy to 22 percent, not a visible gradient */
+  -webkit-mask-image: var(--q); mask-image: var(--q); }
+  .cv-pins { clip-path: inset(0 0 20% 0); }
+  .cv-pins .pin-label { font-size: 23px; }
+}
+@container (max-width: 599px) {
+  .cv { aspect-ratio: 390 / 844; }
+  .cv-name { writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); left: auto; right: 0; bottom: auto; top: 50%; font-size: 46cqw; line-height: 0.8; }
+  .cv .cv-ct { --om: 0; --oi: 0.3; --oh: 0.62; --wi: 2; --wh: 4;
+    --q: radial-gradient(ellipse 46cqw 40cqw at 28cqw 36cqw, color-mix(in srgb, var(--paper) 22%, transparent) 0, color-mix(in srgb, var(--paper) 22%, transparent) 62%, var(--paper) 100%); /* taste-skill-ignore: alpha mask quieting the field under the copy to 22 percent, not a visible gradient */
+  -webkit-mask-image: var(--q); mask-image: var(--q); }
+  .cv-copy { top: 30cqw; width: 58cqw; }
+  .cv-sentence { font-size: 5cqw; max-width: none; }
+  .cv-status { font-size: max(13px, 3.3cqw); margin-top: 3cqw; }
+  .cv-actions { flex-direction: column; align-items: flex-start; gap: 3cqw; margin-top: 4cqw; }
+  .cv-actions .btn { padding: 0 5cqw; }
+  .cv-cup { left: 4cqw; bottom: 0; width: 25.5cqw; }
+  .cv-pins { clip-path: none; }
+  .cv-pins .pin-label { font-size: 25px; text-anchor: end; transform: translateX(-34px); }
+  .pl-x { display: none; }
+}
+
+/* Scroll motion (src/motion/cover.ts): the name scales through --ns, a second fog layer climbs through --fy. Both rest at their end state. */
+.cv-name { --ns: 1; scale: var(--ns); }
+.cv-fogu { position: absolute; inset: 0; z-index: 2; --fy: -12; background: var(--paper); pointer-events: none;
+  -webkit-mask: url(/brand/fog-mask-cover.webp) 0 calc(var(--fy) * 1%) / 100% 300% no-repeat; mask: url(/brand/fog-mask-cover.webp) 0 calc(var(--fy) * 1%) / 100% 300% no-repeat; }
+html[data-tab-hidden] .steam path { animation-play-state: paused; }
+
+/* The arrival (once per session, html[data-arrive]): the contour draws on (0.5 s, 60 ms apart), the fog thins to its resting density. Ends at rest. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-arrive] .cv-ct use { animation: ct-draw 0.5s var(--draw) backwards; animation-delay: var(--d, 0ms); }
+  html[data-arrive] .cv-fog { animation: cv-fog-thin 1.2s var(--ease) 0.2s backwards; }
+}
+@keyframes cv-fog-thin { from { opacity: 1; } }
+
+/* The handover into the origin: the deep forest ground rises into the foot of the cover as fog, over the base of the name, under the cup
+   (the cover's crossing is fog over the name; the cup stands in front of it), so the biggest ground change on the page is never a ruler line. Same 0.9 KB mask. */
+.cv::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6cqw; z-index: 2; background: var(--deep); pointer-events: none;
+  -webkit-mask: url(/brand/fog-mask-cover.webp) 0 75% / 100% 167% no-repeat; mask: url(/brand/fog-mask-cover.webp) 0 75% / 100% 167% no-repeat; }
+@container (max-width: 599px) { .cv::after { height: 11cqw; } }

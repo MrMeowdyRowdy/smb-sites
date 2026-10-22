@@ -8,12 +8,15 @@ import { useNow } from '../../lib/useNow';
 
 type Props = { locale: Locale; hours: (HoursEntry & { label: { es: string; en: string } })[]; rituals: Ritual[] };
 
-/** Static at build: the first hours group. In the browser: open now, or when it opens next, in Quito time. */
+/** Static at build (true on every day): the café opens every day, else all hour groups. In the browser: open now, or when it opens next, in Quito time. */
 export function HeroStatus({ locale, hours, rituals }: Props) {
   const u = ui[locale];
   const now = useNow();
   const fill = (s: string, v: Record<string, string>) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
-  let text = `${hours[0].label[locale]}: ${hours[0].opens} - ${hours[0].closes}`;
+  let text =
+    new Set(hours.flatMap((h) => h.days)).size === 7
+      ? u.hero.every
+      : hours.map((h) => `${h.label[locale]} ${h.opens} - ${h.closes}`).join(' · ');
   if (now) {
     const st = openStatus(now, { hours, rituals });
     text =
@@ -28,7 +31,7 @@ export function HeroStatus({ locale, hours, rituals }: Props) {
               : fill(u.hero.on, { d: u.today.days[st.next.day], t: st.next.opens });
   }
   return (
-    <p className="hero-status" aria-live="polite" data-status>
+    <p className="cv-status" aria-live="polite" data-status>
       {text}
     </p>
   );

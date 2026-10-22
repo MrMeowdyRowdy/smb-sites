@@ -10,8 +10,8 @@ export type Menu = {
   items: { id: string; category: string; name: L10n; description: L10n; price: number; tags: string[]; available: boolean; /** file name in public/photos when it differs from the id */ photo?: string }[];
   /** Exactly 4 ids for the band on the home page. */
   featured: string[];
-  /** Optional date window (MM-DD, Quito) with one seasonal line. */
-  seasonal?: { from: string; to: string; name: L10n; note: L10n };
+  /** Optional date windows (MM-DD, Quito), each one seasonal line with its photo (file in public/photos) and crop focus. At most one is active per day: they must not overlap. */
+  seasonal?: { from: string; to: string; name: L10n; note: L10n; photo: string; focus?: string }[];
 };
 export type Credit = { file: string; author: string; source: string; licence: string };
 

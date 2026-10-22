@@ -7,11 +7,21 @@ import { type HoursEntry, quitoClock } from '../../lib/today';
 
 type Hours = (HoursEntry & { label: { es: string; en: string } })[];
 
-/** One display row: the server prints the first hours group; the browser says what applies today in Quito. */
+/** The hours rows, every group listed. The static render lists them all; in the browser the group that covers today in Quito is marked. */
 export function VisitHours({ locale, hours }: { locale: Locale; hours: Hours }) {
   const u = ui[locale].visit;
   const now = useNow();
-  const h = now && hours.find((x) => x.days.includes(quitoClock(now).day));
-  const text = !now ? `${hours[0].label[locale]} ${hours[0].opens} - ${hours[0].closes}` : h ? `${u.today} ${h.opens} - ${h.closes}` : u.closedToday;
-  return <span className="num">{text}</span>;
+  const day = now ? quitoClock(now).day : null;
+  return (
+    <>
+      {hours.map((h, i) => (
+        <p key={h.label.es} className="vr hr" data-row style={{ ['--n' as string]: 3 + i }} aria-current={day && h.days.includes(day) ? 'date' : undefined}>
+          <span>{h.label[locale]}</span>
+          <span className="num">
+            {h.opens} {u.to} {h.closes}
+          </span>
+        </p>
+      ))}
+    </>
+  );
 }

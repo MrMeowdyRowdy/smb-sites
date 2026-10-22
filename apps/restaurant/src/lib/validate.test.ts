@@ -37,7 +37,15 @@ describe('featured, seasonal, rituals and origin', () => {
     const { seasonal: _s, ...rest } = menu;
     void _s;
     expect(validateMenu(rest)).toEqual([]);
-    expect(validateMenu({ ...menu, seasonal: { ...menu.seasonal, from: '13-40' } }).join()).toMatch(/seasonal/);
+    expect(validateMenu({ ...menu, seasonal: [{ ...menu.seasonal![0], from: '13-40' }] }).join()).toMatch(/seasonal/);
+    expect(validateMenu({ ...menu, seasonal: menu.seasonal![0] }).join()).toMatch(/list of windows/);
+    expect(validateMenu({ ...menu, seasonal: [{ ...menu.seasonal![0], photo: '' }] }).join()).toMatch(/photo/);
+  });
+  it('seasonal windows may not overlap, also across New Year', () => {
+    const w = menu.seasonal![0];
+    expect(validateMenu({ ...menu, seasonal: [w, { ...w, from: '12-15', to: '01-06' }] })).toEqual([]);
+    expect(validateMenu({ ...menu, seasonal: [w, { ...w, from: '11-01', to: '11-10' }] }).join()).toMatch(/overlap/);
+    expect(validateMenu({ ...menu, seasonal: [{ ...w, from: '12-30', to: '01-02' }, { ...w, from: '12-15', to: '01-06' }] }).join()).toMatch(/overlap/);
   });
   it('rituals need a valid time and both languages', () => {
     expect(validateSite({ ...site, rituals: [{ ...site.rituals[1], at: '25:00' }] }).join()).toMatch(/ritual pan: at/);
@@ -57,6 +65,20 @@ describe('site and credits validation catch mistakes', () => {
     const e = validateSite({ ...site, whatsapp: '+593 9', hours: [{ ...site.hours[0], opens: '7:30' }] }).join();
     expect(e).toMatch(/whatsapp/);
     expect(e).toMatch(/opens/);
+  });
+  it('hours: real weekday names, each day once, open before close', () => {
+    expect(validateSite({ ...site, hours: [{ ...site.hours[0], days: ['Lunes'] }] }).join()).toMatch(/weekday name/);
+    expect(validateSite({ ...site, hours: [site.hours[0], { ...site.hours[1], days: ['Friday'] }] }).join()).toMatch(/Friday twice/);
+    expect(validateSite({ ...site, hours: [{ ...site.hours[0], opens: '19:00', closes: '07:30' }] }).join()).toMatch(/open before they close/);
+  });
+  it('the shipped hours cover every day of the week', () => expect(site.hours.flatMap((h) => h.days).sort()).toEqual(['Friday', 'Monday', 'Saturday', 'Sunday', 'Thursday', 'Tuesday', 'Wednesday']));
+  it('altitudes written in the origin text match the origin numbers, formatted per locale', () => {
+    const o = site.origin;
+    const fmt = (n: number, sep: string) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+    const allowed = { es: [o.from.altitude, o.to.altitude].map((n) => fmt(n, '.')), en: [o.from.altitude, o.to.altitude].map((n) => fmt(n, ',')) };
+    for (const g of o.stages)
+      for (const l of ['es', 'en'] as const)
+        for (const m of g.text[l].match(/\d[\d.,]*\d(?= (metros|meters))/g) ?? []) expect(allowed[l]).toContain(m);
   });
   it('incomplete credit', () => expect(validateCredits([{ file: 'a.jpg' }]).length).toBe(3));
 });

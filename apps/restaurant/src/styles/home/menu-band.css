@@ -1,0 +1,90 @@
+/* Beat 3, the menu promise. Built from the brand book's menu chapter (applied.css .mband/.mtable, tablet.css menu). */
+.promise { background: var(--paper); color: var(--ink); }
+
+/* The band: four unequal panels, each dish a cut-out standing on its caption bar. */
+.mband { display: flex; height: 44cqw; background: var(--paper); }
+.bp { position: relative; flex: var(--g) 1 0; min-width: 0; margin: 0; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+.bp[data-tone='surface'] { background: var(--surface); }
+.bp[data-tone='field'] { background: var(--field); }
+.bp[data-tone='deep'] { background: var(--deep); }
+.bp-o { position: relative; z-index: 2; flex: 1; min-height: 0; padding: 3cqw 2cqw 0; margin-bottom: -1.5cqw; }
+.bp-o .cutout, .bp-o .photo { display: block; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; background: none; }
+/* the cut-out stands in front of the bar's top edge */
+.bp-o .cutout { filter: drop-shadow(0 1cqw 1cqw color-mix(in srgb, var(--deep) 28%, transparent)); } /* taste-skill-ignore: the cut-out stand filter, the one the brand allows */
+.bp-o:has(.photo) { padding-bottom: 3.6cqw; margin-bottom: 0; }
+.bp-o .photo { object-fit: cover; object-position: 50% 30%; } /* pour-over-band: the kettle pouring, a crop the origin window does not use */
+.bp-b { position: relative; z-index: 1; flex: none; height: 6.2cqw; display: flex; align-items: center; justify-content: space-between; gap: 0.8cqw; padding: 0 1.4cqw; overflow: hidden; background: var(--field); color: var(--field-ink); font-weight: 500; font-size: max(14px, 1.25cqw); letter-spacing: -0.02em; }
+.bp[data-tone='field'] .bp-b { background: var(--field-2); }
+.bp-ct { --om: 0.12; --oi: 0.2; --oh: 0.35; --wm: 0.8; --wi: 1.5; --wh: 3; }
+.bp-b span { position: relative; white-space: nowrap; }
+.bp-n { overflow: hidden; text-overflow: ellipsis; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  @container (min-width: 1024px) {
+    .bp { transition: flex-grow 0.6s var(--ease); }
+    .mband:hover .bp { flex-grow: 2; }
+    .mband .bp:hover { flex-grow: 5; }
+  }
+}
+
+/* The table: the statement over the rows, the ghost name behind them on a quiet floresta field. The ghost starts well below the
+   caption bars above (> 140 px) so no dish caption reads as a label over it. */
+.mtable { --cc: var(--ink); --co: 0.1; position: relative; overflow: hidden; background: var(--paper); padding: 6cqw var(--m) 3cqw; display: grid; grid-template-columns: 1fr 1.5fr; column-gap: var(--m); align-content: start; min-height: 40cqw; content-visibility: auto; contain-intrinsic-size: auto 51vw; }
+.ghost { position: absolute; right: -6cqw; top: 12cqw; font-weight: 500; font-size: 42cqw; line-height: 0.85; letter-spacing: -0.045em; color: var(--tone-past); white-space: nowrap; pointer-events: none; user-select: none; }
+.mt-h { position: relative; grid-column: 1; grid-row: 1; align-self: start; margin-top: 3cqw; font-size: 4.2cqw; line-height: 1; letter-spacing: -0.04em; text-wrap: balance; }
+.mt-l { position: relative; grid-column: 2; grid-row: 1; }
+.mt-l li { display: grid; grid-template-columns: 9cqw 1fr auto; align-items: baseline; gap: 1cqw; padding: 0.9cqw 1cqw; }
+.mt-l li.odd { background: var(--surface); }
+.mc { font-family: var(--map); font-weight: 500; font-size: max(13px, 1.3cqw); color: var(--muted); }
+.mn, .mp { font-weight: 500; font-size: max(15px, 1.7cqw); letter-spacing: -0.025em; }
+.mt-a { position: relative; grid-column: 2; grid-row: 2; margin-top: 1cqw; padding-left: 1cqw; }
+.mt-a .text-link { font-size: max(15px, 1.3cqw); }
+
+/* Tablet 600-1023: four panels in two rows of unequal widths; the list in two columns under a wide statement. */
+@container (min-width: 600px) and (max-width: 1023px) {
+  .mband { height: auto; display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: 50cqw 44cqw; }
+  .bp { flex: none; }
+  .bp:nth-child(1) { grid-column: 1 / 6; grid-row: 1; }
+  .bp:nth-child(2) { grid-column: 6 / 9; grid-row: 1; }
+  .bp:nth-child(3) { grid-column: 1 / 4; grid-row: 2; }
+  .bp:nth-child(4) { grid-column: 4 / 9; grid-row: 2; }
+  .bp-b { height: 8cqw; font-size: max(15px, 2cqw); padding: 0 2cqw; }
+  .mtable { grid-template-columns: 1fr; padding: 15cqw var(--m) 7cqw; row-gap: 4cqw; min-height: 0; }
+  .mt-h { grid-column: 1; margin-top: 0; font-size: 6.4cqw; max-width: 90cqw; }
+  .ghost { font-size: 44cqw; right: -3cqw; top: 19cqw; }
+  .mt-l { grid-column: 1; grid-row: 2; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3cqw; }
+  .mt-l li { grid-template-columns: 1fr auto; padding: 1.6cqw; gap: 0 2cqw; }
+  .mc { grid-column: 1 / -1; font-size: 15px; }
+  .mn, .mp { font-size: max(17px, 2.4cqw); }
+  .mt-a { grid-column: 1; grid-row: 3; padding-left: 0; }
+  .mt-a .text-link { font-size: 17px; }
+}
+
+/* Phone: the band is a 2 x 2 (the book's c390-menu), the list is one column of six. */
+@container (max-width: 599px) {
+  .mband { height: auto; display: grid; grid-template-columns: 64fr 36fr; grid-template-rows: 60cqw 60cqw; }
+  .bp { flex: none; min-height: 0; }
+  .bp-b { height: auto; min-height: 11cqw; flex-direction: column; align-items: flex-start; justify-content: center; font-size: 14px; padding: 2cqw; gap: 0; }
+  .bp-n { white-space: normal; }
+  .bp-o { padding: 5cqw 3cqw 0; margin-bottom: -3cqw; }
+  .bp-o:has(.photo) { padding: 5cqw 3cqw 5cqw; margin-bottom: 0; }
+  .mtable { grid-template-columns: 1fr; padding: max(88px, 20cqw) var(--m) 12cqw; min-height: 0; 
+  .ghost { font-size: 60cqw; top: 37cqw; }
+  .mt-h { grid-column: 1; margin-top: 0; font-size: 10cqw; }
+  .mt-l { grid-column: 1; grid-row: 2; margin-top: 6cqw; }
+  .mt-l li { grid-template-columns: 1fr auto; gap: 0 3cqw; padding: 3cqw 2cqw; }
+  .mt-l li[data-extra] { display: none; }
+  .mc { grid-column: 1 / -1; font-size: 13px; }
+  .mn, .mp { font-size: 19px; }
+  .mt-a { grid-column: 1; grid-row: 3; padding-left: 0; }
+  .mt-a .text-link { font-size: 16px; }
+}
+
+/* content-visibility placeholders (viewport units: the section is its own size container) */
+@media (max-width: 1023px) { .mtable { contain-intrinsic-size: auto 87vw; } }
+@media (max-width: 599px) { .mtable { contain-intrinsic-size: auto 180vw; } }
+
+/* Motion: the panels rise (staggered, 4), the statement and rows arrive (8 at most). Hidden only with JS and motion allowed. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .mband:not(.in) :is(.bp-o, .bp-b), .js .mtable:not(.in) :is(.mt-h, .mt-l li, .mt-a) { opacity: 0; transform: translateY(24px); }
+  .js .mband.in :is(.bp-o, .bp-b), .js .mtable.in :is(.mt-h, .mt-l li, .mt-a) { transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); transition-delay: calc(var(--n, 0) * 80ms); }
+}

@@ -138,7 +138,7 @@
     },
     "to": {
       "name": "La Floresta",
-      "altitude": 2850
+      "altitude": 2810
     },
     "area": {
       "es": "bosque nublado del noroeste de Pichincha",
@@ -170,12 +170,12 @@
       {
         "id": "roast",
         "title": {
-          "es": "Se tuesta los martes en La Floresta.",
-          "en": "It is roasted on Tuesdays in La Floresta."
+          "es": "Se tuesta los martes.",
+          "en": "It is roasted on Tuesdays."
         },
         "text": {
-          "es": "Lotes cortos, en un tostador pequeño, a 2.850 metros sobre el nivel del mar.",
-          "en": "Short batches in a small roaster, 2,850 meters above sea level."
+          "es": "Lotes cortos, en un tostador pequeño, a 2.810 metros sobre el nivel del mar.",
+          "en": "Short batches in a small roaster, 2,810 meters above sea level."
         }
       },
       {

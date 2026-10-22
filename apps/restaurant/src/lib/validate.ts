@@ -1,8 +1,11 @@
+import { windowsOverlap } from './today';
+
 /** Checks the client-editable JSON files. Returns a list of problems; empty means valid. */
 const LOCALES = ['es', 'en'] as const;
 const MMDD = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
 const TAGS = ['vegetarian', 'vegan', 'gluten-free'];
+const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 type Obj = Record<string, unknown>;
 const isObj = (v: unknown): v is Obj => typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -33,7 +36,16 @@ export function validateMenu(data: unknown): string[] {
   }
   if (!Array.isArray(data.featured) || data.featured.length !== 4 || data.featured.some((f) => !ids.has(f as string))) errors.push('menu: featured needs exactly 4 existing item ids');
   const z = data.seasonal;
-  if (z !== undefined && !(isObj(z) && MMDD.test(String(z.from)) && MMDD.test(String(z.to)) && bothLocales(z.name) && bothLocales(z.note))) errors.push('menu: seasonal needs from and to (MM-DD), name and note in es and en');
+  if (z !== undefined) {
+    if (!Array.isArray(z)) errors.push('menu: seasonal must be a list of windows');
+    else {
+      z.forEach((w, n) => {
+        if (!(isObj(w) && MMDD.test(String(w.from)) && MMDD.test(String(w.to)) && bothLocales(w.name) && bothLocales(w.note) && text(w.photo))) errors.push(`menu: seasonal[${n}] needs from and to (MM-DD), name and note in es and en, and a photo`);
+      });
+      const ok = z.filter((w): w is { from: string; to: string } => isObj(w) && MMDD.test(String(w.from)) && MMDD.test(String(w.to)));
+      ok.forEach((a, i) => ok.slice(i + 1).forEach((b, j) => windowsOverlap(a, b) && errors.push(`menu: seasonal windows ${i} and ${i + 1 + j} overlap (at most one may be active per day)`)));
+    }
+  }
   return errors;
 }
 
@@ -50,12 +62,22 @@ export function validateSite(data: unknown): string[] {
   if (!/^\d{8,15}$/.test(String(data.whatsapp ?? ''))) errors.push('site: whatsapp must be digits with country code');
   if (!text(data.priceRange)) errors.push('site: priceRange missing');
   if (!Array.isArray(data.hours) || data.hours.length === 0) errors.push('site: hours missing');
-  else
+  else {
+    // Hours are per weekday: each day at most once (a day not listed is closed), and every group opens before it closes.
+    const seen = new Set<string>();
     for (const h of data.hours as Obj[]) {
       if (!bothLocales(h.label)) errors.push('site: hours label needs es and en');
       if (!Array.isArray(h.days) || h.days.length === 0) errors.push('site: hours days missing');
-      for (const k of ['opens', 'closes'] as const) if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(h[k]))) errors.push(`site: hours ${k} must be HH:MM`);
+      else
+        for (const d of h.days as unknown[]) {
+          if (!WEEKDAYS.includes(d as string)) errors.push(`site: hours day "${d}" must be an English weekday name`);
+          else if (seen.has(d as string)) errors.push(`site: hours list ${d} twice`);
+          seen.add(d as string);
+        }
+      for (const k of ['opens', 'closes'] as const) if (!HHMM.test(String(h[k]))) errors.push(`site: hours ${k} must be HH:MM`);
+      if (HHMM.test(String(h.opens)) && HHMM.test(String(h.closes)) && String(h.opens) >= String(h.closes)) errors.push(`site: hours for ${String(h.days)} must open before they close`);
     }
+  }
   if (!isObj(data.social)) errors.push('site: social must be an object');
   if (data.atmosphere !== 'fog' && data.atmosphere !== 'none') errors.push('site: atmosphere must be "fog" or "none"');
   if (!Array.isArray(data.rituals) || data.rituals.length === 0) errors.push('site: rituals missing');

@@ -97,7 +97,7 @@ components:
 
 # Design System: Neblina
 
-Recorded from the shipped build at commit 2a6984b (`src/globals.css`, `src/components`, `content/*.json`). Where the story (`concepts/smb-restaurant/decisions/story-v1.md`) and the build differ, this file follows the build.
+Recorded from the shipped build at commit 2f14cde (`src/globals.css`, `src/components`, `content/*.json`). Where the story (`concepts/smb-restaurant/decisions/story-v1.md`) and the build differ, this file follows the build.
 
 ## Overview
 

@@ -1,0 +1,56 @@
+/* The close (the footer on every page): deep teal, the name at full width cropped by the bottom edge with the contour inside the letters,
+   the fog behind it. Positions in cqw of the footer (a .chap container), like the book's cierre. Book parts applied.css .cl* + tablet.css. */
+.close { background: var(--deep); color: var(--field-ink); }
+/* Not rendered until near the viewport: its large clipped name must never be an LCP candidate, and its contour files wait. */
+.close { content-visibility: auto; contain-intrinsic-size: auto 1100px; }
+.cl-main { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+.cl-h { position: absolute; left: var(--m); top: 5cqw; margin: 0; max-width: 50cqw; font-weight: 500; font-size: 4.6cqw; line-height: 1; letter-spacing: -0.04em; }
+.cl-b { position: absolute; left: var(--m); top: 20cqw; margin: 0; }
+.cl-side { position: absolute; right: var(--m); top: 5cqw; display: flex; flex-direction: column; align-items: flex-end; }
+.cl-n { display: flex; flex-direction: column; align-items: flex-end; }
+.cl-n a, .cl-lang a { min-height: 44px; display: inline-flex; align-items: center; justify-content: flex-end; font-weight: 500; font-size: max(15px, 1.3cqw); }
+.cl-line { position: absolute; left: var(--m); bottom: 26.6cqw; margin: 0; font-weight: 300; font-size: max(15px, 1.6cqw); letter-spacing: -0.01em; }
+.cl-fog { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: 20cqw; background: var(--field-ink); opacity: 0.4; -webkit-mask: var(--fog-m) 0 50% / 100% 150% no-repeat; mask: var(--fog-m) 0 50% / 100% 150% no-repeat; pointer-events: none; }
+.cl-name { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; width: 100%; height: auto; display: block; }
+.cl-paper { fill: var(--field-ink); }
+.cl-ct use { stroke: var(--ink); fill: none; }
+.cl-ct .u-minor { stroke-width: 1.2; stroke-opacity: 0.5; }
+.cl-ct .u-index { stroke-width: 2.4; stroke-opacity: 0.8; }
+.cl-ct .u-heavy { stroke-width: 5; stroke-opacity: 1; }
+
+.cl-cr { background: var(--field-2); padding: 3cqw var(--m); display: grid; grid-template-columns: 1fr 1fr; gap: 1cqw var(--m); font-weight: 300; font-size: 16px; line-height: 1.45; }
+.cl-cr p { margin: 0; }
+.cr-d, .cr-t { font-weight: 500; }
+.cr-l { grid-column: 1 / -1; columns: 3; column-gap: var(--m); color: var(--field-muted); }
+.cr-l li { padding: 0.15cqw 0; break-inside: avoid; }
+.cr-l span { font-weight: 500; color: var(--field-ink); }
+.cr-l a { text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
+.cr-n { grid-column: 1 / -1; max-width: 75ch; color: var(--field-muted); }
+
+/* TABLET 600-1023 */
+@container (min-width: 600px) and (max-width: 1023px) {
+  .cl-main { aspect-ratio: 768 / 760; }
+  .cl-h { font-size: 8cqw; max-width: 80cqw; top: 6cqw; }
+  .cl-b { top: 30cqw; }
+  .cl-side { left: var(--m); right: var(--m); top: 42cqw; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 5cqw; }
+  .cl-n { flex-direction: row; flex-wrap: wrap; column-gap: 5cqw; }
+  .cl-n a, .cl-lang a { font-size: 17px; justify-content: flex-start; }
+  .cl-line { bottom: auto; top: 56cqw; font-size: 2.6cqw; }
+  .cl-cr { padding: 5cqw var(--m); }
+  .cr-l { columns: 2; }
+}
+/* PHONE < 600 */
+@container (max-width: 599px) {
+  .cl-main { aspect-ratio: 390 / 560; }
+  .cl-h { font-size: 8.2cqw; max-width: none; top: 8cqw; right: var(--m); } /* two lines at 390 */
+  .cl-b { top: 48cqw; }
+  .cl-side { left: var(--m); right: var(--m); top: calc(48cqw + 52px + 24px); bottom: auto; flex-direction: column; align-items: flex-start; }
+  .cl-n { flex-direction: row; flex-wrap: wrap; column-gap: 5cqw; }
+  .cl-n a, .cl-lang a { font-size: 15px; justify-content: flex-start; }
+  .cl-line { bottom: calc(19cqw + 40px); font-size: 4cqw; }
+  .cl-cr { grid-template-columns: 1fr; padding: 6cqw var(--m); }
+  .cr-l { columns: 1; }
+}
+
+/* MOTION (phase 2): the name grows into place and the fog returns as the footer arrives (scrubbed by src/motion/close.ts); end state is the rule above. */
+.cl-name { transform-origin: 50% 100%; }

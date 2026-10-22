@@ -469,16 +469,20 @@
     "empanada-viento",
     "v60"
   ],
-  "seasonal": {
-    "from": "10-20",
-    "to": "11-02",
-    "name": {
-      "es": "Colada morada y guaguas de pan",
-      "en": "Colada morada and guaguas de pan"
-    },
-    "note": {
-      "es": "De temporada, hasta el 2 de noviembre.",
-      "en": "In season until 2 November."
+  "seasonal": [
+    {
+      "from": "10-20",
+      "to": "11-02",
+      "name": {
+        "es": "Colada morada y guaguas de pan",
+        "en": "Colada morada and guaguas de pan"
+      },
+      "note": {
+        "es": "De temporada, hasta el 2 de noviembre.",
+        "en": "In season until 2 November."
+      },
+      "photo": "colada-morada",
+      "focus": "62% 72%"
     }
-  }
+  ]
 }

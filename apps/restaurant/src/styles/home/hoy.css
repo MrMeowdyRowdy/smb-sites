@@ -1,0 +1,134 @@
+/* Hoy en Neblina: the monument clock beside the window, the hours line full width. Book parts hoy.css + tablet.css, ported to flow (grid) layout.
+   The chapter is a container (.chap): every size below is in cqw so the three compositions scale with the chapter, not the viewport. */
+.hoy { background: var(--surface); color: var(--ink); }
+.hy-field { z-index: 0; }
+.hoy .seam { background: transparent; }
+.hy-in { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 30cqw; column-gap: var(--m); padding: 3.2cqw var(--m) 0; }
+.hy-h { grid-column: 1; grid-row: 1; margin: 0; font-weight: 500; font-size: 4cqw; letter-spacing: -0.04em; line-height: 1; }
+
+/* The clock and the window share a baseline (their bottoms), side by side without overlapping. */
+.hy-focus, .hy-fig { display: grid; grid-template-rows: subgrid; min-width: 0; }
+.hy-focus { grid-column: 1; grid-row: 2 / span 2; }
+.hy-fig { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+.hy-clock { margin: 1.2cqw 0 0; font-weight: 300; font-size: 24cqw; letter-spacing: -0.06em; line-height: 0.78; align-self: end; white-space: nowrap; }
+.hoy[data-state='before'] .hy-clock, .hoy[data-state='after'] .hy-clock { color: var(--muted); }
+.hy-status { margin: 2.4cqw 0 0; max-width: 58cqw; text-wrap: balance; font-weight: 500; font-size: 2.3cqw; line-height: 1.1; letter-spacing: -0.03em; }
+.hy-ph { grid-row: 2; margin-bottom: 0.7cqw; align-self: end; justify-self: start; width: 100%; aspect-ratio: 8 / 5; overflow: hidden; background: var(--placeholder); }
+.hy-fig figcaption { grid-row: 3; }
+.hy-fig[data-kind='dish'] .hy-ph { grid-row: 1 / span 2; width: 18cqw; aspect-ratio: 4 / 5; }
+.hy-ph img, .hy-ph .ph { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos); }
+.hy-fig figcaption { margin-top: 2.4cqw; color: var(--ink); text-wrap: pretty; }
+.hy-hours { grid-column: 2; grid-row: 4; display: flex; flex-direction: column; margin-top: 3cqw; }
+.hh { display: flex; justify-content: space-between; gap: 1cqw; padding: 0.5cqw 0; font-weight: 300; font-size: max(15px, 1.25cqw); }
+.hh.today, .hh.today span { font-weight: 600; }
+
+/* The hours line */
+.band { --n: 2.6cqw; --l: max(17px, 1.35cqw); --t: max(16px, 1.15cqw); --rail: 3.4cqw; --endw: 9.5cqw; position: relative; grid-column: 1 / -1; grid-row: 5; margin: 7cqw calc(-1 * var(--m)) 0; padding-top: var(--rail); }
+.band-ct { z-index: 2; color: var(--ink); }
+.track { position: relative; z-index: 3; display: flex; min-height: 12.5cqw; }
+.seg, .end { position: relative; isolation: isolate; display: flex; flex-direction: column; gap: 0.5cqw; padding: 1.2cqw; min-width: 0; overflow: hidden; }
+/* The tone of each stretch is a layer behind its words, so the wipe can move the tone without ever clipping the hours. */
+.seg::before, .end::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--tone); transform-origin: 0 50%; }
+.seg { position: relative; flex: var(--fd) 1 0; }
+.seg[data-hide~='d'] { display: none; }
+.seg .num, .end .num { font-weight: 300; font-size: var(--n); letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.band .lab { font-family: var(--map); font-weight: 500; font-size: var(--l); line-height: 1.12; letter-spacing: 0.005em; }
+.band .nt { font-weight: 400; font-size: var(--t); line-height: 1.3; margin-top: 0.3cqw; }
+.seg.past { --tone: var(--tone-past); color: var(--ink); }
+.seg.now { --tone: var(--field); color: var(--field-ink); }
+.seg.next { --tone: var(--tone-next); color: var(--ink); }
+.end { flex: 0 0 var(--endw); --tone: var(--tone-next); color: var(--ink); }
+
+/* The marker: the ahora dot (the chapter's one cherry) on a thin ink stem down to the track; closed: a hollow ink ring at the opening. */
+.mark { --dot: max(14px, 1.2cqw); position: absolute; z-index: 5; left: 0; top: 0; width: calc(100% - var(--endw)); height: calc(var(--rail) + 14px); transform: translateX(var(--x, 0%)); pointer-events: none; }
+.mark::before { content: ''; position: absolute; left: calc(var(--dot) / -2); top: 0.2cqw; width: var(--dot); height: var(--dot); border-radius: 50%; background: var(--cherry); }
+.mark::after { content: ''; position: absolute; left: -1px; top: 1cqw; bottom: 0; width: 2px; background: var(--ink); }
+.mark b { position: absolute; left: 1.1cqw; top: -0.15cqw; color: var(--ink); font-family: var(--map); font-weight: 500; font-size: max(17px, 1.3cqw); line-height: 1.2; white-space: nowrap; }
+.mark.er b { left: auto; right: 1.1cqw; }
+.mark.ring { width: 0; }
+.mark.ring { --dot: max(20px, 1.5cqw); }
+.mark.ring::before { left: 0.6cqw; top: calc(var(--rail) - 2.2cqw); background: none; border: 3px solid var(--ink); }
+.mark.ring::after { left: calc(0.6cqw + var(--dot) / 2 - 1.5px); top: calc(var(--rail) - 0.7cqw); bottom: auto; width: 3px; height: calc(0.7cqw + 14px); }
+.mark.mp { display: none; }
+.dayl { position: absolute; z-index: 5; left: 3.6cqw; top: calc(var(--rail) - 2.5cqw); font-family: var(--map); font-weight: 500; font-size: max(17px, 1.3cqw); line-height: 1.2; color: var(--ink); white-space: nowrap; }
+
+/* TABLET 600-1023: the clock and the window side by side, the hours under the clock, the line full width below. */
+@container (min-width: 600px) and (max-width: 1023px) {
+  .hy-in { grid-template-columns: minmax(0, 1fr) 32cqw; padding-top: 6cqw; }
+  .hy-h { font-size: 6cqw; }
+  .hy-clock { font-size: 25.5cqw; margin-top: 1cqw; }
+  .hy-status { font-size: 3.6cqw; max-width: 60cqw; margin-top: 2cqw; }
+  .hy-ph { aspect-ratio: 16 / 13; }
+  .hy-fig[data-kind='dish'] .hy-ph { width: 20cqw; aspect-ratio: 4 / 5; }
+  .hy-fig figcaption { margin-top: 2cqw; }
+  .hy-hours { grid-column: 1; grid-row: 4; margin-top: 3cqw; max-width: 60cqw; }
+  .hh { font-size: max(15px, 2.1cqw); padding: 0.9cqw 0; }
+  .band { --n: max(24px, 3.4cqw); --l: max(17px, 2.2cqw); --t: max(15px, 1.9cqw); --rail: 5cqw; --endw: 12cqw; margin-top: 8cqw; }
+  .track { min-height: 26cqw; }
+  .seg, .end { padding: 2cqw 1.8cqw; gap: 1cqw; }
+  .mark b, .dayl { font-size: max(17px, 2.2cqw); }
+  .mark { --dot: 2.2cqw; }
+  .mark::before { top: 0.4cqw; }
+  .mark::after { top: 2cqw; }
+  .mark b { left: 2cqw; }
+  .dayl { left: 5cqw; top: calc(var(--rail) - 4cqw); }
+  .mark.ring { --dot: max(20px, 3cqw); }
+  .mark.ring::before { top: calc(var(--rail) - 3cqw); }
+}
+
+/* PHONE < 600: the clock, the status, the hours line as a column with the marker in the right gutter, then the window full width. */
+@container (max-width: 599px) {
+  .hy-in { display: flex; flex-direction: column; padding: 8cqw var(--m) 0; }
+  .hy-focus { display: block; }
+  .hy-fig { display: block; order: 6; margin: 0 calc(-1 * var(--m)); }
+  .hy-h { font-size: 9cqw; }
+  .hy-clock { font-size: 37cqw; margin: 2cqw 0 1cqw; line-height: 0.82; }
+  .hy-status { font-size: max(19px, 5.6cqw); max-width: none; margin: 0 0 4cqw; }
+  .hy-ph, .hy-fig[data-kind='dish'] .hy-ph { width: 100%; aspect-ratio: auto; height: 56cqw; }
+  .hy-fig figcaption { padding: 0 var(--m); margin-top: 3cqw; }
+  .hy-hours { order: 8; margin: 2cqw 0 0; padding-bottom: 8cqw; }
+  .hh { font-size: 15px; padding: 1.4cqw 0; }
+  .band { --n: max(24px, 6.4cqw); --l: max(17px, 4.5cqw); --t: max(13px, 3.4cqw); --rail: 0px; --endh: 14cqw; order: 5; margin: 4cqw calc(-1 * var(--m)) 0; padding-top: 0; }
+  .band:not([data-state='open']) { padding-top: 10cqw; }
+  .track { flex-direction: column; min-height: 0; }
+  .seg[data-hide] { display: flex; }
+  .seg[data-hide~='p'] { display: none; }
+  /* proportional to the minutes, but a station never gets shorter than its text or taller than a timetable row */
+  .seg { flex: none; height: clamp(100px, calc(var(--fp) * 0.85px), 140px); }
+  .seg.now { overflow: visible; }
+  .seg, .end { padding: 3cqw 28cqw 3cqw var(--m); gap: 1cqw; }
+  .end { flex: none; height: var(--endh); flex-direction: row; align-items: baseline; gap: 4cqw; padding-right: var(--m); }
+  .band .nt { margin-top: 0; }
+  .mark:not(.mp):not(.ring) { display: none; }
+  .mark.mp { display: block; left: auto; right: 0; top: 0; width: 26cqw; height: 100%; transform: translateY(var(--x, 0%)); }
+  .mark::before { left: auto; right: var(--m); top: -7px; }
+  .mark::after { left: 0; right: 0; top: -1px; bottom: auto; width: auto; height: 2px; background: var(--field-ink); }
+  .mark b { left: auto; right: var(--m); top: -30px; color: var(--field-ink); }
+  .mark.er b { right: var(--m); top: 6px; }
+  .mark.ring { top: 0; width: 26cqw; height: 100%; transform: none; }
+  .mark.ring { --dot: 22px; }
+  .mark.ring::before { left: auto; right: var(--m); top: 3cqw; }
+  .mark.ring::after { display: none; }
+  .dayl { left: var(--m); top: 3cqw; }
+}
+
+/* MOTION. The band carries data-watch: the runtime watcher adds .in once it enters (IntersectionObserver, runs on mount), so the wipe can never
+   be left armed. Without JS or with reduced motion the end state shows. */
+@media (prefers-reduced-motion: no-preference) {
+  /* The tones wipe in left to right (top to bottom on the phone); the words fade up after them. Opacity, never a clip, on the words. */
+  .js .hoy .band:not(.in) :is(.seg, .end)::before { transform: scaleX(0); }
+  .js .hoy .band.in :is(.seg, .end)::before { transition: transform 0.9s var(--draw); }
+  .js .hoy .band.in :is(.seg, .end):nth-child(2)::before { transition-delay: 90ms; }
+  .js .hoy .band.in :is(.seg, .end):nth-child(3)::before { transition-delay: 180ms; }
+  .js .hoy .band.in :is(.seg, .end):nth-child(4)::before { transition-delay: 270ms; }
+  .js .hoy .band.in :is(.seg, .end):nth-child(n + 5)::before { transition-delay: 360ms; }
+  .js .hoy .band:not(.in) :is(.seg, .end) > * { opacity: 0; }
+  .js .hoy .band.in :is(.seg, .end) > * { transition: opacity 0.6s var(--ease) 0.45s; }
+  .js .hoy .band:not(.in) .mark:not(.ring):not(.mp) { transform: translateX(0); }
+  .js .hoy .band.in .mark:not(.ring) { transition: transform 0.9s var(--ease) 0.5s; }
+  @container (max-width: 599px) {
+    .js .hoy .band:not(.in) :is(.seg, .end)::before { transform: scaleY(0); }
+    :is(.seg, .end)::before { transform-origin: 50% 0; }
+    .js .hoy .band:not(.in) .mark:not(.ring) { transform: translateY(0); }
+  }
+}

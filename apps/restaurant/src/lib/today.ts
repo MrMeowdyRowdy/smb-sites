@@ -114,3 +114,142 @@ export function openStatus(now: Date, site: TodaySite): OpenStatus {
 export function focusTime(f: Focus): string | null {
   return f.kind === 'closed' ? (f.next?.opens ?? null) : f.moment.time;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// The hours line (ported from the brand book's band.js). Pure: (clock, site) in, a model out. The page formats the words.
+// ---------------------------------------------------------------------------------------------------------------------
+
+export type Clock = { day: Weekday; minutes: number };
+export const hoursForDay = hoursFor;
+
+/** ?t=HH:MM&d=Weekday on the URL overrides the Quito clock, for captures and the gate pack. Anything invalid is ignored. */
+export function clockOverride(real: Clock, search: string): Clock {
+  const q = new URLSearchParams(search);
+  const t = q.get('t');
+  const d = q.get('d')?.toLowerCase();
+  const day = DAYS.find((x) => x.toLowerCase() === d) ?? real.day;
+  const ok = t && /^([01]\d|2[0-3]):[0-5]\d$/.test(t);
+  return { day, minutes: ok ? toMin(t) : real.minutes };
+}
+
+export type Tone = 'past' | 'now' | 'next';
+export type Station = {
+  id: string;
+  time: string;
+  minutes: number;
+  label: L10n;
+  note: L10n;
+  tone: Tone;
+  /** flex weight (minutes until the next station) on desktop and on the phone, once hidden stations are absorbed */
+  fd: number;
+  fp: number;
+  hideD: boolean;
+  hideP: boolean;
+};
+export type BandState = 'before' | 'open' | 'after';
+export type Band = {
+  state: BandState;
+  /** the day the line and the monument speak about: today while open or before opening, the next open day after */
+  day: Weekday;
+  daysAhead: number;
+  opens: string;
+  closes: string;
+  /** the monument: the Quito time while open; while closed the NEXT OPENING, never the time of day */
+  clock: string;
+  stations: Station[];
+  end: { time: string; label: L10n | null };
+  /** 0-100 along the stations (closing excluded) while open, else null */
+  marker: number | null;
+  /** minutes since midnight while open, else null */
+  nowMin: number | null;
+};
+
+export const STATION_CAP = { desktop: 7, phone: 5 };
+
+/** Which stations stay: the opening, the one running now, then the nearest to now; hidden ones hand their stretch to the station before. */
+function cap(starts: number[], now: number | null, max: number): boolean[] {
+  const keep = starts.map((_, i) => i === 0);
+  if (starts.length <= max) return starts.map(() => true);
+  const cur = now === null ? -1 : starts.reduce((a, s, i) => (s <= now ? i : a), -1);
+  if (cur > 0) keep[cur] = true;
+  const rest = starts.map((s, i) => ({ i, d: Math.abs(s - (now ?? starts[0])) })).filter((x) => !keep[x.i]).sort((a, b) => a.d - b.d || a.i - b.i);
+  for (const { i } of rest) if (keep.filter(Boolean).length < max) keep[i] = true;
+  return keep;
+}
+
+/** Flex weight per station when only the kept ones show: each hidden stretch joins the kept station before it. */
+function weights(starts: number[], closes: number, keep: boolean[]): number[] {
+  const w = starts.map(() => 0);
+  let last = 0;
+  starts.forEach((s, i) => {
+    if (keep[i]) last = i;
+    w[last] += (i + 1 < starts.length ? starts[i + 1] : closes) - s;
+  });
+  return w;
+}
+
+/** The band for this clock: state, the day it speaks about, the stations with tones and weights, the marker. Null when the café never opens. */
+export function bandFor(clock: Clock, site: TodaySite): Band | null {
+  const todayH = hoursFor(site, clock.day);
+  const state: BandState = !todayH || clock.minutes >= toMin(todayH.closes) ? 'after' : clock.minutes < toMin(todayH.opens) ? 'before' : 'open';
+  let daysAhead = 0;
+  let day: Weekday = clock.day;
+  let hours = todayH;
+  if (state === 'after') {
+    hours = null;
+    for (let a = 1; a <= 7 && !hours; a++) {
+      day = DAYS[(DAYS.indexOf(clock.day) + a) % 7];
+      hours = hoursFor(site, day);
+      daysAhead = a;
+    }
+  }
+  if (!hours) return null;
+  const opens = toMin(hours.opens);
+  const closes = toMin(hours.closes);
+  const all = momentsFor(site, hours);
+  const closing = all.find((m) => m.minutes === closes && m.id === 'closes') ?? null;
+  const ms = all.filter((m) => m !== closing);
+  const starts = ms.map((m) => m.minutes);
+  const now = state === 'open' ? clock.minutes : null;
+  const kd = cap(starts, now, STATION_CAP.desktop);
+  const kp = cap(starts, now, STATION_CAP.phone);
+  const wd = weights(starts, closes, kd);
+  const wp = weights(starts, closes, kp);
+  const stations: Station[] = ms.map((m, i) => {
+    const b = i + 1 < ms.length ? ms[i + 1].minutes : closes;
+    return {
+      id: m.id, time: m.time, minutes: m.minutes, label: m.label, note: m.note,
+      tone: now === null ? 'next' : b <= now ? 'past' : m.minutes <= now ? 'now' : 'next',
+      fd: wd[i], fp: wp[i], hideD: !kd[i], hideP: !kp[i],
+    };
+  });
+  return {
+    state, day, daysAhead, opens: hours.opens, closes: hours.closes,
+    clock: state === 'open' ? toTime(clock.minutes) : hours.opens,
+    stations,
+    end: { time: hours.closes, label: closing?.label ?? null },
+    marker: now === null ? null : ((now - opens) / (closes - opens)) * 100,
+    nowMin: now,
+  };
+}
+
+export type Status =
+  | { kind: 'open'; label: L10n | null; next: string | null }
+  | { kind: 'closed'; daysAhead: number; day: Weekday; opens: string };
+
+/** The status line, as data: what runs now and what comes next, or when it opens again. */
+export function statusFor(clock: Clock, site: TodaySite): Status | null {
+  const b = bandFor(clock, site);
+  if (!b) return null;
+  if (b.state !== 'open') return { kind: 'closed', daysAhead: b.daysAhead, day: b.day, opens: b.opens };
+  const cur = [...b.stations].reverse().find((s) => s.minutes <= clock.minutes);
+  const nxt = b.stations.find((s) => s.minutes > clock.minutes);
+  return { kind: 'open', label: cur?.label ?? null, next: nxt ? nxt.time : b.end.time };
+}
+
+type Windowed = { from: string; to: string };
+/** The seasonal window that holds this MM-DD (the first one when several would): at most one is active per day. */
+export const activeSeasonal = <T extends Windowed>(list: T[] | undefined, md: string): T | null => list?.find((w) => inWindow(md, w.from, w.to)) ?? null;
+
+/** True when two MM-DD windows share a day (either may wrap New Year): an arc starts inside the other or they do not meet. */
+export const windowsOverlap = (a: Windowed, b: Windowed) => inWindow(a.from, b.from, b.to) || inWindow(b.from, a.from, a.to);

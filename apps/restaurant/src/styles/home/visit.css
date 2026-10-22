@@ -1,0 +1,63 @@
+/* Beat 5, the visit. Built from the brand book's visita chapter (applied.css .visit, tablet.css visit, c390-visita). */
+.visit { background: var(--field); color: var(--field-ink); content-visibility: auto; contain-intrinsic-size: auto 77vw; }
+.vi { position: relative; display: grid; grid-template-columns: 38cqw minmax(0, 1fr); height: 62.5cqw; }
+.vi-rows { position: relative; z-index: 2; display: flex; flex-direction: column; }
+.vr { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 1cqw; padding: 0 var(--m); background: var(--field); font-weight: 500; font-size: max(15px, 2.3cqw); letter-spacing: -0.035em; line-height: 1.05; text-wrap: balance; }
+.vr:nth-child(even) { background: var(--field-2); }
+/* a code like N24-185 never breaks at its hyphen */
+.nb { white-space: nowrap; }
+.vr a { text-decoration-color: transparent; transition: text-decoration-color 0.2s var(--ease); }
+.vr a:hover { text-decoration-color: currentColor; }
+.vr.hr, .vr.wa-r { font-size: max(15px, 1.5cqw); letter-spacing: -0.01em; }
+.vr.hr span:first-child { font-weight: 300; }
+.vr.hr[aria-current] span { font-weight: 600; }
+/* the crossing: the last row runs on over the map, the arrow standing on it */
+.vr.wa-r { width: calc(100% + 10cqw); }
+.arrow-btn { flex: none; display: inline-flex; align-items: center; justify-content: center; width: clamp(44px, 4cqw, 60px); height: clamp(44px, 4cqw, 60px); border-radius: 50%; background: var(--cherry); color: var(--field-ink); transition: background-color 0.25s var(--ease), transform 0.25s var(--ease); }
+.arrow-btn:hover { background: var(--cherry-press); }
+.arrow-btn:active { transform: translateY(1px); }
+.arrow-btn svg { width: 45%; height: 45%; }
+
+.vi-map { position: relative; display: flex; flex-direction: column; min-width: 0; background: var(--field-2); }
+.map-link { position: relative; flex: 1; min-height: 0; display: block; overflow: hidden; }
+.vi-ct { --om: 0.3; --oi: 0.5; --oh: 0.85; --wm: 0.9; --wi: 1.6; --wh: 3; }
+.streets { position: absolute; inset: 0; width: 100%; height: 100%; }
+.s { fill: none; stroke: var(--field-3); stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; }
+.st-l, .st-h { font-family: var(--map); font-weight: 500; font-size: 21px; fill: var(--field-ink); letter-spacing: 0.01em; }
+.st-h { fill: var(--field-2); stroke: var(--field-2); stroke-width: 9px; stroke-linejoin: round; }
+.pin-ring-v { fill: var(--field-2); stroke: var(--field-ink); stroke-width: 4.4; }
+.vi-note { flex: none; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--m); padding: 0.8cqw var(--m) 0.8cqw calc(10cqw + var(--m)); background: var(--field); color: var(--field-muted); }
+.vi-note .cap { max-width: 52ch; }
+.vi-links { display: flex; gap: 0 var(--m); color: var(--field-ink); font-size: max(14px, 1.1cqw); }
+
+@container (min-width: 600px) and (max-width: 1023px) {
+  .vi { grid-template-columns: 42cqw minmax(0, 1fr); height: 91cqw; }
+  .vr { font-size: 3.4cqw; }
+  .vr.hr, .vr.wa-r { font-size: max(15px, 2.2cqw); }
+  .vr.wa-r { width: calc(100% + 8cqw); }
+  .vi-note { padding-left: calc(8cqw + var(--m)); }
+}
+@container (max-width: 599px) {
+  .vi { display: flex; flex-direction: column; height: auto; }
+  .vr { flex: none; min-height: 16cqw; padding-block: 3cqw; font-size: 6cqw; }
+  .vr.hr, .vr.wa-r { font-size: 4.2cqw; }
+  .vr.wa-r { width: auto; }
+  .vi-map { margin-top: -8cqw; }
+  .map-link { flex: none; height: 110cqw; }
+  .vi-note { padding: 3cqw var(--m); }
+  .vi-links { width: 100%; }
+}
+
+@media (max-width: 1023px) { .visit { contain-intrinsic-size: auto 110vw; } }
+@media (max-width: 599px) { .visit { contain-intrinsic-size: auto 270vw; } }
+
+/* Motion: the contours draw (Ct, on entering), then the streets (500 ms, 60 ms apart), then their names; the rows enter staggered. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .vi:not(.in) .vr { opacity: 0; transform: translateY(20px); }
+  .js .vi.in .vr { transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); transition-delay: calc(var(--n, 0) * 80ms); }
+  .js .vi:not(.in) .s { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .js .vi.in .s { animation: st-draw 0.5s var(--draw) calc(400ms + var(--k, 0) * 60ms) backwards; }
+  .js .vi:not(.in) :is(.st-l, .st-h) { opacity: 0; }
+  .js .vi.in :is(.st-l, .st-h) { transition: opacity 0.5s var(--ease) 1000ms; }
+}
+@keyframes st-draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }

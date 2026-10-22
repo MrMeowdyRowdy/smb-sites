@@ -27,15 +27,17 @@ export type UiCopy = {
   footer: string;
   credits: string;
   illustrative: string;
-  hero: { sentence: string; cta: string; menu: string; open: string; before: string; tomorrow: string; on: string };
-  origin: { title: string; lead: string; stagesLabel: string; photos: { cherries: string; drying: string; roasting: string; forest: string } };
+  hero: { sentence: string; every: string; cta: string; menu: string; open: string; before: string; tomorrow: string; on: string };
+  origin: { title: string; dot: string; forest: string; farm: string; peak: string; stagesLabel: string; photos: { cherries: string; drying: string; roasting: string; forest: string }; captions: { cherries: string; drying: string; roasting: string; pour: string; pourAlt: string } };
   band: { title: string; all: string; tableLabel: string; photo: string; alt: Record<string, string> };
   today: {
     title: string; hoursOf: string; now: string; inMin: string; inHourMin: string; closed: string; opensTomorrow: string; opensOn: string; seasonal: string;
     days: Record<string, string>; staticNote: string; focusNow: string; focusNext: string;
+    hoursLabel: string; open: string; statusOpen: string; statusOpenBare: string; statusToday: string; statusTomorrow: string; statusOn: string; statusStatic: string;
+    dayToday: string; dayTomorrow: string; ring: string;
   };
-  visit: { title: string; today: string; closedToday: string; hours: string; phone: string; write: string; mapLabel: string; mapOpen: string; google: string; mapNote: string };
-  close: { invite: string; cta: string; links: string; legal: string };
+  visit: { title: string; today: string; closedToday: string; hours: string; phone: string; write: string; to: string; mapLabel: string; mapOpen: string; google: string; mapNote: string };
+  close: { invite: string; cta: string; links: string; legal: string; disclosure: string; terrain: string; adapted: string; credited: string };
   menuPage: {
     h1: string; intro: string; pour: string; tabs: string; add: string; unavailable: string; qrLink: string; tags: Record<string, string>;
     order: { title: string; empty: string; total: string; cta: string; remove: string; qty: string; items: string; ask: string; takeaway: string; here: string; back: string };
@@ -50,24 +52,29 @@ export const ui: Record<Locale, UiCopy> = {
     footer: 'Neblina es un negocio ficticio y este es un sitio de demostración. Cualquier parecido con un negocio real es coincidencia.',
     credits: 'Créditos de las fotografías',
     illustrative: 'Fotos ilustrativas.',
-    hero: { sentence: 'Café de altura del bosque nublado, en La Floresta.', cta: 'Pedir por WhatsApp', menu: 'Ver el menú', open: 'Abierto ahora · hasta las {t}', before: 'Cerrado · abrimos hoy a las {t}', tomorrow: 'Cerrado · abrimos mañana a las {t}', on: 'Cerrado · abrimos el {d} a las {t}' },
+    hero: { sentence: 'Café de altura del bosque nublado, en La Floresta.', every: 'Abierto todos los días · horario en Hoy', cta: 'Pedir por WhatsApp', menu: 'Ver el menú', open: 'Abierto ahora · hasta las {t}', before: 'Cerrado · abrimos hoy a las {t}', tomorrow: 'Cerrado · abrimos mañana a las {t}', on: 'Cerrado · abrimos el {d} a las {t}' },
     origin: {
       title: 'Del bosque nublado a tu taza',
-      lead: 'De 1.600 metros en Nanegal a 2.850 en La Floresta, en cuatro pasos.',
+      dot: 'El punto rojo es la finca, a {alt} m. La cereza del café es roja cuando está lista.',
+      forest: 'Bosque nublado, sobre {name}',
+      farm: 'La finca, sobre {name}, {alt} m',
+      peak: '{name}, {alt} m',
       stagesLabel: 'Los cuatro pasos',
-      photos: { cherries: 'Cerezas de café maduras en la rama', drying: 'Camas de secado de café al sol', roasting: 'Granos de café en el tostador', forest: 'Mar de nubes al atardecer' },
+      photos: { cherries: 'Cerezas de café maduras en la rama', drying: 'Camas de secado de café al sol', roasting: 'Granos de café en el tostador', forest: 'Mar de nubes al atardecer' }, captions: { cherries: 'Cereza de café', drying: 'Camas de secado', roasting: 'Tostador', pour: 'Café de filtro', pourAlt: 'Café de filtro en una cafetera de vidrio'  },
     },
-    band: { title: 'Lo que sale del horno y de la cafetera', all: 'Ver toda la carta', tableLabel: 'Carta', photo: 'Pan de yuca recién horneado', alt: { 'pan-de-yuca': 'Panecillos de queso recién horneados', humita: 'Humitas envueltas en su hoja', 'empanada-viento': 'Empanadas de viento con azúcar', v60: 'Café filtrado en una jarra de vidrio' } },
+    band: { title: 'Lo que sale del horno y de la cafetera, hoy.', all: 'Ver toda la carta', tableLabel: 'Carta', photo: 'Pan de yuca recién horneado', alt: { 'pan-de-yuca': 'Panecillos de queso recién horneados', humita: 'Humitas envueltas en su hoja', 'empanada-viento': 'Empanadas de viento con azúcar', v60: 'Café filtrado en una jarra de vidrio' } },
     today: {
       title: 'Hoy en Neblina', hoursOf: 'Horario de hoy', now: 'ahora', inMin: 'en {n} min', inHourMin: 'en {h} h {m} min', closed: 'Cerrado', opensTomorrow: 'Abrimos mañana a las {t}.', opensOn: 'Abrimos el {d} a las {t}.',
       seasonal: 'De temporada', staticNote: 'Lunes a viernes. En tu navegador esta lista se ajusta a la hora de Quito.', focusNow: '{label}, ahora', focusNext: '{label}, {in}',
+      hoursLabel: 'Horario de la semana', open: 'Abierto', statusOpen: 'Ahora: {label}. Siguiente a las {t}', statusOpenBare: 'Abierto. Siguiente a las {t}', statusToday: 'Cerrado. Abrimos hoy a las {t}', statusTomorrow: 'Cerrado. Abrimos mañana, {d}, a las {t}', statusOn: 'Cerrado. Abrimos el {d} a las {t}', statusStatic: '{d}: abrimos a las {t}',
+      dayToday: 'Hoy, {d}', dayTomorrow: 'Mañana, {d}', ring: 'próxima apertura',
       days: { Monday: 'lunes', Tuesday: 'martes', Wednesday: 'miércoles', Thursday: 'jueves', Friday: 'viernes', Saturday: 'sábado', Sunday: 'domingo' },
     },
     visit: {
-      title: 'Visítanos', today: 'Hoy', closedToday: 'Cerrado hoy', hours: 'Horario', phone: 'WhatsApp', write: 'Escríbenos',
-      mapLabel: 'Plano esquemático de La Floresta, Quito. Abre OpenStreetMap en el local.', mapOpen: 'Abrir en OpenStreetMap', google: 'Abrir en Google Maps', mapNote: 'Plano aproximado, dibujado a mano. Los mapas se abren en otro sitio.',
+      title: 'Visítanos', today: 'Hoy', closedToday: 'Cerrado hoy', hours: 'Horario', phone: 'WhatsApp', write: 'Escríbenos por WhatsApp', to: 'a',
+      mapLabel: 'Plano esquemático de La Floresta, Quito. Abre OpenStreetMap en el local.', mapOpen: 'Abrir en OpenStreetMap', google: 'Abrir en Google Maps', mapNote: 'Calles dibujadas a mano, ilustrativas; las curvas de nivel son reales.',
     },
-    close: { invite: '¿Un café antes de que llegue la neblina?', cta: 'Pedir por WhatsApp', links: 'Enlaces', legal: 'Sitio de demostración' },
+    close: { invite: '¿Un café antes de que llegue la neblina?', cta: 'Pedir por WhatsApp', links: 'Enlaces', legal: 'Sitio de demostración', disclosure: 'Fotos ilustrativas, de bancos libres, con color y bruma aplicados digitalmente. La bruma es un efecto de color, no una escena real.', terrain: 'Datos de terreno: U.S. Geological Survey (3DEP, SRTM, GMTED2010) vía Mapzen / AWS Terrain Tiles', adapted: 'Las fotos de pan de yuca, humitas, empanada, colada y quimbolito son adaptaciones recoloreadas bajo la misma licencia CC BY-SA. La curva de la finca ({n} m) es un punto ilustrativo, no una finca medida.', credited: 'Créditos de las fotografías' },
     menuPage: {
       h1: 'Menú',
       intro: 'Agrega lo que quieras y envía tu pedido por WhatsApp. Precios en dólares, con impuestos incluidos.',
@@ -83,24 +90,29 @@ export const ui: Record<Locale, UiCopy> = {
     footer: 'Neblina is a fictional business and this is a demo site. Any resemblance to a real business is coincidence.',
     credits: 'Photo credits',
     illustrative: 'Illustrative photos.',
-    hero: { sentence: 'Highland coffee from the cloud forest, in La Floresta.', cta: 'Order on WhatsApp', menu: 'See the menu', open: 'Open now · until {t}', before: 'Closed · we open today at {t}', tomorrow: 'Closed · we open tomorrow at {t}', on: 'Closed · we open on {d} at {t}' },
+    hero: { sentence: 'Highland coffee from the cloud forest, in La Floresta.', every: 'Open every day · hours under Today', cta: 'Order on WhatsApp', menu: 'See the menu', open: 'Open now · until {t}', before: 'Closed · we open today at {t}', tomorrow: 'Closed · we open tomorrow at {t}', on: 'Closed · we open on {d} at {t}' },
     origin: {
       title: 'From the cloud forest to your cup',
-      lead: 'From 1,600 meters in Nanegal to 2,850 in La Floresta, in four steps.',
+      dot: 'The red dot is the farm, at {alt} m. A coffee cherry is red when it is ripe.',
+      forest: 'Cloud forest above {name}',
+      farm: 'The farm above {name}, {alt} m',
+      peak: '{name}, {alt} m',
       stagesLabel: 'The four steps',
-      photos: { cherries: 'Ripe coffee cherries on the branch', drying: 'Coffee drying beds in the sun', roasting: 'Coffee beans in the roaster', forest: 'Sea of clouds at dusk' },
+      photos: { cherries: 'Ripe coffee cherries on the branch', drying: 'Coffee drying beds in the sun', roasting: 'Coffee beans in the roaster', forest: 'Sea of clouds at dusk' }, captions: { cherries: 'Coffee cherry', drying: 'Drying beds', roasting: 'Roaster', pour: 'Filter coffee', pourAlt: 'Filter coffee in a glass brewer'  },
     },
-    band: { title: 'From the oven and the coffee maker', all: 'See the full menu', tableLabel: 'Menu', photo: 'Freshly baked pan de yuca', alt: { 'pan-de-yuca': 'Freshly baked cheese rolls', humita: 'Humitas wrapped in their husk', 'empanada-viento': 'Sugared empanadas de viento', v60: 'Filter coffee in a glass jug' } },
+    band: { title: 'From the oven and the pot, today.', all: 'See the full menu', tableLabel: 'Menu', photo: 'Freshly baked pan de yuca', alt: { 'pan-de-yuca': 'Freshly baked cheese rolls', humita: 'Humitas wrapped in their husk', 'empanada-viento': 'Sugared empanadas de viento', v60: 'Filter coffee in a glass jug' } },
     today: {
       title: 'Today at Neblina', hoursOf: 'Hours today', now: 'now', inMin: 'in {n} min', inHourMin: 'in {h} h {m} min', closed: 'Closed', opensTomorrow: 'We open tomorrow at {t}.', opensOn: 'We open on {d} at {t}.',
       seasonal: 'In season', staticNote: 'Monday to Friday. In your browser this list follows Quito time.', focusNow: '{label}, now', focusNext: '{label}, {in}',
+      hoursLabel: 'Hours this week', open: 'Open', statusOpen: 'Now: {label}. Next at {t}', statusOpenBare: 'Open. Next at {t}', statusToday: 'Closed. We open today at {t}', statusTomorrow: 'Closed. We open tomorrow, {d}, at {t}', statusOn: 'Closed. We open on {d} at {t}', statusStatic: '{d}: we open at {t}',
+      dayToday: 'Today, {d}', dayTomorrow: 'Tomorrow, {d}', ring: 'next opening',
       days: { Monday: 'Monday', Tuesday: 'Tuesday', Wednesday: 'Wednesday', Thursday: 'Thursday', Friday: 'Friday', Saturday: 'Saturday', Sunday: 'Sunday' },
     },
     visit: {
-      title: 'Visit', today: 'Today', closedToday: 'Closed today', hours: 'Hours', phone: 'WhatsApp', write: 'Message us',
-      mapLabel: 'Schematic plan of La Floresta, Quito. Opens OpenStreetMap at the café.', mapOpen: 'Open in OpenStreetMap', google: 'Open in Google Maps', mapNote: 'Approximate, hand-drawn plan. Maps open on another site.',
+      title: 'Visit', today: 'Today', closedToday: 'Closed today', hours: 'Hours', phone: 'WhatsApp', write: 'Message us on WhatsApp', to: 'to',
+      mapLabel: 'Schematic plan of La Floresta, Quito. Opens OpenStreetMap at the café.', mapOpen: 'Open in OpenStreetMap', google: 'Open in Google Maps', mapNote: 'Streets drawn by hand, illustrative; the contour lines are real.',
     },
-    close: { invite: 'A coffee before the fog comes in?', cta: 'Order on WhatsApp', links: 'Links', legal: 'Demo site' },
+    close: { invite: 'A coffee before the fog comes in?', cta: 'Order on WhatsApp', links: 'Links', legal: 'Demo site', disclosure: 'Illustrative photos from free libraries, with colour and mist applied digitally. The mist is a colour effect, not a real scene.', terrain: 'Terrain data: U.S. Geological Survey (3DEP, SRTM, GMTED2010) via Mapzen / AWS Terrain Tiles', adapted: 'The photos of pan de yuca, humitas, empanada, colada and quimbolito are recoloured adaptations under the same CC BY-SA licence. The farm contour ({n} m) is an illustrative point, not a measured farm.', credited: 'Photo credits' },
     menuPage: {
       h1: 'Menu',
       intro: 'Add what you like and send your order on WhatsApp. Prices in US dollars, taxes included.',

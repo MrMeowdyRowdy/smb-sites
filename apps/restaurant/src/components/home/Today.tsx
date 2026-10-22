@@ -1,89 +1,92 @@
 'use client';
 
 import type { Locale } from '@smb/i18n';
+import { type ReactNode, useSyncExternalStore } from 'react';
 import { ui } from '../../copy';
+import { type Band, type Clock, type HoursEntry, type Ritual, activeSeasonal, bandFor, clockOverride, quitoClock, quitoMonthDay, statusFor } from '../../lib/today';
 import { useNow } from '../../lib/useNow';
-import { type Moment, type Today as TodayState, focusTime, inWindow, momentsFor, quitoClock, quitoMonthDay, today } from '../../lib/today';
-import type { HoursEntry, Ritual } from '../../lib/today';
+import '../../styles/home/hoy.css';
+import { CtBg } from '../brand/Ct';
+import { Seam } from '../brand/Seam';
+import { HoursBand } from './hoy/HoursBand';
 
-type Seasonal = { from: string; to: string; name: { es: string; en: string }; note: { es: string; en: string } };
-type Props = { locale: Locale; hours: (HoursEntry & { label: { es: string; en: string } })[]; rituals: Ritual[]; seasonal?: Seasonal; seasonalArt?: React.ReactNode };
+type L10n = { es: string; en: string };
+type Seasonal = { from: string; to: string; name: L10n; note: L10n; photo: string; focus?: string };
+type Props = {
+  locale: Locale;
+  hours: (HoursEntry & { label: L10n })[];
+  rituals: Ritual[];
+  seasonal?: Seasonal[];
+  /** one rendered photo per seasonal window, in the same order (the server owns the image files) */
+  seasonalArt?: ReactNode[];
+  /** the window when no seasonal item is active: a dish, captioned with its name only */
+  dish: { name: string; art: ReactNode; focus?: string };
+};
 
+const noSubscribe = () => () => {};
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k]));
+const cap1 = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/** Beat 4. The server renders the full static list (first hours group); the browser swaps in today's moments every minute. */
-export function Today({ locale, hours, rituals, seasonal, seasonalArt }: Props) {
+/**
+ * Beat 4, "Hoy en Neblina". The static render (and no JS) shows the first hours group truthfully: its opening time on the monument,
+ * its day list, no "now". In the browser the clock is Quito time (or ?t=HH:MM&d=Weekday), and everything speaks about the right day.
+ */
+export function Today({ locale, hours, rituals, seasonal, seasonalArt, dish }: Props) {
   const u = ui[locale].today;
   const site = { hours, rituals };
   const now = useNow();
+  // null in the static HTML and during hydration, then the URL's query (for ?t= / ?d= / ?md= overrides)
+  const search = useSyncExternalStore(noSubscribe, () => window.location.search, () => null);
 
-  const live: TodayState | null = now ? today(now, site) : null;
+  const live = now !== null && search !== null;
+  const clock: Clock | null = live ? clockOverride(quitoClock(now), search) : null;
   const first = hours[0];
-  const moments: Moment[] = live ? live.moments : momentsFor(site, first).map((m) => ({ ...m, state: 'later' as const }));
-  const inText = (n: number) => (n >= 60 ? fill(u.inHourMin, { h: Math.floor(n / 60), m: String(n % 60).padStart(2, '0') }) : fill(u.inMin, { n }));
+  // Static: the first group's first day at minute 0 reads as "before opening", every station in the next tone, no marker.
+  const band: Band | null = bandFor(clock ?? { day: first.days[0] as Clock['day'], minutes: 0 }, site);
+  const status = clock ? statusFor(clock, site) : null;
 
-  // The dominant object: the clock time of the current or next moment, with its label and "in 6 h 52 min" / "now" beside it.
-  let time: string | null;
-  let label: string;
-  let when: string;
-  if (!live) {
-    time = first.opens;
-    label = first.label[locale];
-    when = `${first.opens} - ${first.closes}`;
-  } else {
-    const f = live.focus;
-    time = focusTime(f);
-    if (f.kind === 'now') [label, when] = [f.moment.label[locale], u.now];
-    else if (f.kind === 'next') [label, when] = [f.moment.label[locale], inText(f.minutes)];
-    else {
-      const n = f.next;
-      label = u.closed;
-      when = !n ? '' : n.daysAhead === 1 ? fill(u.opensTomorrow, { t: n.opens }) : fill(u.opensOn, { d: u.days[n.day], t: n.opens });
-    }
-  }
-  const showSeasonal = !!now && !!seasonal && inWindow(quitoMonthDay(now), seasonal.from, seasonal.to);
+  let text: string;
+  if (!live || !band) text = fill(u.statusStatic, { d: first.label[locale], t: first.opens });
+  else if (status?.kind === 'open') text = status.label ? fill(u.statusOpen, { label: status.label[locale], t: status.next ?? '' }) : fill(u.statusOpenBare, { t: status.next ?? '' });
+  else if (status?.kind === 'closed') text = status.daysAhead === 0 ? fill(u.statusToday, { t: status.opens }) : status.daysAhead === 1 ? fill(u.statusTomorrow, { d: u.days[status.day], t: status.opens }) : fill(u.statusOn, { d: u.days[status.day], t: status.opens });
+  else text = fill(u.statusStatic, { d: first.label[locale], t: first.opens });
+
+  let dayLabel = first.label[locale];
+  if (live && band && band.state !== 'open') dayLabel = band.daysAhead === 0 ? fill(u.dayToday, { d: u.days[band.day] }) : band.daysAhead === 1 ? fill(u.dayTomorrow, { d: u.days[band.day] }) : cap1(u.days[band.day]);
+  if (live && band?.state === 'open') dayLabel = '';
+
+  const md = (search && /^\?.*\bmd=(\d\d-\d\d)\b/.exec(search)?.[1]) || (now ? quitoMonthDay(now) : '');
+  const season = live ? activeSeasonal(seasonal, md) : null;
+  const seasonIdx = season && seasonal ? seasonal.indexOf(season) : -1;
+  const art = season && seasonalArt?.[seasonIdx] ? { key: `s${seasonIdx}`, kind: 'season', node: seasonalArt[seasonIdx], caption: `${season.name[locale]}. ${season.note[locale]}`, focus: season.focus } : { key: 'dish', kind: 'dish', node: dish.art, caption: dish.name, focus: dish.focus };
 
   return (
-    <section id="hoy" className="today" data-art={showSeasonal && seasonalArt ? '' : undefined} aria-labelledby="today-title" data-today>
-      <h2 id="today-title">{u.title}</h2>
-      <div className="today-focus" aria-live="polite" data-focus>
-        {time && <p className="today-time num">{time}</p>}
-        <p className="today-what">
-          <span className="today-label">{label}</span>
-          {when && <span className="today-when">{when}</span>}
-        </p>
+    <section id="hoy" className="chap hoy" aria-labelledby="today-title" data-today data-state={band?.state ?? 'before'} data-cv>
+      <CtBg name="nanegal" om={0.08} oi={0.11} oh={0.16} wm={0.8} wi={1.3} wh={2.2} className="hy-field" />
+      <Seam from="paper" to="surface" name="nanegal" vb="120 200 800 160" />
+      <div className="hy-in">
+        <h2 id="today-title" className="hy-h rv">{u.title}</h2>
+        <div className="hy-focus rv" data-focus>
+          <p className="hy-clock num" data-clock>{band?.clock ?? first.opens}</p>
+          <p className="hy-status" data-status aria-live="polite">{text}</p>
+        </div>
+        <figure className="hy-fig rv" data-kind={art.kind}>
+          <div className="hy-ph win" key={art.key} style={{ ['--pos' as string]: art.focus ?? '50% 50%' }}>{art.node}</div>
+          <figcaption className="cap">{art.caption}</figcaption>
+        </figure>
+        <ul className="hy-hours rv" aria-label={u.hoursLabel}>
+          {hours.map((h) => {
+            const today = !!clock && h.days.includes(clock.day);
+            return (
+              <li key={h.days.join()} className={`hh${today ? ' today' : ''}`} aria-current={today ? 'date' : undefined}>
+                <span>{h.label[locale]}</span>
+                <span className="num">{h.opens} {ui[locale].visit.to} {h.closes}</span>
+              </li>
+            );
+          })}
+        </ul>
+        {band && <HoursBand band={band} locale={locale} dayLabel={dayLabel} live={live} />}
       </div>
-      {live && live.hours && <p className="today-hours">{u.hoursOf}: {live.hours.opens} - {live.hours.closes}</p>}
-      <ol className="day" data-day>
-        {moments.map((m) => {
-          // The bar fills up to now: past stretches are full, the current one is partly filled.
-          const fill = m.state === 'past' ? 1 : m.state === 'current' && now ? Math.min(1, Math.max(0, (quitoClock(now).minutes - m.minutes) / m.grow)) : 0;
-          return (
-            <li key={m.id} className="moment" data-state={m.state} style={{ ['--grow' as string]: m.grow, ['--fill' as string]: fill }} aria-current={m.state === 'current' ? 'time' : undefined}>
-              <span className="moment-time num">{m.time}</span>
-              <span className="moment-bar" aria-hidden="true" />
-              <span className="moment-text">
-                <span className="moment-label">{m.label[locale]}</span>
-                <span className="moment-note">{m.note[locale]}</span>
-              </span>
-            </li>
-          );
-        })}
-      </ol>
-      {!live && <p className="today-static">{u.staticNote}</p>}
-      {showSeasonal && seasonal && (
-        <>
-          <p className="seasonal" data-seasonal>
-            <strong>{u.seasonal}:</strong> {seasonal.name[locale]}. {seasonal.note[locale]}
-          </p>
-          {seasonalArt && (
-            <figure className="today-art">
-              {seasonalArt}
-              <figcaption>{seasonal.name[locale]}</figcaption>
-            </figure>
-          )}
-        </>
-      )}
     </section>
   );
 }

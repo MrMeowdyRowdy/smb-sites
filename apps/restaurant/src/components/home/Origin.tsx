@@ -1,67 +1,61 @@
 import type { Locale } from '@smb/i18n';
 import { ui } from '../../copy';
-import { pick, site, thousands } from '../../lib/content';
+import { site, thousands } from '../../lib/content';
+import { numeralBase } from '../brand/BrandDefs';
+import { CtBg } from '../brand/Ct';
 import { Pic } from '../Pic';
+import { Edge } from './origin/Edge';
+import { RouteMap } from './origin/RouteMap';
+import '../../styles/home/origin.css';
 
-/** Beat 2. Reads site.origin; the home page skips the whole chapter when it is absent. */
+/** Beat 2. Reads site.origin; the home page skips the whole chapter when it is absent. The chapter opens on the tree-line edge (the cloud-forest photo rising behind the crown line), then the stage: heading, dot line, the altitude numeral, the route map, four windows. */
+const WINDOWS = [
+  { key: 'cherries', photo: 'coffee-cherries', w: 4, h: 3, op: '40% 45%' },
+  { key: 'drying', photo: 'drying-beds', w: 3, h: 2, op: '72% 62%' },
+  { key: 'roasting', photo: 'roasting', w: 2, h: 3, op: '50% 52%' },
+  { key: 'pour', photo: 'pour-over', w: 2, h: 3, op: '50% 100%' }, // the brewer and the cup end; the menu band shows the kettle (pour-over-band)
+] as const;
+
 export function Origin({ locale }: { locale: Locale }) {
   const o = site.origin;
   if (!o) return null;
   const u = ui[locale].origin;
-  const m = locale === 'es' ? 'm' : 'm';
+  const alt = (n: number) => thousands(n, locale);
   return (
-    <section className="origin field" aria-labelledby="origin-title" data-origin>
-      <div className="origin-stage">
-        <div className="origin-head">
-          <h2 id="origin-title">{u.title}</h2>
-          <p>{u.lead}</p>
+    <section className="chap origin-ch field" aria-labelledby="origin-title" data-origin>
+      <div className="fo" data-edge data-watch>
+        <div className="fo-top" aria-hidden="true">
+          <CtBg name="floresta" vb="640 90 520 200" color="var(--field-ink)" om={0.06} oi={0.1} oh={0.18} />
         </div>
-        <p className="origin-num" aria-hidden="true" data-altitude={o.to.altitude} data-from={o.from.altitude}>
-          <span data-count>{thousands(o.to.altitude, locale)}</span>
-          <small>{m}</small>
-        </p>
-        <div className="route" aria-hidden="true">
-          <svg viewBox="0 0 1200 600" preserveAspectRatio="none" focusable="false">
-            <path className="route-line" d="M 70 540 C 320 540, 250 300, 520 330 S 840 150, 1130 70" />
-          </svg>
-          <span className="route-dot route-dot-from" />
-          <span className="route-dot route-dot-to" />
-          <span className="route-label route-from">
-            {o.from.name}, {thousands(o.from.altitude, locale)} {m}
-          </span>
-          <span className="route-label route-to">
-            {o.to.name}, {thousands(o.to.altitude, locale)} {m}
-          </span>
+        <div className="fo-photo" aria-hidden="true">
+          <div className="fo-v w"><Edge id="w" box={[0, 470, 2400, 1030]} /></div>
+          <div className="fo-v t"><Edge id="t" box={[1130, 470, 1270, 1060]} /></div>
+          <div className="fo-v p"><Edge id="p" box={[1790, 470, 610, 940]} /></div>
         </div>
-        <div className="frame-pos frame-4" data-frame>
-          <figure className="frame">
-            <Pic name="cloud-forest" w={3} h={2} alt={u.photos.forest} sizes="(max-width: 760px) 58vw, 23vw" />
-          </figure>
-        </div>
-        <div className="frame-pos frame-1" data-frame>
-          <figure className="frame">
-            <Pic name="coffee-cherries-tall" w={4} h={5} alt={u.photos.cherries} sizes="(max-width: 760px) 58vw, 23vw" />
-          </figure>
-        </div>
-        <div className="frame-pos frame-2" data-frame>
-          <figure className="frame">
-            <Pic name="drying-beds" w={3} h={2} alt={u.photos.drying} sizes="(max-width: 760px) 58vw, 23vw" />
-          </figure>
-        </div>
-        <div className="frame-pos frame-3" data-frame>
-          <figure className="frame">
-            <Pic name="roasting" w={2} h={3} alt={u.photos.roasting} sizes="(max-width: 760px) 58vw, 23vw" />
-          </figure>
-        </div>
+        <div className="fo-fog" aria-hidden="true" />
+        <p className="fo-lab">{u.forest.replace('{name}', o.from.name)}</p>
       </div>
-      <ol className="stairs" aria-label={u.stagesLabel}>
-        {o.stages.map((s) => (
-          <li key={s.id} data-stage>
-            <h3>{pick(s.title, locale)}</h3>
-            <p>{pick(s.text, locale)}</p>
-          </li>
-        ))}
-      </ol>
+      <div className="origin" data-pin>
+        <CtBg name="nanegal" vb="120 120 700 560" color="var(--field-ink)" om={0.08} oi={0.15} oh={0.26} wm={1} wi={1.6} wh={3} className="or-bg" draw />
+        <h2 id="origin-title" className="or-h">{u.title}</h2>
+        <p className="or-dot">{u.dot.replace('{alt}', alt(o.from.altitude))}</p>
+        <div className="or-wins">
+          {WINDOWS.map((w, i) => (
+            <figure key={w.key} className={`ow o${i + 1}`} data-win>
+              <div className="owi winn" style={{ ['--op' as string]: w.op }}>
+                <Pic name={w.photo} w={w.w} h={w.h} alt={w.key === 'pour' ? u.captions.pourAlt : u.photos[w.key]} sizes="(max-width: 1023px) 40vw, 12vw" />
+              </div>
+              <figcaption className="owc">{u.captions[w.key]}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <div className="or-num" aria-hidden="true">
+          <span className="n num" data-count data-count-from={o.from.altitude} data-count-to={o.to.altitude}>{alt(o.to.altitude)}</span>
+          <span className="u">m</span>
+          <svg className="base" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false"><path d={numeralBase} vectorEffect="non-scaling-stroke" /></svg>
+        </div>
+        <div className="or-map"><RouteMap locale={locale} /></div>
+      </div>
     </section>
   );
 }

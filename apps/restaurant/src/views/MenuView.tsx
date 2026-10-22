@@ -1,5 +1,6 @@
 import type { Locale } from '@smb/i18n';
 import { JsonLd } from '../components/JsonLd';
+import { MenuArrival } from '../components/MenuArrival';
 import { MenuBrowser } from '../components/MenuBrowser';
 import { Pic } from '../components/Pic';
 import { Shell } from '../components/Shell';
@@ -15,6 +16,7 @@ export function MenuView({ locale }: { locale: Locale }) {
     <Shell locale={locale} routeId="menu">
       <JsonLd data={cafeJsonLd(locale)} />
       <div className="menu-head">
+        <MenuArrival />
         <p className="menu-lead">{lead}</p>
         <div className="menu-name">
           <h1>{u.h1}</h1>
