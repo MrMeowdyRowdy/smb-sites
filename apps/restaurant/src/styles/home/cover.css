@@ -58,10 +58,14 @@
   .pl-x { display: none; }
 }
 
-/* Scroll motion (src/motion/cover.ts): the name scales through --ns, a second fog layer climbs through --fy. Both rest at their end state. */
-.cv-name { --ns: 1; scale: var(--ns); }
-.cv-fogu { position: absolute; inset: 0; z-index: 2; --fy: -12; background: var(--paper); pointer-events: none;
-  -webkit-mask: url(/brand/fog-mask-cover.webp) 0 calc(var(--fy) * 1%) / 100% 300% no-repeat; mask: url(/brand/fog-mask-cover.webp) 0 calc(var(--fy) * 1%) / 100% 300% no-repeat; }
+/* Scroll motion (src/motion/cover.ts): the name scales through --ns, a second fog layer climbs through --fy. Both rest at their end state.
+   Compositor only (hero scroll jank, 2026-10-22): the fog is a 3x-tall layer with a fixed mask that slides by translate (same picture as
+   mask-position fy% on a 100%/300% mask: -2H*fy/100), the name and the steam get their own layers, so scrolling never re-rasters the cover. */
+.cv-name { --ns: 1; scale: var(--ns); will-change: scale; }
+.cv .steam { will-change: transform; }
+.cv-fogu { position: absolute; inset: 0 0 auto 0; height: 300%; z-index: 2; --fy: -12; background: var(--paper); pointer-events: none;
+  translate: 0 calc(var(--fy) * -2% / 3); will-change: translate;
+  -webkit-mask: url(/brand/fog-mask-cover.webp) 0 0 / 100% 100% no-repeat; mask: url(/brand/fog-mask-cover.webp) 0 0 / 100% 100% no-repeat; }
 html[data-tab-hidden] .steam path { animation-play-state: paused; }
 
 /* The arrival (once per session, html[data-arrive]): the contour draws on (0.5 s, 60 ms apart), the fog thins to its resting density. Ends at rest. */

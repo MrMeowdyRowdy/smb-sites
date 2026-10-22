@@ -26,17 +26,23 @@ const axe = fs
   .map((r) => ({ route: r.route, violations: r.violations.reduce((n, v) => n + v.nodes, 0) }))
   .sort((a, b) => a.route.localeCompare(b.route));
 
-const lighthouse = read('lhci/manifest.json')
+const runs = read('lhci/manifest.json');
+const lcpOf = (r) => JSON.parse(fs.readFileSync(r.jsonPath, 'utf8')).audits['largest-contentful-paint'].numericValue;
+// Same aggregation as the lighthouserc LCP assertion: median of all runs for the URL.
+const medianLcp = (url) => {
+  const v = runs.filter((r) => r.url === url).map(lcpOf).sort((a, b) => a - b);
+  return v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2;
+};
+const lighthouse = runs
   .filter((r) => r.isRepresentativeRun)
   .map((r) => {
-    const lhr = JSON.parse(fs.readFileSync(r.jsonPath, 'utf8'));
     return {
       path: new URL(r.url).pathname,
       performance: r.summary.performance,
       accessibility: r.summary.accessibility,
       bestPractices: r.summary['best-practices'],
       seo: r.summary.seo,
-      lcp: lhr.audits['largest-contentful-paint'].numericValue,
+      lcp: medianLcp(r.url),
     };
   })
   .sort((a, b) => a.path.localeCompare(b.path));
