@@ -1,0 +1,13 @@
+**/node_modules
+**/.next
+**/out
+**/reports
+**/playwright-report
+**/test-results
+**/.env*
+.git
+.github
+.taste-skill
+apps/restaurant
+!apps/restaurant/package.json
+docs

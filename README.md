@@ -10,6 +10,7 @@ Next.js 16 (app router, static export), React 19, TypeScript, npm workspaces, Vi
 
 ```
 apps/restaurant     the café site
+apps/clinic         booking app for a fictional dental clinic (Next.js server, Postgres, Docker)
 packages/config     tsconfig base and ESLint config
 packages/i18n       ES/EN dictionaries and the paired route map
 packages/ui         WhatsApp helpers and button, contact form, language switch, analytics slot

@@ -26,6 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       apps: ${{ steps.list.outputs.apps }}
+      clinic: ${{ steps.list.outputs.clinic }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3.0.2
@@ -42,25 +43,32 @@ jobs:
               - '.github/workflows/sites.yml'
             restaurant:
               - 'apps/restaurant/**'
-            # clinic:
-            #   - 'apps/clinic/**'
+            clinic:
+              - 'apps/clinic/**'
       - id: list
         env:
           EVENT: ${{ github.event_name }}
           INPUT_APP: ${{ inputs.app }}
           SHARED: ${{ steps.filter.outputs.shared }}
           RESTAURANT: ${{ steps.filter.outputs.restaurant }}
+          CLINIC: ${{ steps.filter.outputs.clinic }}
         run: |
+          # apps: the static sites (check + deploy matrix). clinic: the server app, which has its own jobs.
           ALL='["restaurant"]'
+          clinic=false
           if [ "$EVENT" = workflow_dispatch ]; then
-            if [ -n "$INPUT_APP" ]; then apps="[\"$INPUT_APP\"]"; else apps="$ALL"; fi
+            if [ -z "$INPUT_APP" ]; then apps="$ALL"; clinic=true
+            elif [ "$INPUT_APP" = clinic ]; then apps='[]'; clinic=true
+            else apps="[\"$INPUT_APP\"]"; fi
           elif [ "$SHARED" = true ]; then
-            apps="$ALL"
+            apps="$ALL"; clinic=true
           else
             apps='[]'
             [ "$RESTAURANT" = true ] && apps='["restaurant"]'
+            [ "$CLINIC" = true ] && clinic=true
           fi
           echo "apps=$apps" >> "$GITHUB_OUTPUT"
+          echo "clinic=$clinic" >> "$GITHUB_OUTPUT"
 
   check:
     needs: changes
@@ -101,6 +109,71 @@ jobs:
         with:
           name: quality-${{ matrix.app }}
           path: apps/${{ matrix.app }}/content/quality.json
+
+  # The clinic is a Node server with a Postgres, so it does not share the static-site job above.
+  check-clinic:
+    needs: changes
+    if: needs.changes.outputs.clinic == 'true'
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_USER: clinic
+          POSTGRES_PASSWORD: clinic
+          POSTGRES_DB: clinic
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U clinic -d clinic"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://clinic:clinic@127.0.0.1:5433/clinic
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint -w apps/clinic
+      - run: npm run typecheck -w apps/clinic
+      - run: npm run test:unit -w apps/clinic
+      - name: Standalone build
+        run: npm run build -w apps/clinic
+      - run: npx playwright install --with-deps chromium
+      - name: Playwright and axe (standalone server, migrations, Postgres service)
+        run: npm run test:e2e -w apps/clinic
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports-clinic
+          path: apps/clinic/playwright-report/
+
+  # Push the image only from the default branch, after the checks pass. The package must be made public once in GitHub.
+  image-clinic:
+    needs: [changes, check-clinic]
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/clinic/Dockerfile
+          push: true
+          tags: ghcr.io/mrmeowdyrowdy/clinic:${{ github.sha }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: [changes, check]
