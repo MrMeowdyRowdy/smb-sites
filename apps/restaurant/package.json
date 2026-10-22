@@ -10,7 +10,7 @@
     "test:unit": "vitest run",
     "pretest:e2e": "node -e \"require('fs').rmSync('reports/axe',{recursive:true,force:true})\"",
     "test:e2e": "playwright test",
-    "lhci": "CHROME_PATH=${CHROME_PATH:-/usr/bin/google-chrome} npx -y @lhci/cli@0.14.0 autorun --config=lighthouserc.json",
+    "lhci": "CHROME_PATH=${CHROME_PATH:-/usr/bin/google-chrome} lhci autorun --config=lighthouserc.json",
     "postlhci": "node -e \"const fs=require('fs');for(const d of fs.readdirSync('.').filter(n=>n.startsWith('C:')))fs.rmSync(d,{recursive:true})\"",
     "report": "node scripts/quality-report.mjs",
     "ci": "npm run lint && npm run typecheck && npm run test:unit && npm run build && npm run test:e2e && npm run lhci && npm run report && npm run build"

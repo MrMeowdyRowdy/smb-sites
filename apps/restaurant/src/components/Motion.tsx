@@ -112,11 +112,18 @@ export function Motion() {
         mm.revert();
       };
     };
+    // After the load event, so the motion chunks are not requested before first paint (Lighthouse counts those toward LCP).
     const idle = (window as unknown as { requestIdleCallback?: (f: () => void) => number }).requestIdleCallback;
-    const t = idle ? idle(() => void start()) : window.setTimeout(() => void start(), 200);
+    let t = 0;
+    const go = () => {
+      t = idle ? idle(() => void start()) : window.setTimeout(() => void start(), 200);
+    };
+    if (document.readyState === 'complete') go();
+    else window.addEventListener('load', go, { once: true });
     return () => {
       cancelled = true;
-      if (!idle) clearTimeout(t as number);
+      window.removeEventListener('load', go);
+      if (!idle) clearTimeout(t);
       cleanup();
     };
   }, []);
