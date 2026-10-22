@@ -9,7 +9,7 @@
 .vr a { text-decoration-color: transparent; transition: text-decoration-color 0.2s var(--ease); }
 .vr a:hover { text-decoration-color: currentColor; }
 .vr.hr, .vr.wa-r { font-size: max(15px, 1.5cqw); letter-spacing: -0.01em; }
-.vr.hr span:first-child { font-weight: 300; }
+.vr.hr span:first-child { font-weight: 400; }
 .vr.hr[aria-current] span { font-weight: 600; }
 /* the crossing: the last row runs on over the map, the arrow standing on it */
 .vr.wa-r { width: calc(100% + 10cqw); }
@@ -27,14 +27,15 @@
 .st-h { fill: var(--field-2); stroke: var(--field-2); stroke-width: 9px; stroke-linejoin: round; }
 .pin-ring-v { fill: var(--field-2); stroke: var(--field-ink); stroke-width: 4.4; }
 .vi-note { flex: none; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--m); padding: 0.8cqw var(--m) 0.8cqw calc(10cqw + var(--m)); background: var(--field); color: var(--field-muted); }
-.vi-note .cap { max-width: 52ch; }
-.vi-links { display: flex; gap: 0 var(--m); color: var(--field-ink); font-size: max(14px, 1.1cqw); }
+.vi-note .cap { max-width: 52ch; font-weight: 500; }
+.vi-links { display: flex; flex-wrap: wrap; gap: 0 var(--m); color: var(--field-ink); font-size: max(16px, 1.1cqw); }
 
 @container (min-width: 600px) and (max-width: 1023px) {
   .vi { grid-template-columns: 42cqw minmax(0, 1fr); height: 91cqw; }
   .vr { font-size: 3.4cqw; }
   .vr.hr, .vr.wa-r { font-size: max(15px, 2.2cqw); }
   .vr.wa-r { width: calc(100% + 8cqw); }
+  .st-l, .st-h { font-size: 25px; }
   .vi-note { padding-left: calc(8cqw + var(--m)); }
 }
 @container (max-width: 599px) {
@@ -42,6 +43,7 @@
   .vr { flex: none; min-height: 16cqw; padding-block: 3cqw; font-size: 6cqw; }
   .vr.hr, .vr.wa-r { font-size: 4.2cqw; }
   .vr.wa-r { width: auto; }
+  .st-l, .st-h { font-size: 28px; }
   .vi-map { margin-top: -8cqw; }
   .map-link { flex: none; height: 110cqw; }
   .vi-note { padding: 3cqw var(--m); }

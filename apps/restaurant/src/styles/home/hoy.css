@@ -4,7 +4,7 @@
 .hy-field { z-index: 0; }
 .hoy .seam { background: transparent; }
 .hy-in { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 30cqw; column-gap: var(--m); padding: 3.2cqw var(--m) 0; }
-.hy-h { grid-column: 1; grid-row: 1; margin: 0; font-weight: 500; font-size: 4cqw; letter-spacing: -0.04em; line-height: 1; }
+.hy-h { position: relative; z-index: 1; grid-column: 1; grid-row: 1; margin: 0; font-weight: 500; font-size: 4cqw; letter-spacing: -0.04em; line-height: 1; } /* above the clock's tall line box (the glyphs never meet) */
 
 /* The clock and the window share a baseline (their bottoms), side by side without overlapping. */
 .hy-focus, .hy-fig { display: grid; grid-template-rows: subgrid; min-width: 0; }
@@ -19,7 +19,7 @@
 .hy-ph img, .hy-ph .ph { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos); }
 .hy-fig figcaption { margin-top: 2.4cqw; color: var(--ink); text-wrap: pretty; }
 .hy-hours { grid-column: 2; grid-row: 4; display: flex; flex-direction: column; margin-top: 3cqw; }
-.hh { display: flex; justify-content: space-between; gap: 1cqw; padding: 0.5cqw 0; font-weight: 300; font-size: max(15px, 1.25cqw); }
+.hh { display: flex; justify-content: space-between; gap: 1cqw; padding: 0.5cqw 0; font-weight: 400; font-size: max(16px, 1.25cqw); }
 .hh.today, .hh.today span { font-weight: 600; }
 
 /* The hours line */
@@ -62,8 +62,8 @@
   .hy-fig[data-kind='dish'] .hy-ph { width: 20cqw; aspect-ratio: 4 / 5; }
   .hy-fig figcaption { margin-top: 2cqw; }
   .hy-hours { grid-column: 1; grid-row: 4; margin-top: 3cqw; max-width: 60cqw; }
-  .hh { font-size: max(15px, 2.1cqw); padding: 0.9cqw 0; }
-  .band { --n: max(24px, 3.4cqw); --l: max(17px, 2.2cqw); --t: max(15px, 1.9cqw); --rail: 5cqw; --endw: 12cqw; margin-top: 8cqw; }
+  .hh { font-size: max(16px, 2.1cqw); padding: 0.9cqw 0; }
+  .band { --n: max(24px, 3.4cqw); --l: max(17px, 2.2cqw); --t: max(16px, 2.1cqw); --rail: 5cqw; --endw: 12cqw; margin-top: 8cqw; }
   .track { min-height: 26cqw; }
   .seg, .end { padding: 2cqw 1.8cqw; gap: 1cqw; }
   .mark b, .dayl { font-size: max(17px, 2.2cqw); }
@@ -87,15 +87,15 @@
   .hy-ph, .hy-fig[data-kind='dish'] .hy-ph { width: 100%; aspect-ratio: auto; height: 56cqw; }
   .hy-fig figcaption { padding: 0 var(--m); margin-top: 3cqw; }
   .hy-hours { order: 8; margin: 2cqw 0 0; padding-bottom: 8cqw; }
-  .hh { font-size: 15px; padding: 1.4cqw 0; }
-  .band { --n: max(24px, 6.4cqw); --l: max(17px, 4.5cqw); --t: max(13px, 3.4cqw); --rail: 0px; --endh: 14cqw; order: 5; margin: 4cqw calc(-1 * var(--m)) 0; padding-top: 0; }
+  .hh { font-size: 16px; padding: 1.4cqw 0; }
+  .band { --n: max(24px, 6.4cqw); --l: max(17px, 4.5cqw); --t: 16px; --rail: 0px; --endh: 14cqw; order: 5; margin: 4cqw calc(-1 * var(--m)) 0; padding-top: 0; }
   .band:not([data-state='open']) { padding-top: 10cqw; }
   .track { flex-direction: column; min-height: 0; }
   .seg[data-hide] { display: flex; }
   .seg[data-hide~='p'] { display: none; }
   /* proportional to the minutes, but a station never gets shorter than its text or taller than a timetable row */
-  .seg { flex: none; height: clamp(100px, calc(var(--fp) * 0.85px), 140px); }
-  .seg.now { overflow: visible; }
+  .seg { flex: none; min-height: clamp(100px, calc(var(--fp) * 0.85px), 140px); }
+  .seg.now { overflow: visible; z-index: 1; } /* the ahora dot near the end of its stretch paints over the next one */
   .seg, .end { padding: 3cqw 28cqw 3cqw var(--m); gap: 1cqw; }
   .end { flex: none; height: var(--endh); flex-direction: row; align-items: baseline; gap: 4cqw; padding-right: var(--m); }
   .band .nt { margin-top: 0; }

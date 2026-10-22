@@ -21,7 +21,7 @@
 @keyframes steam { 0% { stroke-dashoffset: 1; opacity: 0; } 30% { opacity: 0.9; } 70% { stroke-dashoffset: 0; opacity: 0.7; } 100% { stroke-dashoffset: -1; opacity: 0; } }
 .cv-copy { position: absolute; left: var(--m); top: 9cqw; width: 44cqw; z-index: 4; }
 .cv-sentence { margin: 0; font-weight: 500; font-size: clamp(26px, 3.3cqw, 56px); line-height: 1.08; letter-spacing: -0.035em; text-wrap: balance; }
-.cv-status { margin: 1.4cqw 0 0; font-size: clamp(13px, 1.1cqw, 17px); font-weight: 300; }
+.cv-status { margin: 1.4cqw 0 0; font-size: clamp(17px, 1.3cqw, 20px); font-weight: 400; }
 .cv-actions { margin: 1.6cqw 0 0; display: flex; align-items: center; gap: 1.8cqw; }
 .cv-actions .btn, .cv-actions .text-link { font-size: 16px; }
 .cv-actions .btn { min-height: 52px; }
@@ -34,7 +34,7 @@
   .cv-cup { left: 61cqw; bottom: -1.6cqw; width: 15.5cqw; }
   .cv-copy { display: contents; }
   .cv-sentence { position: absolute; left: var(--m); top: 23cqw; width: 84cqw; font-size: 5.4cqw; max-width: none; z-index: 4; }
-  .cv-status { position: absolute; left: var(--m); top: 49cqw; width: 40cqw; font-size: max(15px, 1.9cqw); margin: 0; z-index: 4; }
+  .cv-status { position: absolute; left: var(--m); top: 49cqw; width: 40cqw; font-size: max(17px, 2.3cqw); margin: 0; z-index: 4; }
   .cv-actions { position: absolute; left: var(--m); top: 56cqw; margin: 0; flex-wrap: wrap; gap: 2cqw 3cqw; z-index: 4; }
   .cv .cv-ct { --q: radial-gradient(ellipse 46cqw 32cqw at 30cqw 40cqw, color-mix(in srgb, var(--paper) 22%, transparent) 0, color-mix(in srgb, var(--paper) 22%, transparent) 62%, var(--paper) 100%); /* taste-skill-ignore: alpha mask quieting the field under the copy to 22 percent, not a visible gradient */
   -webkit-mask-image: var(--q); mask-image: var(--q); }
@@ -49,7 +49,7 @@
   -webkit-mask-image: var(--q); mask-image: var(--q); }
   .cv-copy { top: 30cqw; width: 58cqw; }
   .cv-sentence { font-size: 5cqw; max-width: none; }
-  .cv-status { font-size: max(13px, 3.3cqw); margin-top: 3cqw; }
+  .cv-status { font-size: max(16px, 4.1cqw); margin-top: 3cqw; }
   .cv-actions { flex-direction: column; align-items: flex-start; gap: 3cqw; margin-top: 4cqw; }
   .cv-actions .btn { padding: 0 5cqw; }
   .cv-cup { left: 4cqw; bottom: 0; width: 25.5cqw; }

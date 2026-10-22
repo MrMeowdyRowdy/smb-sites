@@ -28,9 +28,9 @@ export function Origin({ locale }: { locale: Locale }) {
           <CtBg name="floresta" vb="640 90 520 200" color="var(--field-ink)" om={0.06} oi={0.1} oh={0.18} />
         </div>
         <div className="fo-photo" aria-hidden="true">
-          <div className="fo-v w"><Edge id="w" box={[0, 470, 2400, 1030]} /></div>
-          <div className="fo-v t"><Edge id="t" box={[1130, 470, 1270, 1060]} /></div>
-          <div className="fo-v p"><Edge id="p" box={[1790, 470, 610, 940]} /></div>
+          <div className="fo-v w"><Edge box={[0, 470, 2400, 1030]} /></div>
+          <div className="fo-v t"><Edge box={[1130, 470, 1270, 1060]} /></div>
+          <div className="fo-v p"><Edge box={[1790, 470, 610, 940]} /></div>
         </div>
         <div className="fo-fog" aria-hidden="true" />
         <p className="fo-lab">{u.forest.replace('{name}', o.from.name)}</p>
