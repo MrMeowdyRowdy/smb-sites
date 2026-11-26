@@ -4,7 +4,7 @@
       "staticDistDir": "./out",
       "url": ["/", "/menu/", "/en/"],
       "numberOfRuns": 3,
-      "settings": { "formFactor": "mobile", "throttlingMethod": "simulate", "chromeFlags": "--no-sandbox" }
+      "settings": { "formFactor": "mobile", "throttlingMethod": "devtools", "chromeFlags": "--no-sandbox" }
     },
     "assert": {
       "assertions": {

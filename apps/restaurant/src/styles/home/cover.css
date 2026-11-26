@@ -68,9 +68,9 @@
   -webkit-mask: url(/brand/fog-mask-cover.webp) 0 0 / 100% 100% no-repeat; mask: url(/brand/fog-mask-cover.webp) 0 0 / 100% 100% no-repeat; }
 html[data-tab-hidden] .steam path { animation-play-state: paused; }
 
-/* The arrival (once per session, html[data-arrive]): the contour draws on (0.5 s, 60 ms apart), the fog thins to its resting density. Ends at rest. */
+/* The arrival (once per session, html[data-arrive]): the contour draws on once its file arrives after load (data-loaded; 0.5 s, 60 ms apart), the fog thins to its resting density. Ends at rest. */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-arrive] .cv-ct use { animation: ct-draw 0.5s var(--draw) backwards; animation-delay: var(--d, 0ms); }
+  html[data-arrive][data-loaded] .cv-ct use { animation: ct-draw 0.5s var(--draw) backwards; animation-delay: var(--d, 0ms); }
   html[data-arrive] .cv-fog { animation: cv-fog-thin 1.2s var(--ease) 0.2s backwards; }
 }
 @keyframes cv-fog-thin { from { opacity: 1; } }
