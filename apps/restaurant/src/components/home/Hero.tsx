@@ -9,14 +9,15 @@ import { HeroStatus } from './HeroStatus';
 import '../../styles/home/cover.css';
 
 /** Beat 1, the cover. Back to front: the La Floresta contour, the fog (raster mask, over the contours), the NEBLINA monument (the h1),
- *  the hollow ring pin and its label, the cup crossing the base of the name, then the words. Nothing here is hidden until JS. */
+ *  the hollow ring pin and its label, the cup crossing the base of the name, then the words. Nothing readable is hidden until JS;
+ *  the contour file loads after the load event (Motion), so it is not one of the requests Lighthouse charges to the LCP. */
 export function Hero({ locale }: { locale: Locale }) {
   const u = ui[locale].hero;
   const alt = site.origin?.to.altitude;
   return (
     <section className="chap cv-chap" aria-labelledby="hero-title">
       <div className="cv" data-cover>
-        <Ct name="floresta" className="cv-ct" eager />
+        <Ct name="floresta" className="cv-ct" />
         <span className="cv-fog" aria-hidden="true" data-cv-fog />
         <h1 id="hero-title" className="cv-name" data-monument>
           {site.name}
